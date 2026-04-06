@@ -590,7 +590,7 @@
             <ul style="color: #991b1b; line-height: 1.5; margin-bottom: 0; padding-left: 18px; font-weight: 600; font-size: 0.9em;">
                 <li style="margin-bottom: 8px;"><strong>No Tab Switching:</strong> Anti-cheat is active. 3 leaves = auto-submit.</li>
                 <li style="margin-bottom: 8px;"><strong>No Refreshing:</strong> Reloading loses your progress.</li>
-                <li><strong>Minimum:</strong> Answer at least 30% of questions for AI blueprint.</li>
+                <li><strong>Minimum:</strong> Answer at least 50% of each section for an AI blueprint.</li>
             </ul>
         </div>
     </div>
@@ -630,8 +630,8 @@
     <div id="stage-fail" class="stage" style="text-align: center; padding: 60px 10px;">
         <div style="font-size: 4em; margin-bottom: 20px; animation: float 3s ease-in-out infinite;">⚠️</div>
         <h2 style="border: none; color: var(--text-main); font-size: clamp(2em, 8vw, 2.5em);">Test Incomplete</h2>
-        <p style="color: var(--text-muted); font-size: clamp(0.95em, 4vw, 1.05em); max-width: 500px; margin: 0 auto 30px auto; line-height: 1.6; font-weight: 600;">
-            You answered less than 30% of the questions. We need more info for an accurate blueprint.
+        <p id="fail-reason-text" style="color: var(--text-muted); font-size: clamp(0.95em, 4vw, 1.05em); max-width: 500px; margin: 0 auto 30px auto; line-height: 1.6; font-weight: 600;">
+            You answered less than 50% of the Personality or Aptitude sections. We need more info for an accurate blueprint.
         </p>
         <button class="btn-brand-accent rounded-xl mx-auto" onclick="submitStage2()" style="max-width: 250px;">Take the Test Again</button>
     </div>
@@ -930,15 +930,16 @@
     // ==========================================
     // Global State Variables
     // ==========================================
+    let currentQuestionIndex = 0;
+    let answeredCount = 0;
+    let answeredRiasecCount = 0;
+    let answeredAcademicCount = 0;
+    let chartInstance = null;
     let currentScoreOutOf50 = 0;
     let currentDiscountAmount = 0;
     let isTestActive = false;
     let cheatWarnings = 0;
     let studentData = {};
-    
-    let currentQuestionIndex = 0;
-    let answeredCount = 0;
-    let chartInstance = null;
     let activeQuestions = [];
     let finalRankedJobs = [];
     let questionTimerInterval;
@@ -978,6 +979,8 @@
                     isTestActive = state.isTestActive;
                     currentQuestionIndex = state.currentQuestionIndex;
                     answeredCount = state.answeredCount;
+                    answeredRiasecCount = state.answeredRiasecCount || 0;
+                    answeredAcademicCount = state.answeredAcademicCount || 0;
                     activeQuestions = state.activeQuestions;
                     userScores = state.userScores;
                     maxScores = state.maxScores;
@@ -1356,7 +1359,7 @@
     // State Management Helpers (Auto-Save)
     // ==========================================
     function saveTestState() {
-        const state = { isTestActive, currentQuestionIndex, answeredCount, activeQuestions, userScores, maxScores, studentData };
+        const state = { isTestActive, currentQuestionIndex, answeredCount, answeredRiasecCount, answeredAcademicCount, activeQuestions, userScores, maxScores, studentData };
         localStorage.setItem('coc_test_state', JSON.stringify(state));
     }
     function clearTestState() { localStorage.removeItem('coc_test_state'); }
@@ -1430,13 +1433,14 @@
         academicPool = academicPool.sort(() => 0.5 - Math.random());
         fallbackAcademicPool = fallbackAcademicPool.sort(() => 0.5 - Math.random());
         
-        const selectedRiasec = riasecPool.slice(0, 45);
-        const selectedAcademic = academicPool.slice(0, 45);
+        const selectedRiasec = riasecPool.slice(0, 45).map(q => ({ ...q, categoryType: 'riasec' }));
+        const selectedAcademicRaw = academicPool.slice(0, 45);
         
-        if (selectedAcademic.length < 45) {
-            const needed = 45 - selectedAcademic.length;
-            selectedAcademic.push(...fallbackAcademicPool.slice(0, needed));
+        if (selectedAcademicRaw.length < 45) {
+            const needed = 45 - selectedAcademicRaw.length;
+            selectedAcademicRaw.push(...fallbackAcademicPool.slice(0, needed));
         }
+        const selectedAcademic = selectedAcademicRaw.map(q => ({ ...q, categoryType: 'academic' }));
         
         activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(() => 0.5 - Math.random());
         
@@ -1455,7 +1459,7 @@
             }
         });
 
-        currentQuestionIndex = 0; answeredCount = 0; isTestActive = true; cheatWarnings = 0;
+        currentQuestionIndex = 0; answeredCount = 0; answeredRiasecCount = 0; answeredAcademicCount = 0; isTestActive = true; cheatWarnings = 0;
         saveTestState(); goToStage(3); renderQuestion();
     }
 
@@ -1563,6 +1567,8 @@
                 userScores[q.traitType][q.trait] += parseInt(sel.value);
             }
             answeredCount++;
+            if (q && q.categoryType === 'academic') answeredAcademicCount++;
+            else answeredRiasecCount++;
         }
         currentQuestionIndex++;
         if (currentQuestionIndex < activeQuestions.length) { saveTestState(); renderQuestion(); } 
@@ -1585,7 +1591,11 @@
             userScores[q.traitType][q.trait] += parseInt(sel.value);
         }
         
-        answeredCount++; currentQuestionIndex++;
+        answeredCount++; 
+        if (q && q.categoryType === 'academic') answeredAcademicCount++;
+        else answeredRiasecCount++;
+        
+        currentQuestionIndex++;
         if (currentQuestionIndex < activeQuestions.length) { saveTestState(); renderQuestion(); } 
         else { clearTestState(); goToStage(4); runAIAnalysis(); }
     }
@@ -1596,8 +1606,20 @@
     function runAIAnalysis() {
         isTestActive = false;
 
-        const threshold = activeQuestions.length * CONFIG.PASS_THRESHOLD;
-        if (answeredCount < threshold) { goToStage('fail'); return; }
+        let totalRiasec = activeQuestions.filter(q => q.categoryType === 'riasec').length;
+        let totalAcademic = activeQuestions.filter(q => q.categoryType === 'academic').length;
+
+        const riasecThreshold = totalRiasec * 0.5;
+        const academicThreshold = totalAcademic * 0.5;
+
+        if (answeredRiasecCount < riasecThreshold || answeredAcademicCount < academicThreshold) {
+            const failText = $id('fail-reason-text');
+            if (failText) {
+                failText.innerText = "You must answer at least 50% of the Personality questions and 50% of the Aptitude questions. We need more info for an accurate blueprint.";
+            }
+            goToStage('fail'); 
+            return; 
+        }
 
         const statusEl = $id('ai-status');
         const statuses = ["Analyzing best suitable job roles...", "Cross-referencing aptitude scores...", "Mapping psychological profiles...", "Finalizing career blueprint..."];
