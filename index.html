@@ -951,7 +951,7 @@
     // Initialization & Event Listeners
     // ==========================================
     document.addEventListener("DOMContentLoaded", function() {
-        for(let cm = 120; cm <= 220; cm++) {
+        for(let cm = 220; cm >= 120; cm--) {
             let feet = Math.floor((cm / 2.54) / 12);
             let inches = Math.round((cm / 2.54) % 12);
             pickerData.height.push(`${cm} cm (${feet}' ${inches}")`);
