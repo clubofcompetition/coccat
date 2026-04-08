@@ -440,19 +440,19 @@
     <!-- STAGE 1: LEAD CAPTURE -->
     <div id="stage-1" class="stage active-stage">
         
-        <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4 sm:gap-6 mb-8 pb-6 border-b border-slate-200">
+        <div class="flex flex-row items-center justify-start gap-4 sm:gap-6 mb-8 pb-6 border-b border-slate-200">
             <div class="shrink-0 relative group">
                 <div class="absolute inset-0 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/30 transition-all"></div>
-                <img src="logo.png" alt="Club of Competition Logo" class="relative h-16 sm:h-20 w-auto bg-white p-2 rounded-xl shadow-md border border-slate-100" onerror="this.onerror=null; this.src='https://placehold.co/100x100/4f46e5/ffffff?text=CoC'">
+                <img src="logo.png" alt="Club of Competition Logo" class="relative h-14 sm:h-20 w-auto bg-white p-2 rounded-xl shadow-md border border-slate-100" onerror="this.onerror=null; this.src='https://placehold.co/100x100/4f46e5/ffffff?text=CoC'">
             </div>
-            <div class="flex flex-col items-center sm:items-start text-center sm:text-left">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 mb-2 bg-indigo-50 border border-indigo-100 rounded-full shadow-sm">
-                    <span class="text-primary font-bold text-[9px] sm:text-[10px] uppercase tracking-widest font-poppins">🇮🇳 Discover Your Path</span>
+            <div class="flex flex-col items-start text-left">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 mb-1.5 sm:mb-2 bg-indigo-50 border border-indigo-100 rounded-full shadow-sm">
+                    <span class="text-primary font-bold text-[8px] sm:text-[10px] uppercase tracking-widest font-poppins">🇮🇳 Discover Your Path</span>
                 </div>
-                <h1 class="text-xl sm:text-2xl md:text-3xl font-poppins font-black text-dark mb-1 tracking-tight">
+                <h1 class="text-lg sm:text-2xl md:text-3xl font-poppins font-black text-dark mb-0.5 tracking-tight leading-tight">
                     Club of Competition
                 </h1>
-                <p class="text-slate-500 font-bold uppercase tracking-[0.15em] text-[9px] sm:text-xs">Career Advise Test</p>
+                <p class="text-slate-500 font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs">Career Advise Test</p>
             </div>
         </div>
 
@@ -638,13 +638,15 @@
     <!-- STAGE 5: PERSONALIZED REPORT -->
     <div id="stage-5" class="stage">
         <!-- BRAND HEADER FOR PRINT/REPORT -->
-        <div class="brand-header flex flex-col items-center justify-center mb-8 pb-6 border-b border-dashed border-slate-200">
-            <div class="inline-flex items-center justify-center p-2 bg-gradient-to-tr from-primary to-purple-600 rounded-xl mb-4 shadow-md shadow-indigo-200">
-                <img src="logo.png" alt="Logo" class="h-8 w-auto bg-white rounded-lg p-1" onerror="this.onerror=null; this.src='https://placehold.co/40x40/4f46e5/ffffff?text=C'">
+        <div class="brand-header flex flex-row items-center justify-center gap-3 sm:gap-5 mb-8 pb-6 border-b border-dashed border-slate-200">
+            <div class="shrink-0 inline-flex items-center justify-center p-2 bg-gradient-to-tr from-primary to-purple-600 rounded-xl shadow-md shadow-indigo-200">
+                <img src="logo.png" alt="Logo" class="h-10 sm:h-12 w-auto bg-white rounded-lg p-1" onerror="this.onerror=null; this.src='https://placehold.co/40x40/4f46e5/ffffff?text=C'">
             </div>
-            <h1 class="text-2xl sm:text-3xl font-black font-poppins text-dark uppercase tracking-tight mb-1 text-center">Club of Competition</h1>
-            <p class="text-primary font-bold uppercase tracking-[0.15em] text-[10px] sm:text-xs m-0 text-center">Official Career Blueprint</p>
-            <p id="report-timestamp" class="text-[9px] sm:text-[10px] text-slate-400 font-bold mt-3 tracking-wider uppercase text-center"></p>
+            <div class="flex flex-col items-start text-left">
+                <h1 class="text-lg sm:text-3xl font-black font-poppins text-dark uppercase tracking-tight mb-0.5">Club of Competition</h1>
+                <p class="text-primary font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs m-0">Official Career Blueprint</p>
+                <p id="report-timestamp" class="text-[8px] sm:text-[10px] text-slate-400 font-bold mt-1 sm:mt-2 tracking-wider uppercase"></p>
+            </div>
         </div>
         
         <!-- NEW SCORE SECTION -->
@@ -951,10 +953,18 @@
     // Initialization & Event Listeners
     // ==========================================
     document.addEventListener("DOMContentLoaded", function() {
-        for(let cm = 220; cm >= 120; cm--) {
-            let feet = Math.floor((cm / 2.54) / 12);
-            let inches = Math.round((cm / 2.54) % 12);
-            pickerData.height.push(`${cm} cm (${feet}' ${inches}")`);
+        for(let feet = 7; feet >= 4; feet--) {
+            let startInches = (feet === 7) ? 0 : 11;
+            for(let inches = startInches; inches >= 0; inches--) {
+                let cm = Math.round((feet * 12 + inches) * 2.54);
+                let label = `${feet} ft ${inches} in (${cm} cm)`;
+                if (feet === 7 && inches === 0) {
+                    label += " or above";
+                } else if (feet === 4 && inches === 0) {
+                    label += " or below";
+                }
+                pickerData.height.push(label);
+            }
         }
         
         loadFormData(); 
