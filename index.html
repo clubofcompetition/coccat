@@ -118,12 +118,12 @@
         *::-webkit-scrollbar { display: none; }
 
         body { 
-            font-family: 'Manrope', sans-serif; 
-            background-color: var(--bg-body);
+             font-family: 'Manrope', sans-serif; 
+             background-color: var(--bg-body);
             margin: 0; 
-            padding: 15px 10px 100px 10px; 
-            color: var(--text-main); 
-            min-height: 100vh;
+             padding: 15px 10px 100px 10px; 
+             color: var(--text-main); 
+             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
@@ -138,15 +138,15 @@
 
         /* Modern Glassmorphism Container */
         .app-container { 
-            background: rgba(255, 255, 255, 0.85);
+             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             padding: 30px 40px; 
-            border-radius: 1.5rem; 
-            max-width: 850px; 
-            width: 100%;
+             border-radius: 1.5rem; 
+             max-width: 850px; 
+             width: 100%;
             margin: auto; 
-            box-shadow: 0 20px 40px -12px rgba(79, 70, 229, 0.1), 0 0 0 1px rgba(255,255,255,0.6) inset;
+             box-shadow: 0 20px 40px -12px rgba(79, 70, 229, 0.1), 0 0 0 1px rgba(255,255,255,0.6) inset;
             position: relative;
             z-index: 10;
             overflow-x: hidden;
@@ -155,13 +155,13 @@
         /* Stage Transitions */
         .stage { display: none; opacity: 0; }
         .active-stage { 
-            display: block; 
-            animation: scaleFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        }
+             display: block; 
+             animation: scaleFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+         }
         @keyframes scaleFadeIn { 
-            0% { opacity: 0; transform: translateY(15px) scale(0.98); } 
-            100% { opacity: 1; transform: translateY(0) scale(1); } 
-        }
+             0% { opacity: 0; transform: translateY(15px) scale(0.98); } 
+             100% { opacity: 1; transform: translateY(0) scale(1); } 
+         }
 
         /* Typography Enhancements */
         h2 { color: var(--text-main); margin-top: 0; margin-bottom: 12px; font-size: clamp(1.3em, 5vw, 1.7em); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; font-family: 'Poppins', sans-serif;}
@@ -173,10 +173,10 @@
         .required { color: #ef4444; }
         
         input[type="text"], input[type="number"], input[type="tel"], input[type="email"], input[type="date"] { 
-            width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 0.75rem; 
-            background: #f8fafc; font-size: clamp(13px, 3.5vw, 15px); color: var(--text-main);
+             width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 0.75rem; 
+             background: #f8fafc; font-size: clamp(13px, 3.5vw, 15px); color: var(--text-main);
             font-family: 'Manrope', sans-serif; font-weight: 600; transition: var(--transition-smooth); 
-            appearance: none; -webkit-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+             appearance: none; -webkit-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
             text-overflow: ellipsis;
         }
         
@@ -202,11 +202,11 @@
 
         /* Modern Buttons */
         .btn-brand-accent { 
-            background: linear-gradient(135deg, var(--primary), #6366f1); 
-            color: #ffffff; 
-            box-shadow: 0 8px 20px -5px rgba(79, 70, 229, 0.4); 
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1); 
-            width: 100%; padding: 14px 20px; border: none; border-radius: 0.75rem; font-size: 15px; font-weight: 800; font-family: 'Manrope', sans-serif;
+             background: linear-gradient(135deg, var(--primary), #6366f1); 
+             color: #ffffff; 
+             box-shadow: 0 8px 20px -5px rgba(79, 70, 229, 0.4); 
+             text-shadow: 0 1px 2px rgba(0,0,0,0.1); 
+             width: 100%; padding: 14px 20px; border: none; border-radius: 0.75rem; font-size: 15px; font-weight: 800; font-family: 'Manrope', sans-serif;
             cursor: pointer; transition: var(--transition-bounce);
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
@@ -215,7 +215,7 @@
 
         .btn-success {
             background: linear-gradient(135deg, var(--success), #059669); 
-            color: white; padding: 14px 20px; border-radius: 0.75rem; font-weight: 800; font-family: 'Manrope', sans-serif; border: none;
+             color: white; padding: 14px 20px; border-radius: 0.75rem; font-weight: 800; font-family: 'Manrope', sans-serif; border: none;
             cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
             box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.4); transition: var(--transition-bounce);
         }
@@ -437,7 +437,6 @@
 </div>
 
 <div class="app-container">
-    
     <!-- STAGE 1: LEAD CAPTURE -->
     <div id="stage-1" class="stage active-stage">
         
@@ -579,7 +578,7 @@
             <h3 style="margin-top: 0; font-size: 1.05em; color: var(--primary);">💡 Suggestions for Best Results</h3>
             <ul style="color: #475569; line-height: 1.5; margin-bottom: 0; padding-left: 18px; font-weight: 600; font-size: 0.9em;">
                 <li style="margin-bottom: 8px;"><strong>Environment:</strong> Find a quiet, distraction-free space.</li>
-                <li style="margin-bottom: 8px;"><strong>Test Format:</strong> <strong>90 balanced questions</strong> on Aptitude and Personality.</li>
+                <li style="margin-bottom: 8px;"><strong>Test Format:</strong> <strong>2 balanced questions</strong> on Aptitude and Personality.</li>
                 <li style="margin-bottom: 8px;"><strong>Answering:</strong> Use the <strong>A, B, C, D</strong> buttons below.</li>
                 <li><strong>Pacing:</strong> Strict 30-second timer per question. Do not overthink!</li>
             </ul>
@@ -769,11 +768,8 @@
 <!-- Fixed Taskbar (Test Mode ONLY - Answers & Submit) -->
 <div id="test-taskbar" class="taskbar-wrapper no-print hidden">
     <div class="taskbar px-2 sm:px-4 py-2 h-[64px] sm:h-[72px]">
-        <!-- Dynamic Answer Options (A B C D E) injected here -->
-        <div id="taskbar-options" class="flex-1 flex justify-around gap-1.5 h-full items-center mx-1">
-        </div>
         <!-- Taskbar Submit Button -->
-        <button id="taskbar-next-btn" onclick="nextQuestion(event)" class="h-full rounded-[14px] px-4 sm:px-6 w-auto text-xs sm:text-sm bg-primary text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Submit Answer">
+        <button id="taskbar-next-btn" onclick="nextQuestion(event)" class="w-full h-full rounded-[14px] text-xs sm:text-sm bg-primary text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Submit Answer">
             Wait...
         </button>
     </div>
@@ -788,24 +784,27 @@
         PAYMENT_LINK: "https://payments.cashfree.com/forms/catfee",
         GOOGLE_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwcQnUo18Uv9H6e0mU1Kz-g7K0Y_vP_i8m7u5P_G78K_k7m_o2T_a9kZ/exec",
         TIMER_SECONDS: 30,
-        MIN_WAIT_SECONDS: 5,
+        MIN_WAIT_SECONDS: 2, 
         MAX_CHEAT_WARNINGS: 3,
         DISCOUNT_PER_MARK: 1000,
         PASS_THRESHOLD: 0.3
     };
 
-    const $id = id => document.getElementById(id);
+    const $id = function(id) {
+        return document.getElementById(id);
+    };
+    
     let userIP = "Unknown"; 
 
     fetch('https://api.ipify.org?format=json')
-        .then(res => res.json())
-        .then(data => { userIP = data.ip; })
-        .catch(err => console.log("IP fetch blocked or failed"));
+        .then(function(res) { return res.json(); })
+        .then(function(data) { userIP = data.ip; })
+        .catch(function(err) { console.log("IP fetch blocked or failed"); });
 
     // Function for animating numbers smoothly
     function animateValue(obj, start, end, duration, formatCurrency = false) {
         let startTimestamp = null;
-        const step = (timestamp) => {
+        const step = function(timestamp) {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
             // Ease out quad
@@ -828,15 +827,12 @@
     // ==========================================
     // Data Assets (Modals, Pickers, Database)
     // ==========================================
-    
-    // COMPREHENSIVE 50-JOB GOVERNMENT DATABASE WITH RIASEC & APTITUDE PROFILES
     const govtJobDatabase = [
         { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
         { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
         { title: "IFS Officer (Foreign Service)", desc: "Diplomacy, international relations, and representing India abroad.", reqs: { verbal: 90, general_awareness: 90, social: 85, enterprising: 80 } },
         { title: "IRS Officer (Customs/Tax)", desc: "Revenue management, tax administration, and financial investigations.", reqs: { numerical: 85, logical: 80, conventional: 90, investigative: 85 } },
         { title: "State PCS Officer (SDM/DSP)", desc: "State-level administration and law enforcement equivalent to IAS/IPS.", reqs: { general_awareness: 85, logical: 80, enterprising: 85, social: 80 } },
-        
         { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
         { title: "SSC CGL Examiner (Customs)", desc: "Examining cargo, preventing smuggling, stationed at ports/airports.", reqs: { numerical: 80, logical: 85, realistic: 80, conventional: 85 } },
         { title: "SSC CGL ASO (CSS/MEA)", desc: "Desk job in Central Secretariat or Ministry of External Affairs.", reqs: { verbal: 85, logical: 80, conventional: 90, conscientiousness: 85 } },
@@ -845,20 +841,17 @@
         { title: "SSC CHSL LDC/JSA", desc: "Clerical duties, data management, and file routing in ministries.", reqs: { numerical: 75, verbal: 75, conventional: 90, conscientiousness: 80 } },
         { title: "SSC CHSL Data Entry Operator", desc: "High-speed typing and maintaining critical government databases.", reqs: { logical: 70, conventional: 95, realistic: 75 } },
         { title: "SSC MTS (Multi-Tasking Staff)", desc: "General assisting roles, file maintenance, and daily operations.", reqs: { logical: 65, conventional: 80, realistic: 80 } },
-        
         { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
         { title: "IBPS Probationary Officer (PO)", desc: "Managing operations across nationalized public sector banks.", reqs: { numerical: 85, logical: 85, enterprising: 80, conventional: 80 } },
         { title: "RBI Grade B Officer", desc: "Policy drafting, economic regulation, and financial stability.", reqs: { numerical: 90, general_awareness: 90, investigative: 85, conventional: 85 } },
         { title: "NABARD Grade A Officer", desc: "Rural development, agriculture financing, and cooperative banking.", reqs: { general_awareness: 85, social: 85, investigative: 80, conventional: 80 } },
         { title: "SBI/IBPS Clerk", desc: "Customer interaction, cash handling, and daily banking operations.", reqs: { numerical: 85, verbal: 80, conventional: 90, social: 80 } },
         { title: "LIC Assistant Administrative Officer", desc: "Insurance policy processing, claims, and administrative work.", reqs: { numerical: 80, logical: 80, conventional: 85, enterprising: 75 } },
-        
         { title: "RRB NTPC Station Master", desc: "Managing railway station operations, signals, and train movements.", reqs: { logical: 85, realistic: 85, conventional: 85, emotional_stability: 90 } },
         { title: "RRB NTPC Goods Guard", desc: "In-charge of freight trains, ensuring safe transit of goods.", reqs: { realistic: 90, conventional: 80, emotional_stability: 85 } },
         { title: "RRB Assistant Loco Pilot (ALP)", desc: "Driving passenger and freight trains with high technical focus.", reqs: { realistic: 95, logical: 80, conventional: 80, emotional_stability: 95 } },
         { title: "RRB Ticket Examiner (TTE)", desc: "Checking tickets, guiding passengers, handling fines on trains.", reqs: { verbal: 80, social: 85, enterprising: 80, conventional: 80 } },
         { title: "RRB Group D (Track Maintainer)", desc: "Heavy physical work maintaining railway tracks and infrastructure.", reqs: { realistic: 95, conventional: 75 } },
-        
         { title: "NDA Army Officer (Lieutenant)", desc: "Leading combat troops, defense strategy, and national security.", reqs: { logical: 85, realistic: 95, enterprising: 95, emotional_stability: 95 } },
         { title: "CDS Defense Officer", desc: "Post-graduate entry into Armed Forces leading platoons/companies.", reqs: { logical: 85, realistic: 90, enterprising: 90, social: 80 } },
         { title: "Indian Navy Sailor / Air Force Airman", desc: "Technical and combat operations aboard ships or air bases.", reqs: { realistic: 95, conventional: 80, logical: 80 } },
@@ -866,23 +859,19 @@
         { title: "State Police Constable", desc: "First response, patrolling, and ground-level security.", reqs: { realistic: 90, conventional: 80, social: 75 } },
         { title: "CAPF Assistant Commandant", desc: "Leading paramilitary forces (CRPF, BSF) in border/internal security.", reqs: { realistic: 90, enterprising: 90, logical: 80, emotional_stability: 90 } },
         { title: "BSF / CRPF Constable", desc: "Border guarding, riot control, and national security duties.", reqs: { realistic: 95, conventional: 85 } },
-        
         { title: "Intelligence Bureau (IB) ACIO", desc: "Gathering intel, counter-terrorism, and deep undercover work.", reqs: { logical: 90, investigative: 95, general_awareness: 90, emotional_stability: 90 } },
         { title: "RAW Officer (Research & Analysis)", desc: "Foreign intelligence, espionage, and international threat analysis.", reqs: { logical: 95, investigative: 95, general_awareness: 95, emotional_stability: 95 } },
         { title: "CBI Officer (Sub-Inspector)", desc: "High-profile anti-corruption and special crime investigations.", reqs: { logical: 90, investigative: 90, realistic: 80, conscientiousness: 90 } },
-        
         { title: "UGC NET Assistant Professor", desc: "Teaching at universities, conducting academic research.", reqs: { verbal: 90, general_awareness: 85, investigative: 90, social: 85 } },
         { title: "KVS PGT (Post Graduate Teacher)", desc: "Teaching senior secondary classes in central government schools.", reqs: { verbal: 85, social: 90, conventional: 80 } },
         { title: "KVS TGT (Trained Graduate Teacher)", desc: "Teaching middle school students with subject specialization.", reqs: { verbal: 80, social: 90, conventional: 80 } },
         { title: "Primary School Teacher (PRT)", desc: "Foundational education and child development.", reqs: { verbal: 80, social: 95, artistic: 75, agreeableness: 90 } },
-        
         { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } },
         { title: "SSC Junior Engineer (JE)", desc: "Supervising public works, civil/electrical government projects.", reqs: { numerical: 85, logical: 85, realistic: 90, conventional: 85 } },
         { title: "State Assistant Engineer (AE)", desc: "Managing state-level infrastructure and engineering developments.", reqs: { numerical: 85, logical: 80, realistic: 85, conventional: 85 } },
         { title: "Government Medical Officer (CMO)", desc: "Public health administration and clinical practice in govt hospitals.", reqs: { logical: 85, investigative: 90, social: 90, conscientiousness: 95 } },
         { title: "Military Nursing Service (MNS)", desc: "Providing healthcare to armed forces personnel and their families.", reqs: { realistic: 80, social: 95, emotional_stability: 90, agreeableness: 90 } },
         { title: "Railway Pharmacist", desc: "Dispensing medicines and maintaining pharmacy stocks for railways.", reqs: { logical: 80, conventional: 90, social: 80 } },
-        
         { title: "Civil Judge (State Judiciary)", desc: "Presiding over civil and criminal cases in district courts.", reqs: { verbal: 90, logical: 90, investigative: 85, conscientiousness: 95 } },
         { title: "Public Prosecutor (APP)", desc: "Representing the state in criminal trials.", reqs: { verbal: 90, logical: 85, enterprising: 85, investigative: 80 } },
         { title: "Forest Ranger (State Forest Service)", desc: "Protecting wildlife, preventing poaching, and managing forests.", reqs: { realistic: 90, investigative: 80, conventional: 80 } },
@@ -951,7 +940,7 @@
         riasec: { realistic: 0, investigative: 0, artistic: 0, social: 0, enterprising: 0, conventional: 0 },
         big5: { conscientiousness: 0, extraversion: 0, agreeableness: 0, openness: 0, emotional_stability: 0 }
     };
-    
+        
     let maxScores = {
         aptitude: { numerical: 0, logical: 0, verbal: 0, general_awareness: 0 },
         riasec: { realistic: 0, investigative: 0, artistic: 0, social: 0, enterprising: 0, conventional: 0 },
@@ -961,7 +950,7 @@
     // ==========================================
     // Initialization & Event Listeners
     // ==========================================
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function() {
         for(let cm = 120; cm <= 220; cm++) {
             let feet = Math.floor((cm / 2.54) / 12);
             let inches = Math.round((cm / 2.54) % 12);
@@ -970,6 +959,7 @@
         
         loadFormData(); 
 
+        let shouldResume = false;
         const savedState = localStorage.getItem('coc_test_state');
         if (savedState) {
             const resumeTest = confirm("You have an unfinished test. Do you want to resume where you left off?");
@@ -985,10 +975,9 @@
                     userScores = state.userScores;
                     maxScores = state.maxScores;
                     studentData = state.studentData;
-                    
                     goToStage(3);
                     renderQuestion();
-                    return;
+                    shouldResume = true;
                 } catch(e) {
                     console.error("Error parsing saved state", e);
                     localStorage.removeItem('coc_test_state');
@@ -998,47 +987,52 @@
             }
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('payment') === 'success') {
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
-            if (localStorage.getItem('coc_test_completed') === 'true') {
-                alert("You have already completed a test with this payment. Please register and pay again to take a new test.");
-                return;
-            }
-            
-            const dob = $id('dob').value;
-            let calculatedAge = "";
-            if (dob) {
-                const birthDate = new Date(dob);
-                const today = new Date();
-                calculatedAge = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) calculatedAge--;
-            }
+        if (!shouldResume) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment') === 'success') {
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                if (localStorage.getItem('coc_test_completed') === 'true') {
+                    alert("You have already completed a test with this payment. Please register and pay again to take a new test.");
+                } else {
+                    const dob = $id('dob').value;
+                    let calculatedAge = "";
+                    if (dob) {
+                        const birthDate = new Date(dob);
+                        const today = new Date();
+                        calculatedAge = today.getFullYear() - birthDate.getFullYear();
+                        const m = today.getMonth() - birthDate.getMonth();
+                        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) calculatedAge--;
+                    }
 
-            studentData = { 
-                name: $id('name').value, phone: ($id('countryCode').getAttribute('data-value') || "+91") + " " + $id('phone').value, 
-                email: $id('email').value, educationCourse: $id('educationCourse').value, sportsInterest: $id('sportsInterest').value, 
-                dob: dob, age: calculatedAge, gender: $id('gender').value, address: $id('address').value, pincode: $id('pincode').value, 
-                state: $id('state').value, district: $id('district').value, motherLanguage: $id('motherLanguage').value, 
-                pwd: $id('pwd').value, caste: $id('caste').value, community: $id('community').value, height: $id('height').value
-            };
-            
-            $id('welcome-message').innerText = `Hi ${studentData.name ? studentData.name.split(' ')[0] : ''}, let's begin your test.`;
-            goToStage(2);
-        } else {
-            setTimeout(() => {
-                const welcomeModal = $id('welcome-modal');
-                if(welcomeModal) welcomeModal.classList.remove('hidden');
-            }, 400);
+                    studentData = { 
+                         name: $id('name').value, phone: ($id('countryCode').getAttribute('data-value') || "+91") + " " + $id('phone').value, 
+                         email: $id('email').value, educationCourse: $id('educationCourse').value, sportsInterest: $id('sportsInterest').value, 
+                         dob: dob, age: calculatedAge, gender: $id('gender').value, address: $id('address').value, pincode: $id('pincode').value, 
+                         state: $id('state').value, district: $id('district').value, motherLanguage: $id('motherLanguage').value, 
+                         pwd: $id('pwd').value, caste: $id('caste').value, community: $id('community').value, height: $id('height').value
+                    };
+                                        
+                    $id('welcome-message').innerText = `Hi ${studentData.name ? studentData.name.split(' ')[0] : ''}, let's begin your test.`;
+                    goToStage(2);
+                }
+            } else {
+                setTimeout(function() {
+                    const welcomeModal = $id('welcome-modal');
+                    if(welcomeModal) welcomeModal.classList.remove('hidden');
+                }, 400);
+            }
         }
     });
 
-    window.closeWelcomeModal = function() { $id('welcome-modal').classList.add('hidden'); };
+    window.closeWelcomeModal = function() {
+        $id('welcome-modal').classList.add('hidden');
+    };
 
     function goToStage(stageNum) {
-        document.querySelectorAll('.stage').forEach(el => el.classList.remove('active-stage'));
+        document.querySelectorAll('.stage').forEach(function(el) {
+            el.classList.remove('active-stage');
+        });
         const targetStage = $id(`stage-${stageNum}`);
         if(targetStage) targetStage.classList.add('active-stage');
         
@@ -1072,46 +1066,67 @@
         
         if(['countryCode', 'motherLanguage', 'state', 'height', 'educationCourse'].includes(targetId)) {
             searchInput.style.display = "block"; searchInput.value = "";
-        } else { searchInput.style.display = "none"; }
+        } else {
+            searchInput.style.display = "none";
+        }
         
         if(targetId === 'height') {
             hintDiv.style.display = "block";
             hintDiv.innerHTML = "<strong>📏 Quick Tip:</strong> Don't know your exact height? A standard A4 size paper is about 30 cm long (roughly 1 foot). You can use it as a makeshift scale to estimate your height!";
-        } else { hintDiv.style.display = "none"; }
+        } else {
+            hintDiv.style.display = "none";
+        }
 
         renderPickerOptions(currentPickerOptions);
     }
 
-    function closePicker() { $id('picker-modal').classList.add('hidden'); }
-    function closePickerOnOverlay(e) { if(e.target.id === 'picker-modal') closePicker(); }
+    function closePicker() {
+        $id('picker-modal').classList.add('hidden');
+    }
+
+    function closePickerOnOverlay(e) {
+        if(e.target.id === 'picker-modal') closePicker();
+    }
 
     function renderPickerOptions(options) {
         const listDiv = $id('picker-list');
         listDiv.innerHTML = '';
-        if(options.length === 0) { listDiv.innerHTML = '<div style="padding: 16px; text-align: center; color: #94a3b8; font-weight: 600;">No options found</div>'; return; }
+        if(options.length === 0) {
+            listDiv.innerHTML = '<div style="padding: 16px; text-align: center; color: #94a3b8; font-weight: 600;">No options found</div>';
+            return;
+        }
 
-        options.forEach(opt => {
+        options.forEach(function(opt) {
             if (opt.group) {
                 let groupHtml = `<div class="picker-optgroup">${opt.group}</div>`;
                 listDiv.insertAdjacentHTML('beforeend', groupHtml);
-                opt.items.forEach(subOpt => {
-                    let div = document.createElement('div'); div.className = 'picker-option'; div.innerText = subOpt;
+                opt.items.forEach(function(subOpt) {
+                    let div = document.createElement('div');
+                    div.className = 'picker-option';
+                    div.innerText = subOpt;
                     let displayLabel = currentPickerTarget === 'educationCourse' ? `${subOpt} (${opt.group})` : subOpt;
-                    div.onclick = () => selectOption(subOpt, displayLabel); listDiv.appendChild(div);
+                    div.onclick = function() { selectOption(subOpt, displayLabel); };
+                    listDiv.appendChild(div);
                 });
             } else {
-                let val = opt.val !== undefined ? opt.val : opt; let label = opt.label !== undefined ? opt.label : opt;
-                let div = document.createElement('div'); div.className = 'picker-option'; div.innerHTML = `<span>${label}</span> <span style="color: #cbd5e1; font-size:1.2em;">›</span>`;
-                div.onclick = () => selectOption(val, label); listDiv.appendChild(div);
+                let val = opt.val !== undefined ? opt.val : opt;
+                let label = opt.label !== undefined ? opt.label : opt;
+                let div = document.createElement('div');
+                div.className = 'picker-option';
+                div.innerHTML = `<span>${label}</span> <span style="color: #cbd5e1; font-size:1.2em;">›</span>`;
+                div.onclick = function() { selectOption(val, label); };
+                listDiv.appendChild(div);
             }
         });
     }
 
     function filterPicker() {
         const query = $id('picker-search').value.toLowerCase();
-        const filtered = currentPickerOptions.map(opt => {
+        const filtered = currentPickerOptions.map(function(opt) {
             if (opt.group) {
-                const filteredItems = opt.items.filter(item => item.toLowerCase().includes(query));
+                const filteredItems = opt.items.filter(function(item) {
+                    return item.toLowerCase().includes(query);
+                });
                 if (filteredItems.length > 0) return { group: opt.group, items: filteredItems };
                 return null;
             } else {
@@ -1125,8 +1140,11 @@
 
     function selectOption(val, label) {
         const inputField = $id(currentPickerTarget);
-        inputField.value = label; inputField.setAttribute('data-value', val);
-        window.saveFormData(); checkFormValidity(); closePicker();
+        inputField.value = label;
+        inputField.setAttribute('data-value', val);
+        window.saveFormData();
+        checkFormValidity();
+        closePicker();
     }
 
     // ==========================================
@@ -1135,10 +1153,13 @@
     window.saveFormData = function() {
         const dataToSave = {};
         const inputs = document.querySelectorAll('#stage-1 input');
-        inputs.forEach(el => {
+        inputs.forEach(function(el) {
             if (el.id && el.id !== 'picker-search') {
-                if (el.type === 'checkbox') dataToSave[el.id] = { checked: el.checked };
-                else dataToSave[el.id] = { value: el.value, dataValue: el.getAttribute('data-value') };
+                if (el.type === 'checkbox') {
+                    dataToSave[el.id] = { checked: el.checked };
+                } else {
+                    dataToSave[el.id] = { value: el.value, dataValue: el.getAttribute('data-value') };
+                }
             }
         });
         localStorage.setItem('coc_form_data', JSON.stringify(dataToSave));
@@ -1149,11 +1170,12 @@
         if (saved) {
             try {
                 const data = JSON.parse(saved);
-                Object.keys(data).forEach(id => {
+                Object.keys(data).forEach(function(id) {
                     const el = $id(id);
                     if (el) {
-                        if (el.type === 'checkbox') el.checked = data[id].checked;
-                        else {
+                        if (el.type === 'checkbox') {
+                            el.checked = data[id].checked;
+                        } else {
                             el.value = data[id].value || '';
                             if (data[id].dataValue) el.setAttribute('data-value', data[id].dataValue);
                         }
@@ -1165,22 +1187,39 @@
         }
     }
 
-    $id('stage-1').addEventListener('input', (e) => {
-        if (e.target.tagName === 'INPUT' && e.target.id !== 'picker-search') { window.saveFormData(); checkFormValidity(); }
+    $id('stage-1').addEventListener('input', function(e) {
+        if (e.target.tagName === 'INPUT' && e.target.id !== 'picker-search') {
+            window.saveFormData();
+            checkFormValidity();
+        }
     });
 
-    $id('stage-1').addEventListener('change', (e) => {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') { window.saveFormData(); checkFormValidity(); }
+    $id('stage-1').addEventListener('change', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+            window.saveFormData();
+            checkFormValidity();
+        }
     });
 
     function checkFormValidity() {
         const isValid = 
-            $id('name').value.trim() !== "" && $id('phone').value.trim().length >= 10 && $id('email').value.trim().includes('@') &&
-            $id('educationCourse').value.trim() !== "" && $id('dob').value !== "" && $id('height').value.trim() !== "" &&
-            $id('sportsInterest').value.trim() !== "" && $id('motherLanguage').value.trim() !== "" && $id('gender').value.trim() !== "" &&
-            $id('pwd').value.trim() !== "" && $id('caste').value.trim() !== "" && $id('community').value.trim() !== "" &&
-            $id('pincode').value.trim().length === 6 && $id('state').value.trim() !== "" && $id('district').value.trim() !== "" &&
-            $id('address').value.trim() !== "" && $id('dataConsent').checked;
+            $id('name').value.trim() !== "" && 
+            $id('phone').value.trim().length >= 10 && 
+            $id('email').value.trim().includes('@') &&
+            $id('educationCourse').value.trim() !== "" && 
+            $id('dob').value !== "" && 
+            $id('height').value.trim() !== "" &&
+            $id('sportsInterest').value.trim() !== "" && 
+            $id('motherLanguage').value.trim() !== "" && 
+            $id('gender').value.trim() !== "" &&
+            $id('pwd').value.trim() !== "" && 
+            $id('caste').value.trim() !== "" && 
+            $id('community').value.trim() !== "" &&
+            $id('pincode').value.trim().length === 6 && 
+            $id('state').value.trim() !== "" && 
+            $id('district').value.trim() !== "" &&
+            $id('address').value.trim() !== "" && 
+            $id('dataConsent').checked;
 
         const payBtn = $id('tb-pay-btn');
         if(!payBtn) return;
@@ -1202,62 +1241,111 @@
         const ageInput = $id('age');
         
         if (dobStr) {
-            const birthDate = new Date(dobStr); const today = new Date();
+            const birthDate = new Date(dobStr); 
+            const today = new Date();
             let calculatedAge = today.getFullYear() - birthDate.getFullYear();
             const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) calculatedAge--;
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                calculatedAge--;
+            }
             ageInput.value = `${calculatedAge} Years`;
-            if (calculatedAge < 18) pg.classList.remove('hidden'); else pg.classList.add('hidden');
-        } else { pg.classList.add('hidden'); ageInput.value = ''; }
+            if (calculatedAge < 18) {
+                pg.classList.remove('hidden');
+            } else {
+                pg.classList.add('hidden');
+            }
+        } else {
+            pg.classList.add('hidden');
+            ageInput.value = '';
+        }
         checkFormValidity();
     }
 
     async function fetchLocationByPincode() {
-        const pinInput = $id('pincode'); const districtInput = $id('district'); const stateInput = $id('state');
-        const pincode = pinInput.value.replace(/\D/g, ''); pinInput.value = pincode;
+        const pinInput = $id('pincode'); 
+        const districtInput = $id('district'); 
+        const stateInput = $id('state');
+        const pincode = pinInput.value.replace(/\D/g, ''); 
+        pinInput.value = pincode;
 
         if (pincode.length === 6) {
-            districtInput.value = "Fetching..."; stateInput.value = "Fetching...";
+            districtInput.value = "Fetching..."; 
+            stateInput.value = "Fetching...";
             try {
                 const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
                 if (!response.ok) throw new Error('Network response not ok');
                 const data = await response.json();
 
-                if (data?.[0]?.Status === 'Success') {
+                if (data && data[0] && data[0].Status === 'Success') {
                     const po = data[0].PostOffice[0];
-                    districtInput.value = po.District; stateInput.value = po.State; stateInput.setAttribute('data-value', po.State);
-                    districtInput.setAttribute('readonly', 'true'); stateInput.setAttribute('readonly', 'true');
-                    districtInput.style.background = '#e2e8f0'; stateInput.style.background = '#e2e8f0';
-                    districtInput.style.cursor = 'not-allowed'; stateInput.style.cursor = 'not-allowed';
-                    window.saveFormData(); checkFormValidity();
+                    districtInput.value = po.District; 
+                    stateInput.value = po.State; 
+                    stateInput.setAttribute('data-value', po.State);
+                    districtInput.setAttribute('readonly', 'true'); 
+                    stateInput.setAttribute('readonly', 'true');
+                    districtInput.style.background = '#e2e8f0'; 
+                    stateInput.style.background = '#e2e8f0';
+                    districtInput.style.cursor = 'not-allowed'; 
+                    stateInput.style.cursor = 'not-allowed';
+                    window.saveFormData(); 
+                    checkFormValidity();
                 } else {
-                    districtInput.value = ""; stateInput.value = ""; districtInput.removeAttribute('readonly'); stateInput.removeAttribute('readonly');
-                    districtInput.style.background = '#f8fafc'; stateInput.style.background = '#f8fafc';
-                    districtInput.style.cursor = 'text'; stateInput.style.cursor = 'text'; alert("Pincode not found. Please enter State and District manually.");
+                    districtInput.value = ""; 
+                    stateInput.value = ""; 
+                    districtInput.removeAttribute('readonly'); 
+                    stateInput.removeAttribute('readonly');
+                    districtInput.style.background = '#f8fafc'; 
+                    stateInput.style.background = '#f8fafc';
+                    districtInput.style.cursor = 'text'; 
+                    stateInput.style.cursor = 'text'; 
+                    alert("Pincode not found. Please enter State and District manually.");
                 }
-            } catch (e) { 
-                districtInput.value = ""; stateInput.value = ""; districtInput.removeAttribute('readonly'); stateInput.removeAttribute('readonly');
-                districtInput.style.background = '#f8fafc'; stateInput.style.background = '#f8fafc';
-                districtInput.style.cursor = 'text'; stateInput.style.cursor = 'text';
+            } catch (e) {
+                districtInput.value = ""; 
+                stateInput.value = ""; 
+                districtInput.removeAttribute('readonly'); 
+                stateInput.removeAttribute('readonly');
+                districtInput.style.background = '#f8fafc'; 
+                stateInput.style.background = '#f8fafc';
+                districtInput.style.cursor = 'text'; 
+                stateInput.style.cursor = 'text';
             }
         } else {
-            districtInput.value = ""; stateInput.value = ""; districtInput.setAttribute('readonly', 'true'); stateInput.setAttribute('readonly', 'true');
-            districtInput.style.background = '#e2e8f0'; stateInput.style.background = '#e2e8f0'; districtInput.style.cursor = 'not-allowed'; stateInput.style.cursor = 'not-allowed';
+            districtInput.value = ""; 
+            stateInput.value = ""; 
+            districtInput.setAttribute('readonly', 'true'); 
+            stateInput.setAttribute('readonly', 'true');
+            districtInput.style.background = '#e2e8f0'; 
+            stateInput.style.background = '#e2e8f0'; 
+            districtInput.style.cursor = 'not-allowed'; 
+            stateInput.style.cursor = 'not-allowed';
             checkFormValidity();
         }
     }
 
     window.focusManualEntry = function() {
         const nameInput = $id('name');
-        if(nameInput) { nameInput.focus(); nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        if(nameInput) {
+            nameInput.focus();
+            nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     };
 
     window.openLegalModal = function(type) {
-        $id('legal-title').innerText = legalContent[type].title; $id('legal-body').innerHTML = legalContent[type].body; $id('legal-modal').classList.remove('hidden');
+        $id('legal-title').innerText = legalContent[type].title;
+        $id('legal-body').innerHTML = legalContent[type].body;
+        $id('legal-modal').classList.remove('hidden');
     };
-    window.closeLegalModal = function() { $id('legal-modal').classList.add('hidden'); };
-    window.closeLegalOnOverlay = function(e) { if(e.target.id === 'legal-modal') window.closeLegalModal(); };
 
+    window.closeLegalModal = function() {
+        $id('legal-modal').classList.add('hidden');
+    };
+
+    window.closeLegalOnOverlay = function(e) {
+        if(e.target.id === 'legal-modal') {
+            window.closeLegalModal();
+        }
+    };
 
     async function sendDataToGoogleSheets(statusType) {
         if (!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_URL")) return;
@@ -1270,51 +1358,94 @@
             age: studentData.age, dob: studentData.dob, gender: studentData.gender, height: studentData.height,
             motherLanguage: studentData.motherLanguage, educationCourse: studentData.educationCourse, sportsInterest: studentData.sportsInterest,
             pwd: studentData.pwd, caste: studentData.caste, community: studentData.community, pincode: studentData.pincode, 
-            state: studentData.state, district: studentData.district, address: studentData.address, mapsLink: "Not Provided",      
+            state: studentData.state, district: studentData.district, address: studentData.address, mapsLink: "Not Provided",
             topJob: topJobMatch, matchPercent: topJobPercent, scoreOutOf50: currentScoreOutOf50, discountAmount: currentDiscountAmount, scores: userScores
         };
-        try { await fetch(CONFIG.GOOGLE_SCRIPT_URL, { method: "POST", mode: 'no-cors', body: JSON.stringify(payload) }); } catch (error) {}
+        
+        try {
+            await fetch(CONFIG.GOOGLE_SCRIPT_URL, { 
+                method: "POST", 
+                mode: 'no-cors', 
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(payload) 
+            });
+            console.log(`[Google Sheets] ${statusType} saved.`);
+        } catch (error) {
+            console.error("[Google Sheets] Error:", error);
+        }
     }
 
     // ==========================================
     // Payment Processing
     // ==========================================
     function openPaymentLink() {
-        if(CONFIG.PAYMENT_LINK === "YOUR_CASHFREE_LINK_HERE") { alert("Developer Note: Please insert your actual payment link in the source code."); return; }
-        window.saveFormData(); localStorage.setItem('coc_payment_initiated', 'true');
-        const btn = $id('tb-pay-btn');
-        if(btn) btn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Redirecting...';
+        if(CONFIG.PAYMENT_LINK === "YOUR_CASHFREE_LINK_HERE") {
+            alert("Developer Note: Please insert your actual payment link in the source code.");
+            return;
+        }
+        window.saveFormData();
+        localStorage.setItem('coc_payment_initiated', 'true');
         window.location.href = CONFIG.PAYMENT_LINK;
     }
 
-    window.initiatePayment = function() {
+    window.initiatePayment = async function() {
         const name = $id('name').value.trim();
-        const countryCodeElement = $id('countryCode'); const countryCode = countryCodeElement.getAttribute('data-value') || "+91"; 
-        const phoneRaw = $id('phone').value.trim(); const email = $id('email').value.trim();
-        let rawEducation = $id('educationCourse').value.trim(); const educationCourse = rawEducation.includes(" (") ? rawEducation.split(" (")[0] : rawEducation;
-        const dob = $id('dob').value; const height = $id('height').value.trim(); const sportsInterest = $id('sportsInterest').value.trim();
-        const motherLanguage = $id('motherLanguage').value.trim(); const gender = $id('gender').value.trim(); const pwd = $id('pwd').value.trim();
-        const caste = $id('caste').value.trim(); const community = $id('community').value.trim(); const pincode = $id('pincode').value.trim();
-        const state = $id('state').value.trim(); const district = $id('district').value.trim(); const address = $id('address').value.trim();
+        const countryCodeElement = $id('countryCode');
+        const countryCode = countryCodeElement.getAttribute('data-value') || "+91"; 
+        const phoneRaw = $id('phone').value.trim();
+        const email = $id('email').value.trim();
+        let rawEducation = $id('educationCourse').value.trim();
+        const educationCourse = rawEducation.includes(" (") ? rawEducation.split(" (")[0] : rawEducation;
+        const dob = $id('dob').value;
+        const height = $id('height').value.trim();
+        const sportsInterest = $id('sportsInterest').value.trim();
+        const motherLanguage = $id('motherLanguage').value.trim();
+        const gender = $id('gender').value.trim();
+        const pwd = $id('pwd').value.trim();
+        const caste = $id('caste').value.trim();
+        const community = $id('community').value.trim();
+        const pincode = $id('pincode').value.trim();
+        const state = $id('state').value.trim();
+        const district = $id('district').value.trim();
+        const address = $id('address').value.trim();
         const dataConsent = $id('dataConsent').checked;
         
         if (!name || !phoneRaw || !email || !educationCourse || !dob || !height || !sportsInterest || !motherLanguage || !gender || !pwd || !caste || !community || !pincode || !state || !district || !address) { 
-            alert("Please fill all required fields before proceeding."); return; 
+             alert("Please fill all required fields before proceeding.");
+             return; 
+         }
+         
+        if (!dataConsent) {
+            alert("Please accept the Data Privacy Policy & Terms of Service to proceed.");
+            return;
         }
-        if (!dataConsent) { alert("Please accept the Data Privacy Policy & Terms of Service to proceed."); return; }
 
-        const birthDate = new Date(dob); const today = new Date();
+        const birthDate = new Date(dob);
+        const today = new Date();
         let calculatedAge = today.getFullYear() - birthDate.getFullYear();
         const m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) calculatedAge--;
 
         studentData = { 
-            name, phone: countryCode + " " + phoneRaw, email, educationCourse, sportsInterest, dob, age: calculatedAge, 
-            gender, address, pincode, state, district, motherLanguage, pwd, caste, community, height
+             name, phone: countryCode + " " + phoneRaw, email, educationCourse, sportsInterest, dob, age: calculatedAge, 
+             gender, address, pincode, state, district, motherLanguage, pwd, caste, community, height
         };
 
-        localStorage.removeItem('coc_test_completed'); sendDataToGoogleSheets("Lead Captured"); openPaymentLink();
-    }
+        localStorage.removeItem('coc_test_completed');
+        
+        // Show loading state immediately to prevent user closing/clicking again
+        const btn = $id('tb-pay-btn');
+        if(btn) {
+            btn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Saving...';
+            btn.disabled = true;
+        }
+
+        // Wait for the data to successfully push before redirecting
+        await sendDataToGoogleSheets("Lead Captured");
+        openPaymentLink();
+    };
 
     // ==========================================
     // Anti-Cheat & Security (Visual Blur System)
@@ -1323,37 +1454,69 @@
 
     function handleCheatWarning(reason) {
         if (isCheatModalOpen) return;
-        isCheatModalOpen = true; cheatWarnings++; clearInterval(questionTimerInterval);
+        isCheatModalOpen = true;
+        cheatWarnings++;
+        clearInterval(questionTimerInterval);
         
         const stage3 = $id('stage-3');
-        if (stage3) { stage3.style.filter = "blur(25px) grayscale(100%) opacity(0.2)"; stage3.style.pointerEvents = "none"; stage3.style.userSelect = "none"; }
+        if (stage3) {
+            stage3.style.filter = "blur(25px) grayscale(100%) opacity(0.2)";
+            stage3.style.pointerEvents = "none";
+            stage3.style.userSelect = "none";
+        }
         
-        const overlay = $id('anti-cheat-overlay'); const warningText = $id('cheat-warning-text'); const resumeBtn = $id('resume-test-btn');
+        const overlay = $id('anti-cheat-overlay');
+        const warningText = $id('cheat-warning-text');
+        const resumeBtn = $id('resume-test-btn');
         overlay.classList.remove('hidden');
 
         if (cheatWarnings >= CONFIG.MAX_CHEAT_WARNINGS) {
             warningText.innerHTML = `Test submitted automatically due to maximum violations <strong>(${reason})</strong>.<br><br>AI Bots, Screen Splitters, and Tab Switching are strictly prohibited.`;
             resumeBtn.innerHTML = `View Partial Results <i class="fas fa-arrow-right ml-2"></i>`;
-            resumeBtn.onclick = () => {
-                overlay.classList.add('hidden'); isCheatModalOpen = false;
-                if (stage3) { stage3.style.filter = "none"; stage3.style.pointerEvents = "auto"; stage3.style.userSelect = "auto"; }
-                clearTestState(); runAIAnalysis(); 
-            };
+            resumeBtn.onclick = function() {
+                overlay.classList.add('hidden');
+                isCheatModalOpen = false;
+                if (stage3) {
+                    stage3.style.filter = "none";
+                    stage3.style.pointerEvents = "auto";
+                    stage3.style.userSelect = "auto";
+                }
+                clearTestState();
+                runAIAnalysis(); 
+             };
         } else {
             warningText.innerHTML = `<span class="text-red-300 font-black text-2xl block mb-3">Warning ${cheatWarnings}/${CONFIG.MAX_CHEAT_WARNINGS}</span> Trigger: ${reason}.<br><br>Do not switch tabs, click outside the window, or use AI extensions. The questions have been scrambled for security.`;
             resumeBtn.innerHTML = `I Understand, Resume Test`;
-            resumeBtn.onclick = () => {
-                overlay.classList.add('hidden'); isCheatModalOpen = false;
-                if (stage3) { stage3.style.filter = "none"; stage3.style.pointerEvents = "auto"; stage3.style.userSelect = "auto"; }
+            resumeBtn.onclick = function() {
+                overlay.classList.add('hidden');
+                isCheatModalOpen = false;
+                if (stage3) {
+                    stage3.style.filter = "none";
+                    stage3.style.pointerEvents = "auto";
+                    stage3.style.userSelect = "auto";
+                }
                 startTimer(); 
-            };
+             };
         }
     }
 
-    document.addEventListener("visibilitychange", () => { if (isTestActive && document.visibilityState === "hidden") handleCheatWarning("Tab switching or minimization detected"); });
-    window.addEventListener("blur", () => { if (isTestActive) handleCheatWarning("Window focus lost / Background App detected"); });
-    document.addEventListener("contextmenu", (e) => { e.preventDefault(); if (isTestActive) handleCheatWarning("Right-clicking is prohibited during the test."); });
-    document.addEventListener("copy", (e) => { e.preventDefault(); if (isTestActive) handleCheatWarning("Attempting to copy text is prohibited."); });
+    document.addEventListener("visibilitychange", function() {
+        if (isTestActive && document.visibilityState === "hidden") handleCheatWarning("Tab switching or minimization detected");
+    });
+    
+    window.addEventListener("blur", function() {
+        if (isTestActive) handleCheatWarning("Window focus lost / Background App detected");
+    });
+    
+    document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+        if (isTestActive) handleCheatWarning("Right-clicking is prohibited during the test.");
+    });
+    
+    document.addEventListener("copy", function(e) {
+        e.preventDefault();
+        if (isTestActive) handleCheatWarning("Attempting to copy text is prohibited.");
+    });
 
     // ==========================================
     // State Management Helpers (Auto-Save)
@@ -1362,25 +1525,40 @@
         const state = { isTestActive, currentQuestionIndex, answeredCount, answeredRiasecCount, answeredAcademicCount, activeQuestions, userScores, maxScores, studentData };
         localStorage.setItem('coc_test_state', JSON.stringify(state));
     }
-    function clearTestState() { localStorage.removeItem('coc_test_state'); }
+    
+    function clearTestState() {
+        localStorage.removeItem('coc_test_state');
+    }
 
     // ==========================================
     // Core Test Engine & FALLBACK SYSTEM
     // ==========================================
     window.submitStage2 = function() {
-        if (navigator.webdriver) { alert("Security Alert: Automated browser tool detected. Test cannot be started."); return; }
+        if (navigator.webdriver) {
+            alert("Security Alert: Automated browser tool detected. Test cannot be started.");
+            return;
+        }
 
-        let riasecPool = []; let academicPoolRaw = [];
+        let riasecPool = [];
+        let academicPoolRaw = [];
         
-        // 1. Attempt to load external questions
+        // 1. Attempt to load external questions (Supports var, let, and const declarations)
         for(let i=1; i<=10; i++) {
-            const partName = `questionsPart${i}`;
-            if(typeof window[partName] !== 'undefined' && Array.isArray(window[partName])) {
-                riasecPool.push(...window[partName]);
+            let partData = null;
+            try { partData = eval(`questionsPart${i}`); } catch(e) {}
+            if (!partData) { try { partData = eval(`questions_part${i}`); } catch(e) {} }
+            
+            if(Array.isArray(partData)) {
+                riasecPool.push(...partData);
             }
         }
-        if(typeof window.academicPart1 !== 'undefined' && Array.isArray(window.academicPart1)) {
-            academicPoolRaw.push(...window.academicPart1);
+        
+        let acadData = null;
+        try { acadData = eval('academicPart1'); } catch(e) {}
+        if (!acadData) { try { acadData = eval('academic_part1'); } catch(e) {} }
+        
+        if(Array.isArray(acadData)) {
+            academicPoolRaw.push(...acadData);
         }
 
         // 2. FAILSAFE: If external scripts failed to load or are empty, inject dynamic mock questions
@@ -1412,46 +1590,53 @@
             }
         }
 
-        // 3. Filter Academic Pool by User Qualification
-        const userQualification = studentData.educationCourse || "";
-        let academicPool = []; let fallbackAcademicPool = [];
+        // 3. Filter Academic Pool (FORCED TO 10TH LEVEL ONLY - Fuzzy Match)
+        let academicPool = [];
+        let fallbackAcademicPool = [];
 
-        if (userQualification) {
-            let mappedLevel = "Graduation Level"; const c = userQualification.toLowerCase();
-            if (c.includes("10th") || c.includes("iti")) mappedLevel = "10th Level";
-            else if (c.includes("12th") || c.includes("diploma")) mappedLevel = "Intermediate Level";
-            
-            academicPool = academicPoolRaw.filter(q => {
-                if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
-                return q.qualifications.includes(mappedLevel);
+        academicPool = academicPoolRaw.filter(function(q) {
+            if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
+            // Fuzzy match: picks up "10th", "10th Level", "10th Standard", etc.
+            return q.qualifications.some(function(qual) {
+                return qual.toLowerCase().includes("10th") || qual.toLowerCase().includes("all");
             });
-            fallbackAcademicPool = academicPoolRaw.filter(q => !academicPool.includes(q));
-        } else { academicPool = [...academicPoolRaw]; }
+        });
+        
+        fallbackAcademicPool = academicPoolRaw.filter(function(q) {
+            return !academicPool.includes(q);
+        });
 
-        // 4. Randomize & Select Exactly 90 Questions
-        riasecPool = riasecPool.sort(() => 0.5 - Math.random());
-        academicPool = academicPool.sort(() => 0.5 - Math.random());
-        fallbackAcademicPool = fallbackAcademicPool.sort(() => 0.5 - Math.random());
+        // 4. Randomize & Select Exactly 2 Questions
+        riasecPool = riasecPool.sort(function() { return 0.5 - Math.random(); });
+        academicPool = academicPool.sort(function() { return 0.5 - Math.random(); });
+        fallbackAcademicPool = fallbackAcademicPool.sort(function() { return 0.5 - Math.random(); });
         
-        const selectedRiasec = riasecPool.slice(0, 45).map(q => ({ ...q, categoryType: 'riasec' }));
-        const selectedAcademicRaw = academicPool.slice(0, 45);
+        const selectedRiasec = riasecPool.slice(0, 1).map(function(q) { return { ...q, categoryType: 'riasec' }; });
+        const selectedAcademicRaw = academicPool.slice(0, 1);
         
-        if (selectedAcademicRaw.length < 45) {
-            const needed = 45 - selectedAcademicRaw.length;
+        if (selectedAcademicRaw.length < 1) {
+            const needed = 1 - selectedAcademicRaw.length;
             selectedAcademicRaw.push(...fallbackAcademicPool.slice(0, needed));
         }
-        const selectedAcademic = selectedAcademicRaw.map(q => ({ ...q, categoryType: 'academic' }));
         
-        activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(() => 0.5 - Math.random());
+        const selectedAcademic = selectedAcademicRaw.map(function(q) { return { ...q, categoryType: 'academic' }; });
+        
+        activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(function() { return 0.5 - Math.random(); });
         
         // Reset scores safely
-        for (let cat in userScores) for (let tr in userScores[cat]) { userScores[cat][tr] = 0; maxScores[cat][tr] = 0; }
+        for (let cat in userScores) {
+            for (let tr in userScores[cat]) {
+                userScores[cat][tr] = 0;
+                maxScores[cat][tr] = 0;
+            }
+        }
         
-        activeQuestions.forEach(q => {
+        activeQuestions.forEach(function(q) {
             let maxVal = 5; 
             if (q.type === 'mcq' && q.options) {
-                // Safeguard against missing val in options
-                let vals = q.options.map(o => o.val !== undefined ? o.val : 5);
+                let vals = q.options.map(function(o) {
+                    return o.val !== undefined ? o.val : 5;
+                });
                 maxVal = Math.max(...vals) || 5; 
             }
             if (q.traitType && q.trait && maxScores[q.traitType] && maxScores[q.traitType][q.trait] !== undefined) {
@@ -1459,19 +1644,16 @@
             }
         });
 
-        currentQuestionIndex = 0; answeredCount = 0; answeredRiasecCount = 0; answeredAcademicCount = 0; isTestActive = true; cheatWarnings = 0;
-        saveTestState(); goToStage(3); renderQuestion();
-    }
-
-    window.syncTaskbar = function(idx) {
-        document.querySelectorAll('.tb-opt-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = $id(`tb-opt-${idx}`);
-        if(activeBtn) activeBtn.classList.add('active');
-    };
-
-    window.selectOptionIndex = function(idx) {
-        const radios = document.querySelectorAll('input[name="answer"]');
-        if(radios[idx]) { radios[idx].checked = true; syncTaskbar(idx); }
+        currentQuestionIndex = 0;
+        answeredCount = 0;
+        answeredRiasecCount = 0;
+        answeredAcademicCount = 0;
+        isTestActive = true;
+        cheatWarnings = 0;
+        
+        saveTestState();
+        goToStage(3);
+        renderQuestion();
     };
 
     function renderQuestion() {
@@ -1480,38 +1662,39 @@
         $id('question-counter').innerText = `${currentQuestionIndex + 1} / ${activeQuestions.length}`;
         
         const wrapper = $id('question-wrapper');
-        wrapper.classList.remove('animate'); void wrapper.offsetWidth; wrapper.classList.add('animate');
+        wrapper.classList.remove('animate');
+        void wrapper.offsetWidth;
+        wrapper.classList.add('animate');
         $id('question-text').innerText = q.text || "Question text missing";
         $id('progress-fill').style.width = `${((currentQuestionIndex) / activeQuestions.length) * 100}%`;
         
-        const area = $id('options-area'); const tbOptionsArea = $id('taskbar-options');
-        area.innerHTML = ''; let tbHtml = '';
+        const area = $id('options-area');
+        area.innerHTML = '';
         
         if (q.type === 'mcq') {
             let html = '<div class="mcq-grid">';
-            const options = q.options || [{text: "A", val:5}, {text: "B", val:0}, {text: "C", val:0}, {text: "D", val:0}]; // Failsafe
-            options.forEach((opt, idx) => {
+            const options = q.options || [{text: "A", val:5}, {text: "B", val:0}, {text: "C", val:0}, {text: "D", val:0}];
+            options.forEach(function(opt, idx) {
                 let letter = String.fromCharCode(65 + idx);
-                html += `<label class="option-label" id="label-${idx}"><input type="radio" name="answer" value="${opt.val !== undefined ? opt.val : 0}" onchange="syncTaskbar(${idx})"><span class="flex items-center w-full"><strong class="mr-2.5 shrink-0 text-primary bg-indigo-50 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg shadow-sm border border-indigo-100 text-sm sm:text-base">${letter}</strong><span class="break-words leading-snug">${opt.text}</span></span></label>`;
-                tbHtml += `<button id="tb-opt-${idx}" onclick="selectOptionIndex(${idx})" class="tb-opt-btn rounded-xl bg-white/60 text-slate-700 hover:bg-white/90 shadow-sm border border-slate-200 text-base sm:text-lg">${letter}</button>`;
+                html += `<label class="option-label" id="label-${idx}"><input type="radio" name="answer" value="${opt.val !== undefined ? opt.val : 0}"><span class="flex items-center w-full"><strong class="mr-2.5 shrink-0 text-primary bg-indigo-50 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg shadow-sm border border-indigo-100 text-sm sm:text-base">${letter}</strong><span class="break-words leading-snug">${opt.text}</span></span></label>`;
             });
-            html += '</div>'; area.innerHTML = html;
+            html += '</div>';
+            area.innerHTML = html;
         } else {
             let labels = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
             let html = '<div class="likert-container">';
             for (let i = 1; i <= 5; i++) {
                 let letter = String.fromCharCode(64 + i);
-                html += `<label class="likert-option likert-${i}" id="label-${i-1}"><input type="radio" name="answer" value="${i}" onchange="syncTaskbar(${i-1})"><span><strong class="block mb-2 text-primary text-xl bg-slate-50 px-3 py-1 rounded-lg border border-slate-200 shadow-sm transition-all">${letter}</strong>${labels[i-1]}</span></label>`;
-                tbHtml += `<button id="tb-opt-${i-1}" onclick="selectOptionIndex(${i-1})" class="tb-opt-btn rounded-xl bg-white/60 text-slate-700 hover:bg-white/90 shadow-sm border border-slate-200 text-base sm:text-lg">${letter}</button>`;
+                html += `<label class="likert-option likert-${i}" id="label-${i-1}"><input type="radio" name="answer" value="${i}"><span><strong class="block mb-2 text-primary text-xl bg-slate-50 px-3 py-1 rounded-lg border border-slate-200 shadow-sm transition-all">${letter}</strong>${labels[i-1]}</span></label>`;
             }
             area.innerHTML = html + '</div>';
         }
-        tbOptionsArea.innerHTML = tbHtml;
         
         const tbNextBtn = $id('taskbar-next-btn');
         tbNextBtn.disabled = true;
         tbNextBtn.innerHTML = `Wait... <i class="fas fa-hourglass-half ml-1" aria-hidden="true"></i>`;
-        tbNextBtn.className = "h-full rounded-[14px] px-4 sm:px-6 w-auto text-xs sm:text-sm bg-slate-300 text-slate-700 font-extrabold flex items-center justify-center gap-1.5 cursor-not-allowed border border-slate-400 mx-1 transition-all focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none";
+        tbNextBtn.className = "w-full h-full rounded-[14px] text-xs sm:text-sm bg-slate-300 text-slate-700 font-extrabold flex items-center justify-center gap-1.5 cursor-not-allowed border border-slate-400 mx-1 transition-all focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none";
+        
         startTimer();
     }
 
@@ -1521,8 +1704,11 @@
         let minWaitTime = CONFIG.MIN_WAIT_SECONDS;
         
         const timerDisplay = $id('timer-display');
-        timerDisplay.style.animation = 'none'; timerDisplay.innerText = `⏱ ${timeRemaining}s`;
-        timerDisplay.style.color = '#ea580c'; timerDisplay.style.background = '#ffedd5'; timerDisplay.style.boxShadow = '0 2px 8px rgba(234, 88, 12, 0.15)';
+        timerDisplay.style.animation = 'none';
+        timerDisplay.innerText = `⏱ ${timeRemaining}s`;
+        timerDisplay.style.color = '#ea580c';
+        timerDisplay.style.background = '#ffedd5';
+        timerDisplay.style.boxShadow = '0 2px 8px rgba(234, 88, 12, 0.15)';
         
         const tbNextBtn = $id('taskbar-next-btn');
         
@@ -1536,8 +1722,9 @@
         tbNextBtn.disabled = true;
         tbNextBtn.innerHTML = `Wait ${minWaitTime}s <i class="fas fa-hourglass-half ml-1" aria-hidden="true"></i>`;
         
-        questionTimerInterval = setInterval(() => {
-            timeRemaining--; timerDisplay.innerText = `⏱ ${timeRemaining}s`;
+        questionTimerInterval = setInterval(function() {
+            timeRemaining--;
+            timerDisplay.innerText = `⏱ ${timeRemaining}s`;
             
             if (minWaitTime > 0) {
                 minWaitTime--;
@@ -1545,17 +1732,22 @@
                     tbNextBtn.innerHTML = `Wait ${minWaitTime}s <i class="fas fa-hourglass-half ml-1" aria-hidden="true"></i>`;
                 } else {
                     tbNextBtn.disabled = false;
-                    tbNextBtn.className = "h-full rounded-[14px] px-4 sm:px-6 w-auto text-xs sm:text-sm bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all hover:-translate-y-1 active:scale-95 mx-1 cursor-pointer focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none";
+                    tbNextBtn.className = "w-full h-full rounded-[14px] text-xs sm:text-sm bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all hover:-translate-y-1 active:scale-95 mx-1 cursor-pointer focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none";
                     tbNextBtn.innerHTML = (currentQuestionIndex === activeQuestions.length - 1) ? `Submit <i class="fas fa-check-circle ml-1 text-base" aria-hidden="true"></i>` : `Submit <i class="fas fa-arrow-right ml-1 text-base" aria-hidden="true"></i>`;
                 }
             }
             
             if (timeRemaining <= 5) {
-                timerDisplay.style.animation = 'pulse 1s infinite'; timerDisplay.style.background = '#fef2f2';
-                timerDisplay.style.color = '#ef4444'; timerDisplay.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                timerDisplay.style.animation = 'pulse 1s infinite';
+                timerDisplay.style.background = '#fef2f2';
+                timerDisplay.style.color = '#ef4444';
+                timerDisplay.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
             }
             
-            if (timeRemaining <= 0) { clearInterval(questionTimerInterval); autoAdvanceQuestion(); }
+            if (timeRemaining <= 0) {
+                clearInterval(questionTimerInterval);
+                autoAdvanceQuestion();
+            }
         }, 1000);
     }
 
@@ -1567,23 +1759,36 @@
                 userScores[q.traitType][q.trait] += parseInt(sel.value);
             }
             answeredCount++;
-            if (q && q.categoryType === 'academic') answeredAcademicCount++;
-            else answeredRiasecCount++;
+            if (q && q.categoryType === 'academic') {
+                answeredAcademicCount++;
+            } else {
+                answeredRiasecCount++;
+            }
         }
         currentQuestionIndex++;
-        if (currentQuestionIndex < activeQuestions.length) { saveTestState(); renderQuestion(); } 
-        else { clearTestState(); goToStage(4); runAIAnalysis(); }
+        if (currentQuestionIndex < activeQuestions.length) {
+            saveTestState();
+            renderQuestion();
+        } else {
+            clearTestState();
+            goToStage(4);
+            runAIAnalysis();
+        }
     }
 
     window.nextQuestion = function(event) {
-        if (event && !event.isTrusted) { alert("Security Alert: Automated script interaction detected!"); return; }
-        const sel = document.querySelector('input[name="answer"]:checked');
-        if (!sel) { 
-            alert("Please select an answer (A, B, C, D) first."); 
-            $id('taskbar-next-btn').disabled = false; // unlock if they missed answering
-            return; 
+        if (event && !event.isTrusted) {
+            alert("Security Alert: Automated script interaction detected!");
+            return;
         }
         
+        const sel = document.querySelector('input[name="answer"]:checked');
+        if (!sel) { 
+             alert("Please select an answer (A, B, C, D) first.");
+             $id('taskbar-next-btn').disabled = false; // unlock if they missed answering
+             return; 
+         }
+         
         clearInterval(questionTimerInterval);
         
         const q = activeQuestions[currentQuestionIndex];
@@ -1592,13 +1797,23 @@
         }
         
         answeredCount++; 
-        if (q && q.categoryType === 'academic') answeredAcademicCount++;
-        else answeredRiasecCount++;
+        if (q && q.categoryType === 'academic') {
+            answeredAcademicCount++;
+        } else {
+            answeredRiasecCount++;
+        }
         
         currentQuestionIndex++;
-        if (currentQuestionIndex < activeQuestions.length) { saveTestState(); renderQuestion(); } 
-        else { clearTestState(); goToStage(4); runAIAnalysis(); }
-    }
+        
+        if (currentQuestionIndex < activeQuestions.length) {
+            saveTestState();
+            renderQuestion();
+        } else {
+            clearTestState();
+            goToStage(4);
+            runAIAnalysis();
+        }
+    };
 
     // ==========================================
     // ADVANCED AI ANALYSIS ENGINE
@@ -1606,8 +1821,8 @@
     function runAIAnalysis() {
         isTestActive = false;
 
-        let totalRiasec = activeQuestions.filter(q => q.categoryType === 'riasec').length;
-        let totalAcademic = activeQuestions.filter(q => q.categoryType === 'academic').length;
+        let totalRiasec = activeQuestions.filter(function(q) { return q.categoryType === 'riasec'; }).length;
+        let totalAcademic = activeQuestions.filter(function(q) { return q.categoryType === 'academic'; }).length;
 
         const riasecThreshold = totalRiasec * 0.5;
         const academicThreshold = totalAcademic * 0.5;
@@ -1623,14 +1838,15 @@
 
         const statusEl = $id('ai-status');
         const statuses = ["Analyzing best suitable job roles...", "Cross-referencing aptitude scores...", "Mapping psychological profiles...", "Finalizing career blueprint..."];
-        let sIdx = 0; statusEl.innerText = statuses[0];
+        let sIdx = 0;
+        statusEl.innerText = statuses[0];
         
         // Add text fade animation class
         statusEl.classList.add('animate-fade-text');
         
-        const statusInterval = setInterval(() => { 
-            sIdx++; 
-            if (sIdx < statuses.length) {
+        const statusInterval = setInterval(function() { 
+             sIdx++; 
+             if (sIdx < statuses.length) {
                 // retrigger animation
                 statusEl.classList.remove('animate-fade-text');
                 void statusEl.offsetWidth; // trigger reflow
@@ -1639,7 +1855,7 @@
             }
         }, 1200);
 
-        setTimeout(() => {
+        setTimeout(async function() {
             clearInterval(statusInterval);
             localStorage.setItem('coc_test_completed', 'true');
             
@@ -1668,19 +1884,27 @@
 
             // 2. Advanced Job Matching Algorithm
             if(typeof govtJobDatabase !== 'undefined' && Array.isArray(govtJobDatabase)) {
-                govtJobDatabase.forEach(job => {
+                govtJobDatabase.forEach(function(job) {
                     let totalMatch = 0;
                     let reqCount = 0;
                     let primaryMatchReason = "";
                     let highestTraitContrib = 0;
 
                     for (let reqTrait in job.reqs) {
-                        let uScore = 0; let mScore = 1;
-                        let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        let uScore = 0;
+                        let mScore = 1;
+                        let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
                         
-                        if (userScores.aptitude[reqTrait] !== undefined) { uScore = userScores.aptitude[reqTrait]; mScore = maxScores.aptitude[reqTrait] || 1; }
-                        else if (userScores.riasec[reqTrait] !== undefined) { uScore = userScores.riasec[reqTrait]; mScore = maxScores.riasec[reqTrait] || 1; }
-                        else if (userScores.big5[reqTrait] !== undefined) { uScore = userScores.big5[reqTrait]; mScore = maxScores.big5[reqTrait] || 1; }
+                        if (userScores.aptitude[reqTrait] !== undefined) {
+                            uScore = userScores.aptitude[reqTrait];
+                            mScore = maxScores.aptitude[reqTrait] || 1;
+                        } else if (userScores.riasec[reqTrait] !== undefined) {
+                            uScore = userScores.riasec[reqTrait];
+                            mScore = maxScores.riasec[reqTrait] || 1;
+                        } else if (userScores.big5[reqTrait] !== undefined) {
+                            uScore = userScores.big5[reqTrait];
+                            mScore = maxScores.big5[reqTrait] || 1;
+                        }
                         
                         let userPct = mScore > 0 ? (uScore / mScore) * 100 : 0; // Safeguard division by 0
                         let reqPct = job.reqs[reqTrait];
@@ -1705,12 +1929,19 @@
                     job.reason = primaryMatchReason;
                 });
 
-                finalRankedJobs = govtJobDatabase.sort((a,b) => b.matchPercent - a.matchPercent);
+                finalRankedJobs = govtJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
             } else {
                 finalRankedJobs = [{ title: "Career Match pending setup", matchPercent: 90, desc: "System jobs database not loaded correctly.", reason: "System Default" }];
             }
             
-            generateReportUI(); sendDataToGoogleSheets("Assessment Complete"); goToStage(5);
+            generateReportUI();
+            
+            // Explicitly show users their results are saving and await the push to Google Sheets
+            statusEl.classList.remove('animate-fade-text');
+            statusEl.innerText = "Saving your results...";
+            await sendDataToGoogleSheets("Assessment Complete");
+            
+            goToStage(5);
         }, 5000);
     }
 
@@ -1721,7 +1952,7 @@
 
         const container = $id('jobs-container');
         container.innerHTML = '';
-        finalRankedJobs.slice(0, 3).forEach((job, index) => {
+        finalRankedJobs.slice(0, 3).forEach(function(job, index) {
             const delay = index * 0.15;
             container.innerHTML += `
                 <div class="job-card" style="animation-delay: ${delay}s">
@@ -1734,9 +1965,14 @@
                 </div>`;
         });
         
-        let totalUser = 0; let totalMax = 0;
-        for (let trait in userScores.aptitude) { totalUser += userScores.aptitude[trait]; totalMax += maxScores.aptitude[trait]; }
-        if (totalMax === 0) { for (let cat in userScores) { for (let trait in userScores[cat]) { totalUser += userScores[cat][trait]; totalMax += maxScores[cat][trait]; } } }
+        let totalUser = 0;
+        let totalMax = 0;
+        
+        // strictly take only Academic/Aptitude scores for final mark
+        for (let trait in userScores.aptitude) {
+            totalUser += userScores.aptitude[trait];
+            totalMax += maxScores.aptitude[trait];
+        }
         
         currentScoreOutOf50 = totalMax > 0 ? Math.round((totalUser / totalMax) * 50) : 0;
         currentDiscountAmount = currentScoreOutOf50 * CONFIG.DISCOUNT_PER_MARK;
@@ -1770,8 +2006,8 @@
         `;
 
         // Trigger progress bar animations after a tiny delay for smooth rendering
-        setTimeout(() => {
-            document.querySelectorAll('.trait-bar-fill').forEach(bar => {
+        setTimeout(function() {
+            document.querySelectorAll('.trait-bar-fill').forEach(function(bar) {
                 bar.style.width = bar.getAttribute('data-target');
             });
         }, 100);
@@ -1791,14 +2027,14 @@
         chartInstance = new Chart(ctx, {
             type: 'radar',
             data: { 
-                labels: ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional'], 
-                datasets: [{ label: 'Trait Score', data: riasecData, backgroundColor: 'rgba(79, 70, 229, 0.15)', borderColor: '#4f46e5', pointBackgroundColor: '#4f46e5', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#4f46e5', borderWidth: 2, fill: true }] 
-            },
+                 labels: ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional'], 
+                 datasets: [{ label: 'Trait Score', data: riasecData, backgroundColor: 'rgba(79, 70, 229, 0.15)', borderColor: '#4f46e5', pointBackgroundColor: '#4f46e5', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#4f46e5', borderWidth: 2, fill: true }] 
+             },
             options: { 
-                responsive: true, maintainAspectRatio: false,
+                 responsive: true, maintainAspectRatio: false,
                 scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20, backdropColor: 'transparent', color: '#94a3b8' }, grid: { color: '#e2e8f0' }, angleLines: { color: '#e2e8f0' }, pointLabels: { font: { family: 'Poppins', size: 12, weight: '600' }, color: '#475569' } } }, 
-                plugins: { legend: { display: false } } 
-            }
+                 plugins: { legend: { display: false } } 
+             }
         });
 
         const today = new Date();
@@ -1810,11 +2046,18 @@
     function startScarcityTimer() {
         clearInterval(countdownInterval);
         let deadline = localStorage.getItem('coc_scholarship_deadline');
-        if (!deadline) { deadline = new Date().getTime() + (48 * 60 * 60 * 1000); localStorage.setItem('coc_scholarship_deadline', deadline); }
+        if (!deadline) {
+            deadline = new Date().getTime() + (48 * 60 * 60 * 1000);
+            localStorage.setItem('coc_scholarship_deadline', deadline);
+        }
 
-        countdownInterval = setInterval(() => {
+        countdownInterval = setInterval(function() {
             const distance = deadline - new Date().getTime();
-            if (distance < 0) { clearInterval(countdownInterval); $id('countdown-clock').innerText = "OFFER EXPIRED"; return; }
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                $id('countdown-clock').innerText = "OFFER EXPIRED";
+                return;
+            }
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -1822,40 +2065,52 @@
         }, 1000);
     }
 
-    window.requestCounselingCall = function() {
+    window.requestCounselingCall = async function() {
         $id('request-call-btn').classList.add('hidden');
         $id('display-phone').innerText = studentData.phone;
         $id('callback-success').classList.remove('hidden');
-        sendDataToGoogleSheets("HOT LEAD - Callback Requested");
-    }
+        await sendDataToGoogleSheets("HOT LEAD - Callback Requested");
+    };
 
     window.shareResultScreenshot = async function() {
-        const shareBtn = $id('share-result-btn'); const originalHtml = shareBtn.innerHTML;
-        shareBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-base sm:text-lg"></i><span>Capturing...</span>'; shareBtn.disabled = true;
+        const shareBtn = $id('share-result-btn');
+        const originalHtml = shareBtn.innerHTML;
+        shareBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-base sm:text-lg"></i><span>Capturing...</span>';
+        shareBtn.disabled = true;
 
         try {
-            const actionBtn = document.querySelector('#stage-5 .btn-brand-accent'); if (actionBtn) actionBtn.style.display = 'none';
+            const actionBtn = document.querySelector('#stage-5 .btn-brand-accent');
+            if (actionBtn) actionBtn.style.display = 'none';
             
             // 1. Force scroll to top before capture to prevent clipping/blank canvas bugs
             window.scrollTo({ top: 0, behavior: 'instant' });
             
-            const targetEl = $id('stage-5'); await new Promise(resolve => setTimeout(resolve, 400));
+            const targetEl = $id('stage-5');
+            await new Promise(function(resolve) { setTimeout(resolve, 400); });
             const canvas = await html2canvas(targetEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: targetEl.scrollWidth, windowHeight: targetEl.scrollHeight });
+            
             if (actionBtn) actionBtn.style.display = '';
 
-            canvas.toBlob(async (blob) => {
+            canvas.toBlob(async function(blob) {
                 const file = new File([blob], "COC_Career_Blueprint.png", { type: "image/png" });
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try { await navigator.share({ title: 'My COC Career Blueprint', text: 'Check out my recommended career path and scholarship from Club of Competition! 🚀', files: [file] }); } catch (err) {}
+                    try {
+                        await navigator.share({ title: 'My COC Career Blueprint', text: 'Check out my recommended career path and scholarship from Club of Competition! 🚀', files: [file] });
+                    } catch (err) {}
                 } else {
-                    const link = document.createElement('a'); link.download = 'COC_Career_Blueprint.png'; link.href = canvas.toDataURL('image/png'); link.click();
+                    const link = document.createElement('a');
+                    link.download = 'COC_Career_Blueprint.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
                     alert("Screenshot downloaded successfully! You can now share it.");
                 }
-                shareBtn.innerHTML = originalHtml; shareBtn.disabled = false;
+                shareBtn.innerHTML = originalHtml;
+                shareBtn.disabled = false;
             }, 'image/png');
         } catch (error) {
             alert("Failed to capture screenshot. Please try downloading the PDF instead.");
-            shareBtn.innerHTML = originalHtml; shareBtn.disabled = false;
+            shareBtn.innerHTML = originalHtml;
+            shareBtn.disabled = false;
         }
     };
 </script>
