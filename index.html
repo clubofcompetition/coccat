@@ -75,10 +75,6 @@
         };
     </script>
     
-    <!-- Firebase Libraries (Deferred) -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" defer></script>
-    
     <style>
         /* --- PREMIUM DESIGN SYSTEM --- */
         :root {
@@ -111,7 +107,7 @@
              font-family: 'Manrope', sans-serif; 
              background-color: var(--bg-body);
             margin: 0; 
-             padding: 15px 10px 100px 10px; 
+             padding: 15px 10px 110px 10px; /* Increased bottom padding to prevent taskbar overlap */
              color: var(--text-main); 
              min-height: 100vh;
             display: flex;
@@ -130,7 +126,7 @@
              background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: 30px 40px; 
+            padding: 24px 32px; 
              border-radius: 1.5rem; 
              max-width: 850px; 
              width: 100%;
@@ -155,15 +151,15 @@
 
         /* Typography Enhancements */
         h2 { color: var(--text-main); margin-top: 0; margin-bottom: 12px; font-size: clamp(1.3em, 5vw, 1.7em); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; font-family: 'Poppins', sans-serif;}
-        h3 { color: var(--text-main); font-size: clamp(1.05em, 4vw, 1.2em); font-weight: 700; margin-top: 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif; letter-spacing: -0.01em;}
+        h3 { color: var(--text-main); font-size: clamp(1.05em, 4vw, 1.2em); font-weight: 700; margin-top: 20px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif; letter-spacing: -0.01em;}
         
         /* Premium Form Elements */
-        .form-group { margin-bottom: 16px; position: relative; }
+        .form-group { margin-bottom: 14px; position: relative; }
         label { font-weight: 700; display: block; margin-bottom: 6px; color: #334155; font-size: 0.85em; letter-spacing: 0.01em; }
         .required { color: #ef4444; }
         
         input[type="text"], input[type="number"], input[type="tel"], input[type="email"], input[type="date"] { 
-             width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 0.75rem; 
+             width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 0.75rem; 
              background: #f8fafc; font-size: clamp(13px, 3.5vw, 15px); color: var(--text-main);
             font-family: 'Manrope', sans-serif; font-weight: 600; transition: var(--transition-smooth); 
              appearance: none; -webkit-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
@@ -182,7 +178,7 @@
         input:focus { background: #fff; border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px var(--primary-light); }
 
         /* Sleek Checkbox */
-        .checkbox-wrapper { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: #f8fafc; border-radius: 0.75rem; border: 2px solid #e2e8f0; cursor: pointer; transition: var(--transition-smooth); margin-bottom: 10px; }
+        .checkbox-wrapper { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: #f8fafc; border-radius: 0.75rem; border: 2px solid #e2e8f0; cursor: pointer; transition: var(--transition-smooth); margin-bottom: 10px; }
         .checkbox-wrapper:hover { border-color: var(--border-focus); background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.03); transform: translateY(-1px); }
         .checkbox-wrapper input[type="checkbox"] { appearance: none; background-color: #fff; margin: 0; font: inherit; color: currentColor; width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 5px; transform: translateY(2px); display: grid; place-content: center; transition: var(--transition-bounce); cursor: pointer; flex-shrink: 0; }
         .checkbox-wrapper input[type="checkbox"]::before { content: ""; width: 10px; height: 10px; transform: scale(0); transition: 120ms transform ease-in-out; box-shadow: inset 1em 1em white; background-color: white; transform-origin: center; clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); }
@@ -196,7 +192,7 @@
              color: #ffffff; 
              box-shadow: 0 8px 20px -5px rgba(79, 70, 229, 0.4); 
              text-shadow: 0 1px 2px rgba(0,0,0,0.1); 
-             width: 100%; padding: 14px 20px; border: none; border-radius: 0.75rem; font-size: 15px; font-weight: 800; font-family: 'Manrope', sans-serif;
+             width: 100%; padding: 12px 20px; border: none; border-radius: 0.75rem; font-size: 15px; font-weight: 800; font-family: 'Manrope', sans-serif;
             cursor: pointer; transition: var(--transition-bounce);
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
@@ -205,7 +201,7 @@
 
         .btn-success {
             background: linear-gradient(135deg, var(--success), #059669); 
-             color: white; padding: 14px 20px; border-radius: 0.75rem; font-weight: 800; font-family: 'Manrope', sans-serif; border: none;
+             color: white; padding: 12px 20px; border-radius: 0.75rem; font-weight: 800; font-family: 'Manrope', sans-serif; border: none;
             cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
             box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.4); transition: var(--transition-bounce);
         }
@@ -221,33 +217,34 @@
         .picker-optgroup { padding: 8px 16px; font-size: 0.75em; font-weight: 800; text-transform: uppercase; color: var(--primary); background: #f8fafc; letter-spacing: 1px; border-y: 1px solid #e2e8f0;}
 
         /* UI Grids & Info Boxes */
-        .grid-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
-        .grid-row-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
+        .grid-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+        .grid-row-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
         .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
         
-        .info-box { background-color: var(--primary-light); border: 1px solid var(--border-focus); padding: 16px; margin-bottom: 24px; border-radius: 1rem; font-size: 0.9em; line-height: 1.5; color: var(--primary); display: flex; gap: 12px; font-weight: 600; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.05);}
+        .info-box { background-color: var(--primary-light); border: 1px solid var(--border-focus); padding: 12px 16px; margin-bottom: 20px; border-radius: 1rem; font-size: 0.9em; line-height: 1.5; color: var(--primary); display: flex; gap: 12px; font-weight: 600; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.05);}
 
         /* Test Engine & Options */
-        .progress-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
-        .progress-bg { background-color: #e2e8f0; border-radius: 99px; height: 8px; width: 100%; margin-bottom: 24px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);}
+        .progress-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+        .progress-bg { background-color: #e2e8f0; border-radius: 99px; height: 6px; width: 100%; margin-bottom: 16px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);}
         .progress-fill { background: linear-gradient(90deg, #3b82f6, var(--primary)); height: 100%; width: 0%; border-radius: 99px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(79, 70, 229, 0.4); }
         
-        .question-wrapper { padding: 10px 0 16px 0; }
+        .question-wrapper { padding: 0 0 10px 0; }
         .question-wrapper.animate { animation: slideInNext 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideInNext { 0% { opacity: 0; transform: translateX(30px) scale(0.98); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
-        .question-text { font-size: clamp(1.1em, 4.5vw, 1.35em); font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 24px; color: var(--text-main); line-height: 1.4; letter-spacing: -0.01em; }
+        .question-text { font-size: clamp(1.05em, 4vw, 1.25em); font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 16px; color: var(--text-main); line-height: 1.35; letter-spacing: -0.01em; }
         
-        .mcq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
-        .option-label { display: flex; align-items: center; justify-content: flex-start; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 1rem; cursor: pointer; transition: var(--transition-bounce); background: #fff; margin-bottom: 0; font-size: clamp(0.85em, 3.5vw, 1em); font-weight: 700; color: var(--text-main); position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); gap: 10px; height: 100%; }
+        /* Compact 2-1-2 Grid for Likert & Condensed MCQ */
+        .mcq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px; }
+        .option-label { display: flex; align-items: center; justify-content: flex-start; padding: 10px 12px; border: 2px solid #e2e8f0; border-radius: 1rem; cursor: pointer; transition: var(--transition-bounce); background: #fff; margin-bottom: 0; font-size: clamp(0.85em, 3.5vw, 0.95em); font-weight: 700; color: var(--text-main); position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); min-height: 48px; }
         .option-label:hover { border-color: var(--border-focus); background: #f8fafc; transform: translateY(-2px); box-shadow: 0 8px 15px -5px rgba(79, 70, 229, 0.1); }
         .option-label:has(input:checked) { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: 0 8px 15px -5px rgba(79, 70, 229, 0.15); transform: translateY(-1px); }
         .option-label input[type="radio"] { position: absolute; opacity: 0; cursor: pointer; }
 
-        .likert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        .likert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px; }
         .likert-option { position: relative; cursor: pointer; height: 100%; }
-        .likert-option.neutral-option { grid-column: 1 / -1; justify-self: center; width: 65%; }
+        .likert-option.neutral-option { grid-column: 1 / -1; justify-self: center; width: 80%; }
         .likert-option input[type="radio"] { position: absolute; opacity: 0; cursor: pointer; }
-        .likert-option span { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px 8px; border-radius: 1rem; background: #fff; border: 2px solid #e2e8f0; color: #64748b; font-weight: 800; font-size: clamp(0.75em, 2vw, 0.85em); line-height: 1.3; transition: var(--transition-bounce); height: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); }
+        .likert-option span { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px 8px; border-radius: 1rem; background: #fff; border: 2px solid #e2e8f0; color: #64748b; font-weight: 800; font-size: clamp(0.75em, 2.5vw, 0.85em); line-height: 1.2; transition: var(--transition-bounce); height: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); }
         .likert-option:hover span { transform: translateY(-2px); box-shadow: 0 8px 15px -5px rgba(0,0,0,0.06); border-color: #cbd5e1; color: var(--text-main); }
         .likert-option:has(input:checked) span { color: white; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15); transform: scale(1.03); border-color: transparent;}
         
@@ -258,33 +255,33 @@
         .likert-5:has(input:checked) span { background: linear-gradient(135deg, #059669, #047857); }
 
         /* Professional Results UI Enhancements */
-        .job-card { border: 2px solid #e2e8f0; border-radius: 1.25rem; padding: 24px; margin-bottom: 20px; background: #fff; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); transition: var(--transition-bounce); position: relative; overflow: hidden; opacity: 0; animation: popInRole 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .job-card { border: 2px solid #e2e8f0; border-radius: 1.25rem; padding: 20px; margin-bottom: 16px; background: #fff; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); transition: var(--transition-bounce); position: relative; overflow: hidden; opacity: 0; animation: popInRole 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .job-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 15px 30px -10px rgba(79, 70, 229, 0.12); border-color: var(--primary-light); background: linear-gradient(to bottom right, #ffffff, #f8fafc); }
         @keyframes popInRole { 0% { opacity: 0; transform: scale(0.95) translateY(15px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
         
-        .job-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-        .job-title { font-size: clamp(1.1em, 4vw, 1.25em); font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em;}
-        .match-score { font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--success), #059669); padding: 6px 14px; border-radius: 99px; font-size: 0.85em; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
-        .job-card p { margin-top: 4px; color: var(--text-muted); line-height: 1.5; font-size: 0.9em; font-weight: 600;}
+        .job-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .job-title { font-size: clamp(1.05em, 4vw, 1.2em); font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em;}
+        .match-score { font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--success), #059669); padding: 4px 12px; border-radius: 99px; font-size: 0.8em; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
+        .job-card p { margin-top: 4px; color: var(--text-muted); line-height: 1.5; font-size: 0.85em; font-weight: 600;}
         
-        .badge-analytical { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 6px 12px; background: #f1f5f9; color: #475569; font-size: 0.8em; font-weight: 800; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: inset 0 1px 2px rgba(255,255,255,0.5); }
+        .badge-analytical { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; background: #f1f5f9; color: #475569; font-size: 0.75em; font-weight: 800; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: inset 0 1px 2px rgba(255,255,255,0.5); }
         .badge-primary { background: var(--primary-light); color: var(--primary); border-color: var(--border-focus); }
         
-        .chart-container { position: relative; height: 300px; width: 100%; background: #fff; border-radius: 1.25rem; padding: 16px; border: 2px solid #e2e8f0; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); box-sizing: border-box; transition: transform 0.3s ease;}
+        .chart-container { position: relative; height: 280px; width: 100%; background: #fff; border-radius: 1.25rem; padding: 16px; border: 2px solid #e2e8f0; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); box-sizing: border-box; transition: transform 0.3s ease;}
         .chart-container:hover { transform: translateY(-2px); box-shadow: 0 12px 25px -5px rgba(0,0,0,0.06); }
         
-        .traits-panel { background: #fff; padding: 24px; border-radius: 1.25rem; border: 2px solid #e2e8f0; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); transition: transform 0.3s ease; }
+        .traits-panel { background: #fff; padding: 20px; border-radius: 1.25rem; border: 2px solid #e2e8f0; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); transition: transform 0.3s ease; }
         .traits-panel:hover { transform: translateY(-2px); box-shadow: 0 12px 25px -5px rgba(0,0,0,0.06); }
-        .traits-panel h4 { margin-top: 0; margin-bottom: 20px; color: var(--text-main); font-size: 1.1em; font-weight: 800; font-family: 'Poppins', sans-serif;}
+        .traits-panel h4 { margin-top: 0; margin-bottom: 16px; color: var(--text-main); font-size: 1.05em; font-weight: 800; font-family: 'Poppins', sans-serif;}
         
         /* Animated Progress Bars for Traits */
         .trait-bar-bg { background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 6px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);}
         .trait-bar-fill { background: linear-gradient(90deg, #6366f1, var(--primary)); height: 100%; border-radius: 4px; width: 0%; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);}
         
-        .timeline { border-left: 3px solid var(--border-focus); padding-left: 24px; margin-top: 24px; margin-left: 8px;}
-        .timeline-item { margin-bottom: 30px; position: relative; }
-        .timeline-item::before { content: ''; position: absolute; left: -32px; top: 0px; width: 16px; height: 16px; background: var(--primary); border-radius: 50%; border: 3px solid var(--primary-light); box-shadow: 0 0 8px rgba(79, 70, 229, 0.25);}
-        .timeline-date { font-weight: 800; color: var(--primary); font-size: 0.8em; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px;}
+        .timeline { border-left: 3px solid var(--border-focus); padding-left: 20px; margin-top: 20px; margin-left: 8px;}
+        .timeline-item { margin-bottom: 24px; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -28px; top: 0px; width: 14px; height: 14px; background: var(--primary); border-radius: 50%; border: 3px solid var(--primary-light); box-shadow: 0 0 8px rgba(79, 70, 229, 0.25);}
+        .timeline-date { font-weight: 800; color: var(--primary); font-size: 0.75em; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;}
 
         /* Floating Glass Taskbar */
         .taskbar-wrapper {
@@ -324,19 +321,28 @@
         }
         #app-toast.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 
-        /* Media Queries */
+        /* Mobile Anti-Overflow Media Queries */
         @media (max-width: 768px) {
-            body { padding: 10px 0 90px 0; }
-            .app-container { padding: 20px 15px; border-radius: 1.25rem; width: 95%; }
+            /* Guarantee extra padding at bottom so taskbar never covers options */
+            body { padding: 10px 0 120px 0; }
+            .app-container { padding: 16px 12px; border-radius: 1rem; width: 96%; }
             .profile-grid { grid-template-columns: 1fr; gap: 16px;}
-            .grid-row-3, .grid-row-2 { grid-template-columns: 1fr; gap: 12px; margin-top: 12px;}
+            .grid-row-3, .grid-row-2 { grid-template-columns: 1fr; gap: 10px; margin-top: 10px;}
             
-            /* Smart Stacking for Mobile to Prevent Overflow */
+            /* Squeeze margins & font sizes for perfect single-screen fit */
+            h2 { margin-bottom: 8px; }
+            .question-text { margin-bottom: 14px; font-size: 1.05rem; }
+            
+            /* Smart Stacking for MCQ to Prevent Overflow */
             .mcq-grid { grid-template-columns: 1fr; gap: 8px; }
-            .likert-grid { gap: 8px; }
+            .option-label { padding: 8px 10px; min-height: auto; }
+            .option-label strong { padding: 2px 8px; font-size: 0.9em; }
+            
+            /* Horizontal compact layout for Likert Options */
+            .likert-grid { gap: 6px; }
             .likert-option.neutral-option { width: 100%; } 
-            .likert-option span { padding: 10px 4px; font-size: 0.75em; flex-direction: column; justify-content: center; gap: 4px; }
-            .likert-option span strong { margin-bottom: 4px; font-size: 1.2em;}
+            .likert-option span { padding: 8px 10px; font-size: 0.72rem; flex-direction: row; justify-content: flex-start; text-align: left; gap: 8px; }
+            .likert-option span strong { margin-bottom: 0; font-size: 1.05em; padding: 2px 6px; }
             
             .chart-container { height: 260px; }
             .modal-card { height: 70vh; border-radius: 1.25rem 1.25rem 0 0; }
@@ -600,7 +606,7 @@
             <h3 style="margin-top: 0; font-size: 1.05em; color: var(--primary);">💡 Suggestions for Best Results</h3>
             <ul style="color: #475569; line-height: 1.5; margin-bottom: 0; padding-left: 18px; font-weight: 600; font-size: 0.9em;">
                 <li style="margin-bottom: 8px;"><strong>Environment:</strong> Find a quiet, distraction-free space.</li>
-                <li style="margin-bottom: 8px;"><strong>Test Format:</strong> <strong>90 balanced questions</strong> on Aptitude and Personality.</li>
+                <li style="margin-bottom: 8px;"><strong>Test Format:</strong> <strong>90 balanced questions</strong> (Personality + Aptitude).</li>
                 <li style="margin-bottom: 8px;"><strong>Answering:</strong> Use the <strong>A, B, C, D</strong> buttons below.</li>
                 <li><strong>Pacing:</strong> Strict 30-second timer per question. Do not overthink!</li>
             </ul>
@@ -618,7 +624,7 @@
 
     <div id="stage-3" class="stage no-select">
         <div class="progress-header">
-            <h2 id="module-title" style="margin-bottom: 0; border: none; padding: 0; font-size: 1.1em; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">Module Loading...</h2>
+            <h2 id="module-title" style="margin-bottom: 0; border: none; padding: 0; font-size: 1.1em; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">Test 1: Personality</h2>
             <div style="display: flex; gap: 8px; align-items: center;">
                 <span id="timer-display" style="color: #ea580c; font-weight: 800; font-size: 0.95em; background: #ffedd5; padding: 6px 12px; border-radius: 99px; transition: 0.3s; box-shadow: 0 2px 4px rgba(234, 88, 12, 0.1);">⏱ 30s</span>
                 <span id="question-counter" style="color: var(--primary); font-weight: 800; font-size: 0.95em; background: var(--primary-light); padding: 6px 12px; border-radius: 99px; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.1);"></span>
@@ -633,6 +639,17 @@
             <div class="question-text" id="question-text">Loading question...</div>
             <div id="options-area"></div>
         </div>
+    </div>
+
+    <!-- NEW: Phase Shift Interstitial Screen -->
+    <div id="stage-interstitial" class="stage text-center" style="padding: 40px 20px;">
+        <div style="font-size: 4em; margin-bottom: 20px; animation: float 3s ease-in-out infinite;">🧠</div>
+        <h2 style="border: none; color: var(--primary); font-size: clamp(1.8em, 6vw, 2.2em);">Phase 1 Complete!</h2>
+        <p style="color: var(--text-muted); font-size: clamp(0.95em, 4vw, 1.05em); max-width: 500px; margin: 0 auto 30px auto; line-height: 1.6; font-weight: 600;">
+            Great job! Take a deep breath. You have completed the Personality Profile.<br><br>
+            You are now entering <strong>Test 2: Aptitude Assessment</strong>. Grab a pen and paper if you need to calculate math or logic problems.
+        </p>
+        <button class="btn-brand-accent rounded-xl mx-auto" onclick="startPhase2()" style="max-width: 250px;">Start Phase 2 <i class="fas fa-arrow-right"></i></button>
     </div>
 
     <div id="stage-fail" class="stage" style="text-align: center; padding: 60px 10px;">
@@ -840,31 +857,34 @@
     // ==========================================
     // AUTO BACKGROUND PULL (Assets & Databases)
     // ==========================================
-    const dbFilesToPull = [
-        'jobs_database.js', 'questions_part1.js', 'questions_part2.js', 'questions_part3.js',
-        'questions_part4.js', 'questions_part5.js', 'questions_part6.js', 'questions_part7.js',
-        'questions_part8.js', 'questions_part9.js', 'questions_part10.js', 'academic_part1.js'
-    ];
-    
+    let databasesLoaded = false;
+
     function backgroundPullDatabases() {
+        const dbFilesToPull = [
+            'jobs_database.js', 'questions_part1.js', 'questions_part2.js', 'questions_part3.js',
+            'questions_part4.js', 'questions_part5.js', 'questions_part6.js', 'questions_part7.js',
+            'questions_part8.js', 'questions_part9.js', 'questions_part10.js', 'academic_part1.js'
+        ];
+        
+        let loadedCount = 0;
+        
         dbFilesToPull.forEach(function(file) {
-            loadScriptWithRetry(file, 0); 
+            const script = document.createElement('script');
+            script.src = file;
+            script.async = true; 
+            script.onload = function() { 
+                console.log("[Background Pull] Loaded: " + file); 
+                loadedCount++;
+                if (loadedCount === dbFilesToPull.length) databasesLoaded = true;
+            };
+            script.onerror = function() {
+                console.log("[System Note] " + file + " safe fallback active.");
+                loadedCount++;
+                if (loadedCount === dbFilesToPull.length) databasesLoaded = true;
+            };
+            document.head.appendChild(script);
         });
     }
-
-    function loadScriptWithRetry(src, retries) {
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true; 
-        script.onload = function() { console.log("[Background Pull] Loaded: " + src); };
-        script.onerror = function() {
-            if (retries > 0) { setTimeout(function() { loadScriptWithRetry(src, retries - 1); }, 2000); } 
-            else { console.log("[System Note] " + src + " safe fallback active."); }
-        };
-        document.head.appendChild(script);
-    }
-    
-    // Removed direct execution here. Will be called securely in DOMContentLoaded.
 
     function animateValue(obj, start, end, duration, formatCurrency = false) {
         let startTimestamp = null;
@@ -881,7 +901,12 @@
     }
     
     function getSafeGlobalVar(varName) {
-        if (typeof window[varName] !== 'undefined') return window[varName];
+        try {
+            const val = eval(varName);
+            if (typeof val !== 'undefined') return val;
+        } catch (e) {
+            // Ignore reference errors for missing scripts
+        }
         return undefined;
     }
 
@@ -958,15 +983,19 @@
     // Initialization & Event Listeners
     // ==========================================
     document.addEventListener("DOMContentLoaded", function() {
+        
+        // Smarter Height Picker Generation (Grouped by Feet)
         for(let feet = 7; feet >= 4; feet--) {
+            let groupObj = { group: `${feet} Feet`, items: [] };
             let startInches = (feet === 7) ? 0 : 11;
             for(let inches = startInches; inches >= 0; inches--) {
                 let cm = Math.round((feet * 12 + inches) * 2.54);
                 let label = `${feet} ft ${inches} in (${cm} cm)`;
                 if (feet === 7 && inches === 0) label += " or above";
                 else if (feet === 4 && inches === 0) label += " or below";
-                pickerData.height.push(label);
+                groupObj.items.push(label);
             }
+            pickerData.height.push(groupObj);
         }
         
         loadFormData(); 
@@ -991,8 +1020,13 @@
                     userScores = state.userScores;
                     maxScores = state.maxScores;
                     studentData = state.studentData;
-                    goToStage(3);
-                    renderQuestion();
+                    
+                    if (currentQuestionIndex === 45) {
+                        goToStage('interstitial');
+                    } else {
+                        goToStage(3);
+                        renderQuestion();
+                    }
                     shouldResume = true;
                 } catch(e) {
                     localStorage.removeItem('coc_test_state');
@@ -1359,7 +1393,15 @@
         const topJobMatch = finalRankedJobs && finalRankedJobs.length > 0 ? finalRankedJobs[0].title : "N/A";
         const topJobPercent = finalRankedJobs && finalRankedJobs.length > 0 ? finalRankedJobs[0].matchPercent + "%" : "N/A";
 
+        // 1. Generate or retrieve a Unique Session ID to tie all events to a single row
+        let studentId = localStorage.getItem('coc_student_id');
+        if (!studentId) {
+            studentId = 'COC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            localStorage.setItem('coc_student_id', studentId);
+        }
+
         const payload = {
+            studentId: studentId, // Added unique ID for backend deduplication
             type: statusType, ipAddress: userIP, name: studentData.name, phone: studentData.phone, email: studentData.email,
             age: studentData.age, dob: studentData.dob, gender: studentData.gender, height: studentData.height,
             motherLanguage: studentData.motherLanguage, educationCourse: studentData.educationCourse, sportsInterest: studentData.sportsInterest,
@@ -1368,11 +1410,23 @@
             topJob: topJobMatch, matchPercent: topJobPercent, scoreOutOf50: currentScoreOutOf50, discountAmount: currentDiscountAmount, scores: userScores
         };
         
+        // 2. Frontend Anti-Spam: Block identical requests from sending multiple times
+        const payloadString = JSON.stringify(payload);
+        const lastPayloadKey = 'coc_payload_hash_' + statusType.replace(/\s+/g, '');
+        
+        if (localStorage.getItem(lastPayloadKey) === payloadString) {
+            console.log(`[Google Sheets] Duplicate ${statusType} prevented by anti-spam.`);
+            return;
+        }
+
         try {
             await fetchWithRetry(CONFIG.GOOGLE_SCRIPT_URL, { 
                 method: "POST", mode: 'no-cors', headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify(payload) 
+                body: payloadString 
             });
+            
+            // Cache successful payload to prevent exact duplicates in the future
+            localStorage.setItem(lastPayloadKey, payloadString); 
         } catch (error) { 
             console.error("[Google Sheets] Data Sync Failed:", error);
             if(statusType === "Lead Captured") throw error; // Re-throw to handle in UI
@@ -1517,153 +1571,171 @@
         
         const startBtn = $id('btn-start-test-now');
         if (startBtn) {
-            startBtn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Loading...';
+            startBtn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Loading Questions...';
             startBtn.disabled = true;
         }
 
-        setTimeout(() => {
-            let riasecPool = [];
-            let academicPoolRaw = [];
+        // Wait to ensure background pulls are finished
+        let attempts = 0;
+        const checkDataInterval = setInterval(() => {
+            attempts++;
             
-            for(let i=1; i<=10; i++) {
-                let partData = getSafeGlobalVar(`questionsPart${i}`) || getSafeGlobalVar(`questions_part${i}`);
-                if(Array.isArray(partData)) riasecPool.push(...partData);
-            }
-            
-            let acadData = getSafeGlobalVar('academicPart1') || getSafeGlobalVar('academic_part1');
-            if(Array.isArray(acadData)) academicPoolRaw.push(...acadData);
-
-            if (riasecPool.length === 0) {
-                console.warn("External RIASEC questions missing. Generating fallback pool.");
-                const traits = ['realistic', 'investigative', 'artistic', 'social', 'enterprising', 'conventional'];
-                for(let i=0; i<50; i++) {
-                    riasecPool.push({
-                        type: 'likert', module: 'Personality Profile',
-                        text: `I generally enjoy activities related to ${traits[i%6]} tasks and environments.`,
-                        traitType: 'riasec', trait: traits[i%6]
-                    });
-                }
-            }
-            
-            if (academicPoolRaw.length === 0) {
-                console.warn("External Academic questions missing. Generating fallback pool.");
-                const traits = ['numerical', 'logical', 'verbal', 'general_awareness'];
-                for(let i=0; i<50; i++) {
-                    academicPoolRaw.push({
-                        type: 'mcq', module: 'Aptitude Test', qualifications: ["All"],
-                        text: `Evaluate the correct outcome for this ${traits[i%4]} scenario.`,
-                        options: [
-                            {text: "Primary Option", val: 5}, {text: "Alternative A", val: 0},
-                            {text: "Alternative B", val: 0}, {text: "Alternative C", val: 0}
-                        ],
-                        traitType: 'aptitude', trait: traits[i%4]
-                    });
-                }
-            }
-
-            let academicPool = [];
-            let fallbackAcademicPool = [];
-
-            academicPool = academicPoolRaw.filter(function(q) {
-                if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
-                return q.qualifications.some(function(qual) {
-                    return qual.toLowerCase().includes("10th") || qual.toLowerCase().includes("all");
-                });
-            });
-            
-            fallbackAcademicPool = academicPoolRaw.filter(function(q) { return !academicPool.includes(q); });
-
-            const selectBalanced = function(pool, neededCount) {
-                let grouped = {};
-                pool.forEach(function(q) {
-                    let t = q.trait || 'general';
-                    if (!grouped[t]) grouped[t] = [];
-                    grouped[t].push(q);
-                });
-                let traits = Object.keys(grouped);
-                traits.forEach(function(t) { grouped[t] = grouped[t].sort(function() { return 0.5 - Math.random(); }); });
+            if (databasesLoaded || attempts > 50) { // Wait up to 5 seconds max
+                clearInterval(checkDataInterval);
                 
-                let selected = [];
-                let i = 0;
-                while (selected.length < neededCount && traits.length > 0) {
-                    let trait = traits[i % traits.length];
-                    if (grouped[trait].length > 0) {
-                        selected.push(grouped[trait].shift());
-                        i++;
-                    } else {
-                        traits.splice(i % traits.length, 1);
+                let riasecPool = [];
+                let academicPoolRaw = [];
+                
+                for(let i=1; i<=10; i++) {
+                    let partData = getSafeGlobalVar(`questionsPart${i}`) || getSafeGlobalVar(`questions_part${i}`);
+                    if(Array.isArray(partData)) riasecPool.push(...partData);
+                }
+                
+                let acadData = getSafeGlobalVar('academicPart1') || getSafeGlobalVar('academic_part1');
+                if(Array.isArray(acadData)) academicPoolRaw.push(...acadData);
+
+                if (riasecPool.length === 0) {
+                    console.warn("External RIASEC questions missing. Generating fallback pool.");
+                    const traits = ['realistic', 'investigative', 'artistic', 'social', 'enterprising', 'conventional'];
+                    for(let i=0; i<50; i++) {
+                        riasecPool.push({
+                            type: 'likert', module: 'Personality Profile',
+                            text: `I generally enjoy activities related to ${traits[i%6]} tasks and environments.`,
+                            traitType: 'riasec', trait: traits[i%6]
+                        });
                     }
                 }
-                return selected;
-            };
-
-            const selectedRiasecRaw = selectBalanced(riasecPool, 45);
-            const selectedRiasec = selectedRiasecRaw.map(function(q) { return { ...q, categoryType: 'riasec' }; });
-            
-            let selectedAcademicRaw = selectBalanced(academicPool, 45);
-            
-            if (selectedAcademicRaw.length < 45) {
-                const needed = 45 - selectedAcademicRaw.length;
-                const fallback = selectBalanced(fallbackAcademicPool, needed);
-                selectedAcademicRaw.push(...fallback);
-            }
-            
-            const selectedAcademic = selectedAcademicRaw.map(function(q) { return { ...q, categoryType: 'academic' }; });
-            
-            activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(function() { return 0.5 - Math.random(); });
-            
-            for (let cat in userScores) {
-                for (let tr in userScores[cat]) {
-                    userScores[cat][tr] = 0;
-                    maxScores[cat][tr] = 0;
-                }
-            }
-            
-            activeQuestions.forEach(function(q) {
-                let maxVal = 5; 
-                if (q.type === 'mcq') {
-                    // Safety check to ensure there's options
-                    let ops = q.options || [];
-                    if(ops.length > 0) {
-                        let vals = ops.map(function(o) { return o.val !== undefined ? o.val : 5; });
-                        maxVal = Math.max(...vals) || 5; 
+                
+                if (academicPoolRaw.length === 0) {
+                    console.warn("External Academic questions missing. Generating fallback pool.");
+                    const traits = ['numerical', 'logical', 'verbal', 'general_awareness'];
+                    for(let i=0; i<50; i++) {
+                        academicPoolRaw.push({
+                            type: 'mcq', module: 'Aptitude Test', qualifications: ["All"],
+                            text: `Evaluate the correct outcome for this ${traits[i%4]} scenario.`,
+                            options: [
+                                {text: "Primary Option", val: 5}, {text: "Alternative A", val: 0},
+                                {text: "Alternative B", val: 0}, {text: "Alternative C", val: 0}
+                            ],
+                            traitType: 'aptitude', trait: traits[i%4]
+                        });
                     }
                 }
-                if (q.traitType && q.trait && maxScores[q.traitType] && maxScores[q.traitType][q.trait] !== undefined) {
-                    maxScores[q.traitType][q.trait] += maxVal;
-                }
-            });
 
-            currentQuestionIndex = 0;
-            answeredCount = 0;
-            answeredRiasecCount = 0;
-            answeredAcademicCount = 0;
-            isTestActive = true;
-            cheatWarnings = 0;
-            
-            saveTestState();
-            
-            if (startBtn) {
-                startBtn.innerHTML = `<span>Start Test Now</span><i class="fas fa-play text-lg sm:text-xl" aria-hidden="true"></i>`;
-                startBtn.disabled = false;
+                let academicPool = [];
+                let fallbackAcademicPool = [];
+
+                academicPool = academicPoolRaw.filter(function(q) {
+                    if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
+                    return q.qualifications.some(function(qual) {
+                        return qual.toLowerCase().includes("10th") || qual.toLowerCase().includes("all");
+                    });
+                });
+                
+                fallbackAcademicPool = academicPoolRaw.filter(function(q) { return !academicPool.includes(q); });
+
+                const selectBalanced = function(pool, neededCount) {
+                    let grouped = {};
+                    pool.forEach(function(q) {
+                        let t = q.trait || 'general';
+                        if (!grouped[t]) grouped[t] = [];
+                        grouped[t].push(q);
+                    });
+                    let traits = Object.keys(grouped);
+                    traits.forEach(function(t) { grouped[t] = grouped[t].sort(function() { return 0.5 - Math.random(); }); });
+                    
+                    let selected = [];
+                    let i = 0;
+                    while (selected.length < neededCount && traits.length > 0) {
+                        let trait = traits[i % traits.length];
+                        if (grouped[trait].length > 0) {
+                            selected.push(grouped[trait].shift());
+                            i++;
+                        } else {
+                            traits.splice(i % traits.length, 1);
+                        }
+                    }
+                    return selected;
+                };
+
+                const selectedRiasecRaw = selectBalanced(riasecPool, 45);
+                const selectedRiasec = selectedRiasecRaw.map(function(q) { return { ...q, categoryType: 'riasec' }; });
+                
+                let selectedAcademicRaw = selectBalanced(academicPool, 45);
+                
+                if (selectedAcademicRaw.length < 45) {
+                    const needed = 45 - selectedAcademicRaw.length;
+                    const fallback = selectBalanced(fallbackAcademicPool, needed);
+                    selectedAcademicRaw.push(...fallback);
+                }
+                
+                const selectedAcademic = selectedAcademicRaw.map(function(q) { return { ...q, categoryType: 'academic' }; });
+                
+                // SEQUENTIAL SPLIT: 45 Personality First, 45 Aptitude Second
+                activeQuestions = [...selectedRiasec, ...selectedAcademic];
+                
+                for (let cat in userScores) {
+                    for (let tr in userScores[cat]) {
+                        userScores[cat][tr] = 0;
+                        maxScores[cat][tr] = 0;
+                    }
+                }
+                
+                activeQuestions.forEach(function(q) {
+                    let maxVal = 5; 
+                    if (q.type === 'mcq') {
+                        let ops = q.options || [];
+                        if(ops.length > 0) {
+                            let vals = ops.map(function(o) { return o.val !== undefined ? o.val : 5; });
+                            maxVal = Math.max(...vals) || 5; 
+                        }
+                    }
+                    if (q.traitType && q.trait && maxScores[q.traitType] && maxScores[q.traitType][q.trait] !== undefined) {
+                        maxScores[q.traitType][q.trait] += maxVal;
+                    }
+                });
+
+                currentQuestionIndex = 0;
+                answeredCount = 0;
+                answeredRiasecCount = 0;
+                answeredAcademicCount = 0;
+                isTestActive = true;
+                cheatWarnings = 0;
+                
+                saveTestState();
+                
+                if (startBtn) {
+                    startBtn.innerHTML = `<span>Start Test Now</span><i class="fas fa-play text-lg sm:text-xl" aria-hidden="true"></i>`;
+                    startBtn.disabled = false;
+                }
+                
+                goToStage(3);
+                renderQuestion();
             }
-            
-            goToStage(3);
-            renderQuestion();
         }, 100);
+    };
+
+    window.startPhase2 = function() {
+        goToStage(3);
+        renderQuestion();
     };
 
     function renderQuestion() {
         const q = activeQuestions[currentQuestionIndex];
-        $id('module-title').innerText = q.module || "General";
-        $id('question-counter').innerText = `${currentQuestionIndex + 1} / ${activeQuestions.length}`;
+        const isTest1 = currentQuestionIndex < 45;
+        const testNum = isTest1 ? 1 : 2;
+        const qNum = isTest1 ? currentQuestionIndex + 1 : currentQuestionIndex - 44;
+        
+        $id('module-title').innerText = `Test ${testNum}: ${isTest1 ? "Personality" : "Aptitude"}`;
+        $id('question-counter').innerText = `Q ${qNum} / 45`;
         
         const wrapper = $id('question-wrapper');
         wrapper.classList.remove('animate');
         void wrapper.offsetWidth;
         wrapper.classList.add('animate');
         $id('question-text').innerText = q.text || "Question text missing";
-        $id('progress-fill').style.width = `${((currentQuestionIndex) / activeQuestions.length) * 100}%`;
+        
+        $id('progress-fill').style.width = `${((qNum - 1) / 45) * 100}%`;
         
         const area = $id('options-area');
         area.innerHTML = '';
@@ -1767,6 +1839,14 @@
             else answeredRiasecCount++;
         }
         currentQuestionIndex++;
+        
+        if (currentQuestionIndex === 45) {
+            clearInterval(questionTimerInterval);
+            saveTestState();
+            goToStage('interstitial');
+            return;
+        }
+
         if (currentQuestionIndex < activeQuestions.length) {
             saveTestState();
             renderQuestion();
@@ -1781,7 +1861,7 @@
         
         const sel = document.querySelector('input[name="answer"]:checked');
         if (!sel) { 
-             showToast("Please select an answer (A, B, C, D) first.");
+             showToast("Please select an answer first.");
              $id('taskbar-next-btn').disabled = false;
              return; 
          }
@@ -1798,6 +1878,13 @@
         else answeredRiasecCount++;
         
         currentQuestionIndex++;
+        
+        if (currentQuestionIndex === 45) {
+            clearInterval(questionTimerInterval);
+            saveTestState();
+            goToStage('interstitial');
+            return;
+        }
         
         if (currentQuestionIndex < activeQuestions.length) {
             saveTestState();
