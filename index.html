@@ -74,9 +74,10 @@
             }
         };
     </script>
-
-    <!-- Load Databases (Deferred for ultra-fast page rendering) -->
-    <script src="questions_part1.js" defer></script>
+    
+    <!-- Firebase Libraries (Deferred) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" defer></script>
     <script src="questions_part2.js" defer></script>
     <script src="questions_part3.js" defer></script>
     <script src="questions_part4.js" defer></script>
@@ -88,12 +89,6 @@
     <script src="questions_part10.js" defer></script>
     <script src="academic_part1.js" defer></script>
     
-    <!-- Firebase Libraries (Deferred) -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js" defer></script>
-    <script src="firebase-config.js" defer></script>
-
     <style>
         /* --- PREMIUM DESIGN SYSTEM --- */
         :root {
@@ -150,13 +145,14 @@
             position: relative;
             z-index: 10;
             overflow-x: hidden;
+            transition: height 0.3s ease;
         }
 
         /* Stage Transitions */
         .stage { display: none; opacity: 0; }
         .active-stage { 
              display: block; 
-             animation: scaleFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+             animation: scaleFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
          }
         @keyframes scaleFadeIn { 
              0% { opacity: 0; transform: translateY(15px) scale(0.98); } 
@@ -223,7 +219,7 @@
 
         /* Modals & Pickers */
         .modal-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 0; transition: var(--transition-smooth);}
-        .modal-card { background: white; width: 100%; max-width: 450px; height: 65vh; border-radius: 1.5rem 1.5rem 0 0; display: flex; flex-direction: column; animation: slideUpPicker 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; box-shadow: 0 -15px 40px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.8); margin: 0 auto;}
+        .modal-card { background: white; width: 100%; max-width: 450px; height: 65vh; border-radius: 1.5rem 1.5rem 0 0; display: flex; flex-direction: column; animation: slideUpPicker 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; box-shadow: 0 -15px 40px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.8); margin: 0 auto;}
         @keyframes slideUpPicker { 0% { transform: translateY(100%); opacity: 0;} 100% { transform: translateY(0); opacity: 1;} }
         
         .picker-option { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; font-weight: 700; cursor: pointer; transition: var(--transition-smooth); color: var(--text-main); display: flex; align-items: center; justify-content: space-between; font-size: 0.9em;}
@@ -362,16 +358,14 @@
 </head>
 <body>
 
-<!-- Animated Background Blobs -->
 <div class="fixed top-0 left-0 right-0 bottom-0 z-[-2] bg-slate-50"></div>
 <div class="fixed -top-20 -left-20 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-float" style="z-index: -1;"></div>
 <div class="fixed top-40 -right-20 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-float-delayed" style="z-index: -1;"></div>
 <div class="fixed -bottom-32 left-1/4 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-[120px] opacity-30 animate-float" style="z-index: -1;"></div>
 
-<!-- Welcome Popup Modal -->
 <div id="welcome-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden no-print">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeWelcomeModal()"></div>
-    <div class="relative bg-white/90 backdrop-blur-xl rounded-[1.5rem] w-full max-w-sm p-5 sm:p-6 shadow-2xl border border-white text-center" style="animation: scaleFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;">
+    <div class="relative bg-white/90 backdrop-blur-xl rounded-[1.5rem] w-full max-w-sm p-5 sm:p-6 shadow-2xl border border-white text-center" style="animation: scaleFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;">
         <button onclick="closeWelcomeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors">
             <i class="fas fa-times"></i>
         </button>
@@ -388,7 +382,6 @@
     </div>
 </div>
 
-<!-- Anti-Cheat Visual Blur Overlay -->
 <div id="anti-cheat-overlay" class="fixed inset-0 z-[999] bg-slate-900/95 backdrop-blur-3xl hidden flex-col items-center justify-center p-4 text-center no-print">
     <div class="relative w-16 h-16 mb-4">
         <div class="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-20"></div>
@@ -406,7 +399,6 @@
     <p class="text-slate-500 font-bold mt-4 text-[10px] uppercase tracking-widest">Powered by CoC Anti-Cheat Engine</p>
 </div>
 
-<!-- Custom Picker Modal -->
 <div id="picker-modal" class="modal-overlay hidden no-print" onclick="closePickerOnOverlay(event)">
     <div class="modal-card" id="picker-card">
         <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-radius: 1.25rem 1.25rem 0 0;">
@@ -418,12 +410,10 @@
             <input type="text" id="picker-search" placeholder="Search options..." oninput="filterPicker()" style="display: none; padding: 10px 14px; font-size: 0.95em; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 0.75rem; width: 100%;">
         </div>
         <div id="picker-list" style="overflow-y: auto; flex: 1; padding: 5px 0; background: #fff;">
-            <!-- Options dynamically injected here -->
-        </div>
+            </div>
     </div>
 </div>
 
-<!-- Legal/Text Content Modal -->
 <div id="legal-modal" class="modal-overlay hidden no-print" onclick="closeLegalOnOverlay(event)">
     <div class="modal-card">
         <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; border-radius: 1.25rem 1.25rem 0 0;">
@@ -431,16 +421,14 @@
             <button onclick="closeLegalModal()" style="width: auto; padding: 6px 12px; margin: 0; background: #f1f5f9; color: #475569; box-shadow: none; border-radius: 99px;"><i class="fas fa-times"></i></button>
         </div>
         <div id="legal-body" class="legal-content" style="padding: 16px 20px; overflow-y: auto; color: #475569; font-size: 0.9em; line-height: 1.5;">
-            <!-- Legal content injected here -->
-        </div>
+            </div>
     </div>
 </div>
 
 <div class="app-container">
-    <!-- STAGE 1: LEAD CAPTURE -->
     <div id="stage-1" class="stage active-stage">
         
-        <div class="flex flex-row items-center justify-start gap-4 sm:gap-6 mb-8 pb-6 border-b border-slate-200">
+        <div class="flex flex-row items-center justify-start gap-4 sm:gap-6 mb-6 pb-6 border-b border-slate-200">
             <div class="shrink-0 relative group">
                 <div class="absolute inset-0 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/30 transition-all"></div>
                 <img src="logo.png" alt="Club of Competition Logo" class="relative h-14 sm:h-20 w-auto bg-white p-2 rounded-xl shadow-md border border-slate-100" onerror="this.onerror=null; this.src='https://placehold.co/100x100/4f46e5/ffffff?text=CoC'">
@@ -456,111 +444,142 @@
             </div>
         </div>
 
-        <div class="form-group" style="margin-top: 8px;">
-            <label>Full Name <span class="required">*</span></label>
-            <input type="text" id="name" placeholder="E.g. Rahul Sharma" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+        <!-- Step Progress Indicator -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex gap-2 w-full">
+                <div id="step-dot-1" class="h-2 flex-1 rounded-full bg-primary transition-all"></div>
+                <div id="step-dot-2" class="h-2 flex-1 rounded-full bg-slate-200 transition-all"></div>
+                <div id="step-dot-3" class="h-2 flex-1 rounded-full bg-slate-200 transition-all"></div>
+            </div>
         </div>
-        
-        <div class="profile-grid" style="margin-top: 0; margin-bottom: 0;">
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>WhatsApp Number <span class="required">*</span></label>
-                <div style="display: flex; gap: 12px;">
-                    <input type="text" id="countryCode" class="input-picker" value="+91 (IN)" data-value="+91" readonly onclick="openPicker('countryCode', 'Select Country Code')" style="flex: 0 0 clamp(80px, 25vw, 120px);">
-                    <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="10-digit number" maxlength="10" style="flex: 1;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); checkFormValidity();">
+
+        <!-- FORM STEP 1: Basic Lead Capture -->
+        <div id="form-step-1" class="form-step">
+            <h3 class="text-lg font-bold mb-4 text-primary m-0"><i class="fas fa-user-circle mr-2"></i>1. Basic Details</h3>
+            <p class="text-xs text-slate-500 font-semibold mb-4">Let's start with your contact information.</p>
+            
+            <div class="form-group" style="margin-top: 8px;">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="name" placeholder="E.g. Rahul Sharma" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+            </div>
+            
+            <div class="profile-grid" style="margin-top: 0; margin-bottom: 0;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>WhatsApp Number <span class="required">*</span></label>
+                    <div style="display: flex; gap: 8px;">
+                        <span style="flex: 0 0 auto; display: flex; align-items: center; padding: 12px 16px; background: #e2e8f0; border: 2px solid #e2e8f0; border-radius: 0.75rem; color: #475569; font-weight: 800; font-size: clamp(13px, 3.5vw, 15px);">+91</span>
+                        <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="10-digit number" maxlength="10" style="flex: 1;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); checkFormValidity();">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="student@example.com">
                 </div>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Email Address <span class="required">*</span></label>
-                <input type="email" id="email" placeholder="student@example.com">
-            </div>
         </div>
 
-        <div class="form-group" style="margin-top: 24px;">
-            <label>Education & Course <span class="required">*</span></label>
-            <input type="text" id="educationCourse" class="input-picker" placeholder="Select Education / Course" readonly onclick="openPicker('educationCourse', 'Select Education & Course')">
-        </div>
+        <!-- FORM STEP 2: Profile & Academic -->
+        <div id="form-step-2" class="form-step hidden">
+            <div class="flex items-center gap-3 mb-4">
+                <button onclick="goToFormStep(1)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border-0 cursor-pointer shrink-0"><i class="fas fa-arrow-left"></i></button>
+                <h3 class="text-lg font-bold text-primary m-0"><i class="fas fa-graduation-cap mr-2"></i>2. Profile & Academic</h3>
+            </div>
+            
+            <div class="form-group" style="margin-top: 8px;">
+                <label>Education & Course <span class="required">*</span></label>
+                <input type="text" id="educationCourse" class="input-picker" placeholder="Select Education / Course" readonly onclick="openPicker('educationCourse', 'Select Education & Course')">
+            </div>
 
-        <div class="grid-row-3" style="margin-top: 24px; margin-bottom: 24px;">
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Date of Birth <span class="required">*</span></label>
-                <input type="date" id="dob" onchange="checkAge()">
+            <div class="grid-row-3" style="margin-top: 24px; margin-bottom: 24px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Date of Birth <span class="required">*</span></label>
+                    <input type="date" id="dob" onchange="checkAge()">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Age <span class="required">*</span></label>
+                    <input type="text" id="age" placeholder="Auto Calculate" readonly style="background: #e2e8f0; color: #64748b; border: 1px solid transparent; cursor: not-allowed; pointer-events: none;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Height <span class="required">*</span></label>
+                    <input type="text" id="height" class="input-picker" placeholder="Select" readonly onclick="openPicker('height', 'Select Height')">
+                </div>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Age <span class="required">*</span></label>
-                <input type="text" id="age" placeholder="Auto Calculate" readonly style="background: #e2e8f0; color: #64748b; border: 1px solid transparent; cursor: not-allowed; pointer-events: none;">
-            </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Height <span class="required">*</span></label>
-                <input type="text" id="height" class="input-picker" placeholder="Select" readonly onclick="openPicker('height', 'Select Height')">
-            </div>
-        </div>
 
-        <div class="grid-row-3">
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Interest in Sports <span class="required">*</span></label>
-                <input type="text" id="sportsInterest" class="input-picker" placeholder="Select" readonly onclick="openPicker('sportsInterest', 'Sports Interest Level')">
+            <div class="grid-row-3">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Interest in Sports <span class="required">*</span></label>
+                    <input type="text" id="sportsInterest" class="input-picker" placeholder="Select" readonly onclick="openPicker('sportsInterest', 'Sports Interest Level')">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Mother Tongue <span class="required">*</span></label>
+                    <input type="text" id="motherLanguage" class="input-picker" placeholder="Select" readonly onclick="openPicker('motherLanguage', 'Select Mother Tongue')">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Gender <span class="required">*</span></label>
+                    <input type="text" id="gender" class="input-picker" placeholder="Select" readonly onclick="openPicker('gender', 'Select Gender')">
+                </div>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Mother Tongue <span class="required">*</span></label>
-                <input type="text" id="motherLanguage" class="input-picker" placeholder="Select" readonly onclick="openPicker('motherLanguage', 'Select Mother Tongue')">
-            </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Gender <span class="required">*</span></label>
-                <input type="text" id="gender" class="input-picker" placeholder="Select" readonly onclick="openPicker('gender', 'Select Gender')">
-            </div>
-        </div>
-
-        <div class="grid-row-3">
-            <div class="form-group" style="margin-bottom: 0;">
+            
+            <div class="form-group" style="margin-top: 16px;">
                 <label>Physical Disability <span class="required">*</span></label>
                 <input type="text" id="pwd" class="input-picker" placeholder="Select" readonly onclick="openPicker('pwd', 'Any Physical Disability?')">
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Caste <span class="required">*</span></label>
-                <input type="text" id="caste" class="input-picker" placeholder="Select" readonly onclick="openPicker('caste', 'Select Caste')">
-            </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Community <span class="required">*</span></label>
-                <input type="text" id="community" class="input-picker" placeholder="Select" readonly onclick="openPicker('community', 'Select Community')">
-            </div>
         </div>
 
-        <div class="grid-row-3">
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Pincode <span class="required">*</span></label>
-                <input type="text" inputmode="numeric" maxlength="6" id="pincode" placeholder="6-digits" oninput="fetchLocationByPincode()">
+        <!-- FORM STEP 3: Location & Finalize -->
+        <div id="form-step-3" class="form-step hidden">
+            <div class="flex items-center gap-3 mb-4">
+                <button onclick="goToFormStep(2)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border-0 cursor-pointer shrink-0"><i class="fas fa-arrow-left"></i></button>
+                <h3 class="text-lg font-bold text-primary m-0"><i class="fas fa-map-marker-alt mr-2"></i>3. Location & Setup</h3>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>State <span class="required">*</span></label>
-                <input type="text" id="state" placeholder="Auto-detected" readonly style="background: #e2e8f0; color: #64748b; border: 1px solid transparent; cursor: not-allowed;">
+            
+            <div class="grid-row-2">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Caste <span class="required">*</span></label>
+                    <input type="text" id="caste" class="input-picker" placeholder="Select" readonly onclick="openPicker('caste', 'Select Caste')">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Community <span class="required">*</span></label>
+                    <input type="text" id="community" class="input-picker" placeholder="Select" readonly onclick="openPicker('community', 'Select Community')">
+                </div>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>District <span class="required">*</span></label>
-                <input type="text" id="district" placeholder="Auto-detected" readonly style="background: #e2e8f0; color: #64748b; border: 1px solid transparent; cursor: not-allowed;" oninput="this.value = this.value.replace(/[0-9]/g, '')">
-            </div>
-        </div>
 
-        <div class="form-group" style="margin-top: 24px;">
-            <label>Full Address <span class="required">*</span></label>
-            <input type="text" id="address" placeholder="Enter your full present address">
-        </div>
+            <div class="grid-row-3" style="margin-top: 16px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Pincode <span class="required">*</span></label>
+                    <input type="text" inputmode="numeric" maxlength="6" id="pincode" placeholder="6-digits" oninput="fetchLocationByPincode()">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>State <span class="required">*</span></label>
+                    <input type="text" id="state" placeholder="Auto-detected" readonly style="background: #e2e8f0; color: #64748b; border: 1px solid transparent; cursor: not-allowed;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>District <span class="required">*</span></label>
+                    <input type="text" id="district" placeholder="Auto-detected" readonly style="background: #e2e8f0; color: #64748b; border: 1px solid transparent; cursor: not-allowed;" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                </div>
+            </div>
 
-        <div style="margin-top: 40px;">
-            <label class="checkbox-wrapper" style="align-items: center;">
-                <input type="checkbox" id="dataConsent" checked> 
-                <span>I agree to the <a href="javascript:void(0)" class="text-primary hover:text-indigo-700 font-bold underline transition-colors" onclick="openLegalModal('privacy')">Privacy Policy</a>, <a href="javascript:void(0)" class="text-primary hover:text-indigo-700 font-bold underline transition-colors" onclick="openLegalModal('terms')">Terms</a> & <a href="javascript:void(0)" class="text-primary hover:text-indigo-700 font-bold underline transition-colors" onclick="openLegalModal('disclaimer')">Disclaimer</a>. <span class="required">*</span></span>
-            </label>
-        </div>
-        
-        <div id="parental-consent-group" class="hidden" style="margin-top: 12px;">
-            <label class="checkbox-wrapper" style="margin-bottom: 0; background: #fffbeb; border-color: #fde68a; padding: 14px; align-items: center;">
-                <input type="checkbox" id="parentalConsent" checked style="border-color: #f59e0b;"> 
-                <span style="color: #92400e;"><strong>I am under 18.</strong> My parent/guardian consents.</span>
-            </label>
+            <div class="form-group" style="margin-top: 16px;">
+                <label>Full Address <span class="required">*</span></label>
+                <input type="text" id="address" placeholder="Enter your full present address">
+            </div>
+
+            <div style="margin-top: 32px;">
+                <label class="checkbox-wrapper" style="align-items: center;">
+                    <input type="checkbox" id="dataConsent" checked> 
+                    <span>I agree to the <a href="javascript:void(0)" class="text-primary hover:text-indigo-700 font-bold underline transition-colors" onclick="openLegalModal('privacy')">Privacy Policy</a>, <a href="javascript:void(0)" class="text-primary hover:text-indigo-700 font-bold underline transition-colors" onclick="openLegalModal('terms')">Terms</a> & <a href="javascript:void(0)" class="text-primary hover:text-indigo-700 font-bold underline transition-colors" onclick="openLegalModal('disclaimer')">Disclaimer</a>. <span class="required">*</span></span>
+                </label>
+            </div>
+            
+            <div id="parental-consent-group" class="hidden" style="margin-top: 12px;">
+                <label class="checkbox-wrapper" style="margin-bottom: 0; background: #fffbeb; border-color: #fde68a; padding: 14px; align-items: center;">
+                    <input type="checkbox" id="parentalConsent" checked style="border-color: #f59e0b;"> 
+                    <span style="color: #92400e;"><strong>I am under 18.</strong> My parent/guardian consents.</span>
+                </label>
+            </div>
         </div>
     </div>
 
-    <!-- STAGE 2: PRE-TEST SETUP & PAYMENT -->
     <div id="stage-2" class="stage">
         <div style="text-align:center; margin-bottom:20px;">
             <span style="color:var(--primary); font-weight:900; font-size:0.8em; letter-spacing:1.5px; text-transform:uppercase;">Club of Competition</span>
@@ -578,7 +597,7 @@
             <h3 style="margin-top: 0; font-size: 1.05em; color: var(--primary);">💡 Suggestions for Best Results</h3>
             <ul style="color: #475569; line-height: 1.5; margin-bottom: 0; padding-left: 18px; font-weight: 600; font-size: 0.9em;">
                 <li style="margin-bottom: 8px;"><strong>Environment:</strong> Find a quiet, distraction-free space.</li>
-                <li style="margin-bottom: 8px;"><strong>Test Format:</strong> <strong>2 balanced questions</strong> on Aptitude and Personality.</li>
+                <li style="margin-bottom: 8px;"><strong>Test Format:</strong> <strong>90 balanced questions</strong> on Aptitude and Personality.</li>
                 <li style="margin-bottom: 8px;"><strong>Answering:</strong> Use the <strong>A, B, C, D</strong> buttons below.</li>
                 <li><strong>Pacing:</strong> Strict 30-second timer per question. Do not overthink!</li>
             </ul>
@@ -594,7 +613,6 @@
         </div>
     </div>
 
-    <!-- STAGE 3: TEST ENGINE -->
     <div id="stage-3" class="stage no-select">
         <div class="progress-header">
             <h2 id="module-title" style="margin-bottom: 0; border: none; padding: 0; font-size: 1.1em; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">Module Loading...</h2>
@@ -614,7 +632,6 @@
         </div>
     </div>
 
-    <!-- STAGE 4: AI ANALYSIS -->
     <div id="stage-4" class="stage" style="text-align: center; padding: 60px 10px;">
         <h2 style="border: none; font-size: clamp(2em, 8vw, 2.5em); background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;" class="font-poppins">AI Engine Processing</h2>
         <div class="spinner-container">
@@ -625,7 +642,6 @@
         <p style="color: var(--text-muted); margin-top: 10px; font-size: clamp(0.95em, 4vw, 1.05em); font-weight: 600;">Calculating your precise career blueprint.</p>
     </div>
 
-    <!-- STAGE FAIL: INCOMPLETE TEST -->
     <div id="stage-fail" class="stage" style="text-align: center; padding: 60px 10px;">
         <div style="font-size: 4em; margin-bottom: 20px; animation: float 3s ease-in-out infinite;">⚠️</div>
         <h2 style="border: none; color: var(--text-main); font-size: clamp(2em, 8vw, 2.5em);">Test Incomplete</h2>
@@ -635,52 +651,73 @@
         <button class="btn-brand-accent rounded-xl mx-auto" onclick="submitStage2()" style="max-width: 250px;">Take the Test Again</button>
     </div>
 
-    <!-- STAGE 5: PERSONALIZED REPORT -->
-    <div id="stage-5" class="stage">
-        <!-- BRAND HEADER FOR PRINT/REPORT -->
-        <div class="brand-header flex flex-row items-center justify-center gap-3 sm:gap-5 mb-8 pb-6 border-b border-dashed border-slate-200">
-            <div class="shrink-0 inline-flex items-center justify-center p-2 bg-gradient-to-tr from-primary to-purple-600 rounded-xl shadow-md shadow-indigo-200">
-                <img src="logo.png" alt="Logo" class="h-10 sm:h-12 w-auto bg-white rounded-lg p-1" onerror="this.onerror=null; this.src='https://placehold.co/40x40/4f46e5/ffffff?text=C'">
-            </div>
-            <div class="flex flex-col items-start text-left">
-                <h1 class="text-lg sm:text-3xl font-black font-poppins text-dark uppercase tracking-tight mb-0.5">Club of Competition</h1>
-                <p class="text-primary font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs m-0">Official Career Blueprint</p>
-                <p id="report-timestamp" class="text-[8px] sm:text-[10px] text-slate-400 font-bold mt-1 sm:mt-2 tracking-wider uppercase"></p>
+    <div id="stage-5" class="stage relative bg-white sm:rounded-[1.5rem] sm:p-2">
+        
+        <!-- Official Brand Watermark -->
+        <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden rounded-[1.5rem]">
+            <div class="transform -rotate-45 opacity-[0.03] text-primary font-black font-poppins leading-tight text-center select-none" style="font-size: clamp(60px, 12vw, 150px); width: 250%; margin-left: -75%;">
+                CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION
             </div>
         </div>
-        
-        <!-- NEW SCORE SECTION -->
-        <div style="background: linear-gradient(145deg, #ffffff, #f8fafc); border: 2px solid #e2e8f0; border-radius: 1.5rem; padding: clamp(20px, 5vw, 30px) clamp(15px, 4vw, 20px); text-align: center; margin-bottom: 30px; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.05);">
-            <p style="margin: 0; color: var(--primary); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: clamp(0.7em, 2.5vw, 0.8em);">Your Assessment Score</p>
-            <h2 style="margin: 12px 0 0 0; font-size: clamp(3em, 12vw, 4.5em); background: linear-gradient(135deg, #0f172a, #334155); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; line-height: 1; font-family: 'Poppins', sans-serif; letter-spacing: -0.02em;"><span id="final-score">0</span><span style="font-size: 0.35em; color: #94a3b8; font-weight: 800; -webkit-text-fill-color: initial;"> / 50</span></h2>
-            
-            <div style="margin-top: 15px; font-size: 1.1em; color: var(--primary); font-weight: 800;">
-                Core Archetype: <span id="user-archetype" style="color: var(--text-main); font-family: 'Poppins', sans-serif; background: var(--primary-light); padding: 4px 10px; border-radius: 6px; font-size: 1.1em; box-shadow: inset 0 1px 2px rgba(255,255,255,0.5); border: 1px solid var(--border-focus);"></span>
-            </div>
 
-            <div style="margin-top: 24px; padding: 16px 20px; background: linear-gradient(135deg, #ecfdf5, #d1fae5); color: #047857; border-radius: 1rem; border: 2px solid #10b981; display: inline-block; box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.2); max-width: 100%; animation: pulse-slow 3s infinite;">
-                <div style="font-weight: 900; font-size: clamp(1.05em, 4vw, 1.3em); font-family: 'Poppins', sans-serif; letter-spacing: -0.01em;">🎉 Scholarship Unlocked: <span id="discount-amount">₹0</span></div>
-                <div style="font-size: clamp(0.7em, 2.5vw, 0.8em); font-weight: 800; margin-top: 6px; color: #059669; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">( 1 Mark = ₹1,000 Discount )</div>
+        <div class="relative z-10">
+            <div class="brand-header flex flex-row items-center justify-center gap-3 sm:gap-5 mb-6 pb-6 border-b border-dashed border-slate-200">
+                <div class="shrink-0 inline-flex items-center justify-center p-2 bg-gradient-to-tr from-primary to-purple-600 rounded-xl shadow-md shadow-indigo-200">
+                    <img src="logo.png" alt="Logo" class="h-10 sm:h-12 w-auto bg-white rounded-lg p-1" onerror="this.onerror=null; this.src='https://placehold.co/40x40/4f46e5/ffffff?text=C'">
+                </div>
+                <div class="flex flex-col items-start text-left">
+                    <h1 class="text-lg sm:text-3xl font-black font-poppins text-dark uppercase tracking-tight mb-0.5">Club of Competition</h1>
+                    <p class="text-primary font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[8px] sm:text-xs m-0">Official Career Blueprint</p>
+                    <p id="report-timestamp" class="text-[8px] sm:text-[10px] text-slate-400 font-bold mt-1 sm:mt-2 tracking-wider uppercase"></p>
+                </div>
             </div>
+            
+            <!-- STUDENT DETAILS CARD -->
+            <div class="bg-slate-50/90 border border-slate-200 rounded-xl p-4 sm:p-5 mb-8 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 backdrop-blur-sm">
+                <div>
+                    <p class="text-[10px] sm:text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Candidate Profile</p>
+                    <h2 id="report-student-name" class="m-0 text-xl sm:text-2xl font-black text-dark font-poppins uppercase tracking-tight"></h2>
+                    <p id="report-student-edu" class="m-0 text-sm font-bold text-slate-600 mt-1"></p>
+                </div>
+                <div class="sm:text-right bg-white p-3 rounded-lg border border-slate-200 shadow-inner w-full sm:w-auto">
+                    <p class="text-[10px] sm:text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Contact & Demo</p>
+                    <p id="report-student-phone" class="m-0 text-sm font-extrabold text-primary mb-1"></p>
+                    <p id="report-student-meta" class="m-0 text-xs font-bold text-slate-500 uppercase tracking-wider"></p>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(145deg, #ffffff, #f8fafc); border: 2px solid #e2e8f0; border-radius: 1.5rem; padding: clamp(20px, 5vw, 30px) clamp(15px, 4vw, 20px); text-align: center; margin-bottom: 30px; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.05);">
+                <p style="margin: 0; color: var(--primary); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: clamp(0.7em, 2.5vw, 0.8em);">Your Assessment Score</p>
+                <h2 style="margin: 12px 0 0 0; font-size: clamp(3em, 12vw, 4.5em); background: linear-gradient(135deg, #0f172a, #334155); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; line-height: 1; font-family: 'Poppins', sans-serif; letter-spacing: -0.02em;"><span id="final-score">0</span><span style="font-size: 0.35em; color: #94a3b8; font-weight: 800; -webkit-text-fill-color: initial;"> / 50</span></h2>
+                
+                <div style="margin-top: 15px; font-size: 1.1em; color: var(--primary); font-weight: 800;">
+                    Core Archetype: <span id="user-archetype" style="color: var(--text-main); font-family: 'Poppins', sans-serif; background: var(--primary-light); padding: 4px 10px; border-radius: 6px; font-size: 1.1em; box-shadow: inset 0 1px 2px rgba(255,255,255,0.5); border: 1px solid var(--border-focus);"></span>
+                </div>
+
+                <div style="margin-top: 24px; padding: 16px 20px; background: linear-gradient(135deg, #ecfdf5, #d1fae5); color: #047857; border-radius: 1rem; border: 2px solid #10b981; display: inline-block; box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.2); max-width: 100%; animation: pulse-slow 3s infinite;">
+                    <div style="font-weight: 900; font-size: clamp(1.05em, 4vw, 1.3em); font-family: 'Poppins', sans-serif; letter-spacing: -0.01em;">🎉 Scholarship Unlocked: <span id="discount-amount">₹0</span></div>
+                    <div style="font-size: clamp(0.7em, 2.5vw, 0.8em); font-weight: 800; margin-top: 6px; color: #059669; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">( 1 Mark = ₹1,000 Discount )</div>
+                </div>
+            </div>
+            
+            <h3><span class="text-xl mr-2">🎯</span> Top 3 Recommended Career Paths</h3>
+            <div id="jobs-container"></div>
+            
+            <h3><span class="text-2xl mr-2">📊</span> Your Profile Summary</h3>
+            <div class="profile-grid">
+                <div class="chart-container flex items-center justify-center">
+                    <div id="chart-fallback" class="hidden text-slate-500 font-bold p-4 text-center">Chart engine loading...</div>
+                    <canvas id="riasecChart"></canvas>
+                </div>
+                <div class="traits-panel">
+                    <h4>Aptitude Breakdown</h4>
+                    <div id="traits-list" style="display: flex; flex-direction: column; gap: 16px;"></div>
+                </div>
+            </div>
+            <button class="btn-brand-accent rounded-xl no-print" style="margin-top: 30px; font-size: 1.1em;" onclick="goToStage(6)">Unlock My Action Plan 🚀</button>
         </div>
-        
-        <h3><span class="text-xl mr-2">🎯</span> Top Suggested Roles</h3>
-        <div id="jobs-container"></div>
-        
-        <h3><span class="text-2xl mr-2">📊</span> Your Profile Summary</h3>
-        <div class="profile-grid">
-            <div class="chart-container flex items-center justify-center">
-                <canvas id="riasecChart"></canvas>
-            </div>
-            <div class="traits-panel">
-                <h4>Aptitude Breakdown</h4>
-                <div id="traits-list" style="display: flex; flex-direction: column; gap: 16px;"></div>
-            </div>
-        </div>
-        <button class="btn-brand-accent rounded-xl no-print" style="margin-top: 30px; font-size: 1.1em;" onclick="goToStage(6)">Unlock My Action Plan 🚀</button>
     </div>
 
-    <!-- STAGE 6: ACTION PLAN -->
     <div id="stage-6" class="stage">
         <h2 class="no-print" style="border: none; font-size: clamp(1.6em, 6vw, 2em);">Your Next Steps</h2>
         <div class="profile-grid no-print" style="margin-bottom: 30px; margin-top: 16px;">
@@ -698,7 +735,6 @@
                     ✅ Received! Expert will call at <br><span id="display-phone" style="font-size: 1.15em; display: inline-block; margin-top: 6px; color: #064e3b; letter-spacing: 0.5px;"></span>
                 </div>
                 
-                <!-- Scarcity / Urgency Timer -->
                 <div style="background: #fee2e2; border: 2px dashed #ef4444; border-radius: 0.75rem; padding: 16px; margin-top: 16px; text-align: center; position: relative; z-10;">
                     <span style="color: #b91c1c; font-weight: 800; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px;">⏳ Offer Expires In</span>
                     <div id="countdown-clock" style="font-size: 1.8em; font-family: 'Poppins', sans-serif; font-weight: 900; color: #ef4444; margin-top: 4px; font-variant-numeric: tabular-nums; letter-spacing: 1px;">48:00:00</div>
@@ -729,37 +765,30 @@
     </div>
 </div>
 
-<!-- Fixed Taskbar (Stage 1 ONLY - Lead Capture & Payment) -->
 <div id="stage1-taskbar" class="taskbar-wrapper no-print">
     <div class="taskbar px-2 sm:px-4 py-2 h-[64px] sm:h-[72px]">
-        <!-- Smart Pay & Proceed -->
-        <button onclick="initiatePayment()" id="tb-pay-btn" class="w-full h-full rounded-[14px] bg-slate-200/90 text-slate-700 font-extrabold transition-all flex flex-row items-center justify-center gap-2 text-xs sm:text-sm cursor-not-allowed border border-slate-400 mx-1 focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Pay to Start">
-            <i class="fas fa-lock text-lg sm:text-xl" aria-hidden="true"></i>
-            <span>Pay to Start</span>
+        <button onclick="handleTaskbarAction()" id="tb-pay-btn" class="w-full h-full rounded-[14px] bg-slate-200/90 text-slate-700 font-extrabold transition-all flex flex-row items-center justify-center gap-2 text-xs sm:text-sm cursor-not-allowed border border-slate-400 mx-1 focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Next Step">
+            <i class="fas fa-arrow-right text-lg sm:text-xl text-slate-400" aria-hidden="true"></i>
+            <span class="text-slate-500">Next: Profile details</span>
         </button>
     </div>
 </div>
 
-<!-- Fixed Taskbar (Stage 2 ONLY - Pre-Test Setup) -->
 <div id="stage2-taskbar" class="taskbar-wrapper no-print hidden">
     <div class="taskbar px-2 sm:px-4 py-2 h-[64px] sm:h-[72px]">
-        <!-- Start Test Now -->
-        <button onclick="submitStage2()" class="w-full h-full rounded-[14px] bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold border border-transparent shadow-md shadow-indigo-500/40 transition-all flex flex-row items-center justify-center gap-2 text-sm sm:text-base hover:-translate-y-1 active:scale-95 mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" aria-label="Start Test Now">
+        <button onclick="submitStage2()" id="btn-start-test-now" class="w-full h-full rounded-[14px] bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold border border-transparent shadow-md shadow-indigo-500/40 transition-all flex flex-row items-center justify-center gap-2 text-sm sm:text-base hover:-translate-y-1 active:scale-95 mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" aria-label="Start Test Now">
             <span>Start Test Now</span>
             <i class="fas fa-play text-lg sm:text-xl" aria-hidden="true"></i>
         </button>
     </div>
 </div>
 
-<!-- Fixed Taskbar (Stage 5 & 6 ONLY - Results & Sharing) -->
 <div id="result-taskbar" class="taskbar-wrapper no-print hidden">
     <div class="taskbar px-2 sm:px-4 py-2 h-[64px] sm:h-[72px]">
-        <!-- Download PDF -->
         <button onclick="window.print()" class="flex-1 h-full rounded-[14px] bg-red-50 text-red-700 font-extrabold border border-red-300 hover:bg-red-100 hover:border-red-400 transition-all flex flex-row items-center justify-center gap-1.5 text-[10px] sm:text-xs mx-1 focus-visible:ring-4 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:outline-none" aria-label="Download PDF">
             <i class="fas fa-file-pdf text-base sm:text-lg" aria-hidden="true"></i>
             <span>Download PDF</span>
         </button>
-        <!-- Share Result -->
         <button id="share-result-btn" onclick="shareResultScreenshot()" class="flex-[1.5] h-full rounded-[14px] bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold shadow-md shadow-indigo-500/40 transition-all flex flex-row items-center justify-center gap-1.5 text-[11px] sm:text-xs hover:-translate-y-1 active:scale-95 mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" aria-label="Share Result">
             <i class="fas fa-share-nodes text-base sm:text-lg" aria-hidden="true"></i>
             <span>Share Result</span>
@@ -767,17 +796,14 @@
     </div>
 </div>
 
-<!-- Fixed Taskbar (Test Mode ONLY - Answers & Submit) -->
 <div id="test-taskbar" class="taskbar-wrapper no-print hidden">
     <div class="taskbar px-2 sm:px-4 py-2 h-[64px] sm:h-[72px]">
-        <!-- Taskbar Submit Button -->
         <button id="taskbar-next-btn" onclick="nextQuestion(event)" class="w-full h-full rounded-[14px] text-xs sm:text-sm bg-primary text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Submit Answer">
             Wait...
         </button>
     </div>
 </div>
 
-<!-- Custom Scripts -->
 <script>
     // ==========================================
     // Configuration & Helpers
@@ -803,13 +829,62 @@
         .then(function(data) { userIP = data.ip; })
         .catch(function(err) { console.log("IP fetch blocked or failed"); });
 
+    // ==========================================
+    // AUTO BACKGROUND PULL (Assets & Databases)
+    // ==========================================
+    const dbFilesToPull = [
+        'jobs_database.js',
+        'questions_part1.js',
+        'questions_part2.js',
+        'questions_part3.js',
+        'questions_part4.js',
+        'questions_part5.js',
+        'questions_part6.js',
+        'questions_part7.js',
+        'questions_part8.js',
+        'questions_part9.js',
+        'questions_part10.js',
+        'academic_part1.js'
+    ];
+    let loadedDBsCount = 0;
+
+    function backgroundPullDatabases() {
+        dbFilesToPull.forEach(function(file) {
+            // Set retries to 0 to prevent console spam and 404 loops when files are not yet uploaded.
+            loadScriptWithRetry(file, 0); 
+        });
+    }
+
+    function loadScriptWithRetry(src, retries) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true; // Load asynchronously in the background
+        script.onload = function() {
+            loadedDBsCount++;
+            console.log("[Background Pull] Successfully loaded: " + src);
+        };
+        script.onerror = function() {
+            if (retries > 0) {
+                // Wait 2 seconds before retrying to allow network recovery
+                setTimeout(function() { loadScriptWithRetry(src, retries - 1); }, 2000);
+            } else {
+                // Silently handle missing files to avoid fatal console errors. 
+                // The test engine automatically generates mock fallback data if these are missing.
+                console.log("[System Note] " + src + " not found locally. Safe fallback mock data will be used.");
+            }
+        };
+        document.head.appendChild(script);
+    }
+
+    // Initiate the silent background pull immediately
+    backgroundPullDatabases();
+
     // Function for animating numbers smoothly
     function animateValue(obj, start, end, duration, formatCurrency = false) {
         let startTimestamp = null;
         const step = function(timestamp) {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            // Ease out quad
             const easeProgress = progress * (2 - progress);
             const currentVal = Math.floor(easeProgress * (end - start) + start);
             
@@ -825,63 +900,21 @@
         };
         window.requestAnimationFrame(step);
     }
+    
+    // Helper to safely access global variables generated by external scripts
+    // Solves the issue where 'const' in external files doesn't attach to the 'window' object
+    function getSafeGlobalVar(varName) {
+        try {
+            return eval(varName);
+        } catch (e) {
+            return undefined;
+        }
+    }
 
     // ==========================================
     // Data Assets (Modals, Pickers, Database)
     // ==========================================
-    const govtJobDatabase = [
-        { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
-        { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
-        { title: "IFS Officer (Foreign Service)", desc: "Diplomacy, international relations, and representing India abroad.", reqs: { verbal: 90, general_awareness: 90, social: 85, enterprising: 80 } },
-        { title: "IRS Officer (Customs/Tax)", desc: "Revenue management, tax administration, and financial investigations.", reqs: { numerical: 85, logical: 80, conventional: 90, investigative: 85 } },
-        { title: "State PCS Officer (SDM/DSP)", desc: "State-level administration and law enforcement equivalent to IAS/IPS.", reqs: { general_awareness: 85, logical: 80, enterprising: 85, social: 80 } },
-        { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
-        { title: "SSC CGL Examiner (Customs)", desc: "Examining cargo, preventing smuggling, stationed at ports/airports.", reqs: { numerical: 80, logical: 85, realistic: 80, conventional: 85 } },
-        { title: "SSC CGL ASO (CSS/MEA)", desc: "Desk job in Central Secretariat or Ministry of External Affairs.", reqs: { verbal: 85, logical: 80, conventional: 90, conscientiousness: 85 } },
-        { title: "SSC CGL Preventive Officer", desc: "Active field job to prevent smuggling and illegal trades.", reqs: { logical: 80, realistic: 85, investigative: 85, emotional_stability: 85 } },
-        { title: "SSC CGL Auditor (CGDA)", desc: "Auditing government accounts and financial record keeping.", reqs: { numerical: 85, conventional: 95, conscientiousness: 90 } },
-        { title: "SSC CHSL LDC/JSA", desc: "Clerical duties, data management, and file routing in ministries.", reqs: { numerical: 75, verbal: 75, conventional: 90, conscientiousness: 80 } },
-        { title: "SSC CHSL Data Entry Operator", desc: "High-speed typing and maintaining critical government databases.", reqs: { logical: 70, conventional: 95, realistic: 75 } },
-        { title: "SSC MTS (Multi-Tasking Staff)", desc: "General assisting roles, file maintenance, and daily operations.", reqs: { logical: 65, conventional: 80, realistic: 80 } },
-        { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
-        { title: "IBPS Probationary Officer (PO)", desc: "Managing operations across nationalized public sector banks.", reqs: { numerical: 85, logical: 85, enterprising: 80, conventional: 80 } },
-        { title: "RBI Grade B Officer", desc: "Policy drafting, economic regulation, and financial stability.", reqs: { numerical: 90, general_awareness: 90, investigative: 85, conventional: 85 } },
-        { title: "NABARD Grade A Officer", desc: "Rural development, agriculture financing, and cooperative banking.", reqs: { general_awareness: 85, social: 85, investigative: 80, conventional: 80 } },
-        { title: "SBI/IBPS Clerk", desc: "Customer interaction, cash handling, and daily banking operations.", reqs: { numerical: 85, verbal: 80, conventional: 90, social: 80 } },
-        { title: "LIC Assistant Administrative Officer", desc: "Insurance policy processing, claims, and administrative work.", reqs: { numerical: 80, logical: 80, conventional: 85, enterprising: 75 } },
-        { title: "RRB NTPC Station Master", desc: "Managing railway station operations, signals, and train movements.", reqs: { logical: 85, realistic: 85, conventional: 85, emotional_stability: 90 } },
-        { title: "RRB NTPC Goods Guard", desc: "In-charge of freight trains, ensuring safe transit of goods.", reqs: { realistic: 90, conventional: 80, emotional_stability: 85 } },
-        { title: "RRB Assistant Loco Pilot (ALP)", desc: "Driving passenger and freight trains with high technical focus.", reqs: { realistic: 95, logical: 80, conventional: 80, emotional_stability: 95 } },
-        { title: "RRB Ticket Examiner (TTE)", desc: "Checking tickets, guiding passengers, handling fines on trains.", reqs: { verbal: 80, social: 85, enterprising: 80, conventional: 80 } },
-        { title: "RRB Group D (Track Maintainer)", desc: "Heavy physical work maintaining railway tracks and infrastructure.", reqs: { realistic: 95, conventional: 75 } },
-        { title: "NDA Army Officer (Lieutenant)", desc: "Leading combat troops, defense strategy, and national security.", reqs: { logical: 85, realistic: 95, enterprising: 95, emotional_stability: 95 } },
-        { title: "CDS Defense Officer", desc: "Post-graduate entry into Armed Forces leading platoons/companies.", reqs: { logical: 85, realistic: 90, enterprising: 90, social: 80 } },
-        { title: "Indian Navy Sailor / Air Force Airman", desc: "Technical and combat operations aboard ships or air bases.", reqs: { realistic: 95, conventional: 80, logical: 80 } },
-        { title: "State Police Sub-Inspector (SI)", desc: "Investigating crimes, filing FIRs, and maintaining local law & order.", reqs: { logical: 80, realistic: 85, investigative: 85, enterprising: 85 } },
-        { title: "State Police Constable", desc: "First response, patrolling, and ground-level security.", reqs: { realistic: 90, conventional: 80, social: 75 } },
-        { title: "CAPF Assistant Commandant", desc: "Leading paramilitary forces (CRPF, BSF) in border/internal security.", reqs: { realistic: 90, enterprising: 90, logical: 80, emotional_stability: 90 } },
-        { title: "BSF / CRPF Constable", desc: "Border guarding, riot control, and national security duties.", reqs: { realistic: 95, conventional: 85 } },
-        { title: "Intelligence Bureau (IB) ACIO", desc: "Gathering intel, counter-terrorism, and deep undercover work.", reqs: { logical: 90, investigative: 95, general_awareness: 90, emotional_stability: 90 } },
-        { title: "RAW Officer (Research & Analysis)", desc: "Foreign intelligence, espionage, and international threat analysis.", reqs: { logical: 95, investigative: 95, general_awareness: 95, emotional_stability: 95 } },
-        { title: "CBI Officer (Sub-Inspector)", desc: "High-profile anti-corruption and special crime investigations.", reqs: { logical: 90, investigative: 90, realistic: 80, conscientiousness: 90 } },
-        { title: "UGC NET Assistant Professor", desc: "Teaching at universities, conducting academic research.", reqs: { verbal: 90, general_awareness: 85, investigative: 90, social: 85 } },
-        { title: "KVS PGT (Post Graduate Teacher)", desc: "Teaching senior secondary classes in central government schools.", reqs: { verbal: 85, social: 90, conventional: 80 } },
-        { title: "KVS TGT (Trained Graduate Teacher)", desc: "Teaching middle school students with subject specialization.", reqs: { verbal: 80, social: 90, conventional: 80 } },
-        { title: "Primary School Teacher (PRT)", desc: "Foundational education and child development.", reqs: { verbal: 80, social: 95, artistic: 75, agreeableness: 90 } },
-        { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } },
-        { title: "SSC Junior Engineer (JE)", desc: "Supervising public works, civil/electrical government projects.", reqs: { numerical: 85, logical: 85, realistic: 90, conventional: 85 } },
-        { title: "State Assistant Engineer (AE)", desc: "Managing state-level infrastructure and engineering developments.", reqs: { numerical: 85, logical: 80, realistic: 85, conventional: 85 } },
-        { title: "Government Medical Officer (CMO)", desc: "Public health administration and clinical practice in govt hospitals.", reqs: { logical: 85, investigative: 90, social: 90, conscientiousness: 95 } },
-        { title: "Military Nursing Service (MNS)", desc: "Providing healthcare to armed forces personnel and their families.", reqs: { realistic: 80, social: 95, emotional_stability: 90, agreeableness: 90 } },
-        { title: "Railway Pharmacist", desc: "Dispensing medicines and maintaining pharmacy stocks for railways.", reqs: { logical: 80, conventional: 90, social: 80 } },
-        { title: "Civil Judge (State Judiciary)", desc: "Presiding over civil and criminal cases in district courts.", reqs: { verbal: 90, logical: 90, investigative: 85, conscientiousness: 95 } },
-        { title: "Public Prosecutor (APP)", desc: "Representing the state in criminal trials.", reqs: { verbal: 90, logical: 85, enterprising: 85, investigative: 80 } },
-        { title: "Forest Ranger (State Forest Service)", desc: "Protecting wildlife, preventing poaching, and managing forests.", reqs: { realistic: 90, investigative: 80, conventional: 80 } },
-        { title: "Patwari / Lekhpal", desc: "Maintaining village land records and agricultural data.", reqs: { numerical: 80, conventional: 95, realistic: 75 } },
-        { title: "Village Development Officer (VDO)", desc: "Executing rural development schemes at the panchayat level.", reqs: { general_awareness: 80, social: 85, enterprising: 80, conventional: 80 } },
-        { title: "EPFO Assistant", desc: "Managing provident fund claims, accounts, and employee benefits.", reqs: { numerical: 85, logical: 80, conventional: 90, conscientiousness: 85 } }
-    ];
-
+    
     const legalContent = {
         terms: { title: "Terms of Service", body: `<h3>1. Introduction</h3><p>Welcome to the Club of Competition Career Advise Test. By taking this test, you agree to comply with and be bound by the following terms.</p><h3>2. Purpose of the Test</h3><p>This evaluates aptitude and personality to suggest potential career matches in government sectors. It is an educational tool, not a job guarantee.</p><h3>3. Data Accuracy</h3><p>You agree to provide accurate information. Inaccurate data may result in flawed career suggestions.</p>` },
         privacy: { title: "Privacy Statement", body: `<h3>1. Information We Collect</h3><p>We collect your registration details and test answers to build your psychological profile.</p><h3>2. How We Use It</h3><p>Data is used solely to calculate compatibility scores, generate your blueprint, and offer counseling.</p><h3>3. Data Protection</h3><p>Your data is securely stored and never sold to third parties.</p>` },
@@ -901,7 +934,6 @@
     };
 
     const pickerData = {
-        countryCode: [{val: "+91", label: "+91 (IN)"}, {val: "+1", label: "+1 (US)"}, {val: "+44", label: "+44 (UK)"}, {val: "+971", label: "+971 (UAE)"}, {val: "+61", label: "+61 (AU)"}],
         educationCourse: [
             { group: "Schooling", items: ["10th Standard", "12th Science", "12th Commerce", "12th Arts"] },
             { group: "Undergraduate (UG)", items: ["B.Tech / B.E.", "B.Sc", "B.Com", "B.A.", "BBA / BMS", "BCA", "MBBS / BDS", "LLB", "B.Ed"] },
@@ -921,6 +953,7 @@
     // ==========================================
     // Global State Variables
     // ==========================================
+    let currentFormStep = 1;
     let currentQuestionIndex = 0;
     let answeredCount = 0;
     let answeredRiasecCount = 0;
@@ -968,6 +1001,7 @@
         }
         
         loadFormData(); 
+        goToFormStep(1);
 
         let shouldResume = false;
         const savedState = localStorage.getItem('coc_test_state');
@@ -1016,7 +1050,7 @@
                     }
 
                     studentData = { 
-                         name: $id('name').value, phone: ($id('countryCode').getAttribute('data-value') || "+91") + " " + $id('phone').value, 
+                         name: $id('name').value, phone: "+91 " + $id('phone').value, 
                          email: $id('email').value, educationCourse: $id('educationCourse').value, sportsInterest: $id('sportsInterest').value, 
                          dob: dob, age: calculatedAge, gender: $id('gender').value, address: $id('address').value, pincode: $id('pincode').value, 
                          state: $id('state').value, district: $id('district').value, motherLanguage: $id('motherLanguage').value, 
@@ -1060,6 +1094,57 @@
     }
 
     // ==========================================
+    // Multi-Step Form Logic
+    // ==========================================
+    function goToFormStep(step) {
+        currentFormStep = step;
+        
+        $id('form-step-1').classList.add('hidden');
+        $id('form-step-2').classList.add('hidden');
+        $id('form-step-3').classList.add('hidden');
+        
+        $id(`form-step-${step}`).classList.remove('hidden');
+
+        $id('step-dot-1').className = `h-2 flex-1 rounded-full transition-all ${step >= 1 ? 'bg-primary' : 'bg-slate-200'}`;
+        $id('step-dot-2').className = `h-2 flex-1 rounded-full transition-all ${step >= 2 ? 'bg-primary' : 'bg-slate-200'}`;
+        $id('step-dot-3').className = `h-2 flex-1 rounded-full transition-all ${step >= 3 ? 'bg-primary' : 'bg-slate-200'}`;
+
+        checkFormValidity();
+        
+        // Scroll slightly up but keep logo visible
+        const container = document.querySelector('.app-container');
+        if (container) {
+             const yOffset = container.getBoundingClientRect().top + window.scrollY - 20;
+             window.scrollTo({ top: yOffset, behavior: 'smooth' });
+        }
+    }
+
+    function capturePartialLead() {
+        studentData = { 
+             name: $id('name').value.trim(), 
+             phone: "+91 " + $id('phone').value.trim(), 
+             email: $id('email').value.trim(),
+             educationCourse: "Incomplete", sportsInterest: "Incomplete", dob: "Incomplete", 
+             age: "Incomplete", gender: "Incomplete", address: "Incomplete", pincode: "Incomplete", 
+             state: "Incomplete", district: "Incomplete", motherLanguage: "Incomplete", 
+             pwd: "Incomplete", caste: "Incomplete", community: "Incomplete", height: "Incomplete"
+        };
+        // Silently push the partial lead to sheets in the background
+        sendDataToGoogleSheets("Partial Lead");
+    }
+
+    function handleTaskbarAction() {
+        if (currentFormStep === 1) {
+            capturePartialLead();
+            goToFormStep(2);
+        } else if (currentFormStep === 2) {
+            goToFormStep(3);
+        } else if (currentFormStep === 3) {
+            initiatePayment();
+        }
+    }
+
+    // ==========================================
     // Data Pickers & Modals
     // ==========================================
     let currentPickerTarget = null;
@@ -1074,7 +1159,7 @@
         const searchInput = $id('picker-search');
         const hintDiv = $id('picker-hint');
         
-        if(['countryCode', 'motherLanguage', 'state', 'height', 'educationCourse'].includes(targetId)) {
+        if(['motherLanguage', 'state', 'height', 'educationCourse'].includes(targetId)) {
             searchInput.style.display = "block"; searchInput.value = "";
         } else {
             searchInput.style.display = "none";
@@ -1212,17 +1297,22 @@
     });
 
     function checkFormValidity() {
-        const isValid = 
-            $id('name').value.trim() !== "" && 
-            $id('phone').value.trim().length >= 10 && 
-            $id('email').value.trim().includes('@') &&
+        const phoneVal = $id('phone').value.trim();
+        const emailVal = $id('email').value.trim();
+        const nameVal = $id('name').value.trim();
+
+        const isStep1Valid = nameVal !== "" && /^[6-9]\d{9}$/.test(phoneVal) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+        
+        const isStep2Valid = 
             $id('educationCourse').value.trim() !== "" && 
             $id('dob').value !== "" && 
             $id('height').value.trim() !== "" &&
             $id('sportsInterest').value.trim() !== "" && 
             $id('motherLanguage').value.trim() !== "" && 
             $id('gender').value.trim() !== "" &&
-            $id('pwd').value.trim() !== "" && 
+            $id('pwd').value.trim() !== "";
+
+        const isStep3Valid = 
             $id('caste').value.trim() !== "" && 
             $id('community').value.trim() !== "" &&
             $id('pincode').value.trim().length === 6 && 
@@ -1234,14 +1324,32 @@
         const payBtn = $id('tb-pay-btn');
         if(!payBtn) return;
 
-        if (isValid) {
+        let isCurrentStepValid = false;
+        let btnText = "";
+        let btnIcon = "";
+
+        if (currentFormStep === 1) {
+            isCurrentStepValid = isStep1Valid;
+            btnText = "Next: Profile details";
+            btnIcon = "fa-arrow-right";
+        } else if (currentFormStep === 2) {
+            isCurrentStepValid = isStep2Valid;
+            btnText = "Next: Location details";
+            btnIcon = "fa-arrow-right";
+        } else if (currentFormStep === 3) {
+            isCurrentStepValid = isStep3Valid;
+            btnText = "Pay to Start";
+            btnIcon = "fa-check-circle";
+        }
+
+        if (isCurrentStepValid) {
             payBtn.disabled = false;
             payBtn.className = "w-full h-full rounded-[14px] bg-gradient-to-r from-emerald-500 to-green-600 text-white font-extrabold shadow-md shadow-green-500/40 transition-all flex flex-row items-center justify-center gap-2 text-xs sm:text-sm hover:-translate-y-1 active:scale-95 cursor-pointer border-transparent mx-1 focus-visible:ring-4 focus-visible:ring-green-500 focus-visible:ring-offset-2 focus-visible:outline-none";
-            payBtn.innerHTML = '<i class="fas fa-check-circle text-lg sm:text-xl" aria-hidden="true"></i><span>Pay to Start</span>';
+            payBtn.innerHTML = `<i class="fas ${btnIcon} text-lg sm:text-xl" aria-hidden="true"></i><span>${btnText}</span>`;
         } else {
             payBtn.disabled = true;
             payBtn.className = "w-full h-full rounded-[14px] bg-slate-200/90 text-slate-700 font-extrabold transition-all flex flex-row items-center justify-center gap-2 text-xs sm:text-sm cursor-not-allowed border border-slate-400 mx-1 focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none";
-            payBtn.innerHTML = '<i class="fas fa-lock text-lg sm:text-xl" aria-hidden="true"></i><span>Pay to Start</span>';
+            payBtn.innerHTML = `<i class="fas ${currentFormStep === 3 ? 'fa-lock' : 'fa-arrow-right'} text-lg sm:text-xl text-slate-400" aria-hidden="true"></i><span class="text-slate-500">${btnText}</span>`;
         }
     }
 
@@ -1402,8 +1510,7 @@
 
     window.initiatePayment = async function() {
         const name = $id('name').value.trim();
-        const countryCodeElement = $id('countryCode');
-        const countryCode = countryCodeElement.getAttribute('data-value') || "+91"; 
+        const countryCode = "+91"; 
         const phoneRaw = $id('phone').value.trim();
         const email = $id('email').value.trim();
         let rawEducation = $id('educationCourse').value.trim();
@@ -1426,6 +1533,16 @@
              alert("Please fill all required fields before proceeding.");
              return; 
          }
+         
+        if (!/^[6-9]\d{9}$/.test(phoneRaw)) {
+             alert("Please enter a valid 10-digit Indian phone number.");
+             return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+             alert("Please enter a valid email address.");
+             return;
+        }
          
         if (!dataConsent) {
             alert("Please accept the Data Privacy Policy & Terms of Service to proceed.");
@@ -1465,7 +1582,6 @@
     function handleCheatWarning(reason) {
         if (isCheatModalOpen) return;
         isCheatModalOpen = true;
-        cheatWarnings++;
         clearInterval(questionTimerInterval);
         
         const stage3 = $id('stage-3');
@@ -1548,122 +1664,156 @@
             alert("Security Alert: Automated browser tool detected. Test cannot be started.");
             return;
         }
-
-        let riasecPool = [];
-        let academicPoolRaw = [];
         
-        // 1. Attempt to load external questions (Supports var, let, and const declarations)
-        for(let i=1; i<=10; i++) {
-            let partData = null;
-            try { partData = eval(`questionsPart${i}`); } catch(e) {}
-            if (!partData) { try { partData = eval(`questions_part${i}`); } catch(e) {} }
+        // Show loading state
+        const startBtn = $id('btn-start-test-now');
+        if (startBtn) {
+            startBtn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Loading...';
+            startBtn.disabled = true;
+        }
+
+        setTimeout(() => {
+            let riasecPool = [];
+            let academicPoolRaw = [];
             
-            if(Array.isArray(partData)) {
-                riasecPool.push(...partData);
+            // 1. Attempt to load external questions securely using the safe global getter
+            for(let i=1; i<=10; i++) {
+                let partData = getSafeGlobalVar(`questionsPart${i}`) || getSafeGlobalVar(`questions_part${i}`);
+                if(Array.isArray(partData)) {
+                    riasecPool.push(...partData);
+                }
             }
-        }
-        
-        let acadData = null;
-        try { acadData = eval('academicPart1'); } catch(e) {}
-        if (!acadData) { try { acadData = eval('academic_part1'); } catch(e) {} }
-        
-        if(Array.isArray(acadData)) {
-            academicPoolRaw.push(...acadData);
-        }
+            
+            let acadData = getSafeGlobalVar('academicPart1') || getSafeGlobalVar('academic_part1');
+            if(Array.isArray(acadData)) {
+                academicPoolRaw.push(...acadData);
+            }
 
-        // 2. FAILSAFE: If external scripts failed to load or are empty, inject dynamic mock questions
-        if (riasecPool.length === 0) {
-            console.warn("External RIASEC questions missing. Generating fallback pool.");
-            const traits = ['realistic', 'investigative', 'artistic', 'social', 'enterprising', 'conventional'];
-            for(let i=0; i<50; i++) {
-                riasecPool.push({
-                    type: 'likert', module: 'Personality Profile',
-                    text: `I generally enjoy activities related to ${traits[i%6]} tasks and environments.`,
-                    traitType: 'riasec', trait: traits[i%6]
+            // 2. FAILSAFE: If external scripts failed to load or are empty, inject dynamic mock questions
+            if (riasecPool.length === 0) {
+                console.warn("External RIASEC questions missing. Generating fallback pool.");
+                const traits = ['realistic', 'investigative', 'artistic', 'social', 'enterprising', 'conventional'];
+                for(let i=0; i<50; i++) {
+                    riasecPool.push({
+                        type: 'likert', module: 'Personality Profile',
+                        text: `I generally enjoy activities related to ${traits[i%6]} tasks and environments.`,
+                        traitType: 'riasec', trait: traits[i%6]
+                    });
+                }
+            }
+            
+            if (academicPoolRaw.length === 0) {
+                console.warn("External Academic questions missing. Generating fallback pool.");
+                const traits = ['numerical', 'logical', 'verbal', 'general_awareness'];
+                for(let i=0; i<50; i++) {
+                    academicPoolRaw.push({
+                        type: 'mcq', module: 'Aptitude Test', qualifications: ["All"],
+                        text: `Evaluate the correct outcome for this ${traits[i%4]} scenario.`,
+                        options: [
+                            {text: "Primary Option", val: 5}, {text: "Alternative A", val: 0},
+                            {text: "Alternative B", val: 0}, {text: "Alternative C", val: 0}
+                        ],
+                        traitType: 'aptitude', trait: traits[i%4]
+                    });
+                }
+            }
+
+            // 3. Filter Academic Pool (FORCED TO 10TH LEVEL ONLY - Fuzzy Match)
+            let academicPool = [];
+            let fallbackAcademicPool = [];
+
+            academicPool = academicPoolRaw.filter(function(q) {
+                if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
+                // Fuzzy match: picks up "10th", "10th Level", "10th Standard", etc.
+                return q.qualifications.some(function(qual) {
+                    return qual.toLowerCase().includes("10th") || qual.toLowerCase().includes("all");
                 });
-            }
-        }
-        
-        if (academicPoolRaw.length === 0) {
-            console.warn("External Academic questions missing. Generating fallback pool.");
-            const traits = ['numerical', 'logical', 'verbal', 'general_awareness'];
-            for(let i=0; i<50; i++) {
-                academicPoolRaw.push({
-                    type: 'mcq', module: 'Aptitude Test', qualifications: ["All"],
-                    text: `Evaluate the correct outcome for this ${traits[i%4]} scenario.`,
-                    options: [
-                        {text: "Primary Option", val: 5}, {text: "Alternative A", val: 0},
-                        {text: "Alternative B", val: 0}, {text: "Alternative C", val: 0}
-                    ],
-                    traitType: 'aptitude', trait: traits[i%4]
-                });
-            }
-        }
-
-        // 3. Filter Academic Pool (FORCED TO 10TH LEVEL ONLY - Fuzzy Match)
-        let academicPool = [];
-        let fallbackAcademicPool = [];
-
-        academicPool = academicPoolRaw.filter(function(q) {
-            if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
-            // Fuzzy match: picks up "10th", "10th Level", "10th Standard", etc.
-            return q.qualifications.some(function(qual) {
-                return qual.toLowerCase().includes("10th") || qual.toLowerCase().includes("all");
             });
-        });
-        
-        fallbackAcademicPool = academicPoolRaw.filter(function(q) {
-            return !academicPool.includes(q);
-        });
+            
+            fallbackAcademicPool = academicPoolRaw.filter(function(q) {
+                return !academicPool.includes(q);
+            });
 
-        // 4. Randomize & Select Exactly 2 Questions
-        riasecPool = riasecPool.sort(function() { return 0.5 - Math.random(); });
-        academicPool = academicPool.sort(function() { return 0.5 - Math.random(); });
-        fallbackAcademicPool = fallbackAcademicPool.sort(function() { return 0.5 - Math.random(); });
-        
-        const selectedRiasec = riasecPool.slice(0, 1).map(function(q) { return { ...q, categoryType: 'riasec' }; });
-        const selectedAcademicRaw = academicPool.slice(0, 1);
-        
-        if (selectedAcademicRaw.length < 1) {
-            const needed = 1 - selectedAcademicRaw.length;
-            selectedAcademicRaw.push(...fallbackAcademicPool.slice(0, needed));
-        }
-        
-        const selectedAcademic = selectedAcademicRaw.map(function(q) { return { ...q, categoryType: 'academic' }; });
-        
-        activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(function() { return 0.5 - Math.random(); });
-        
-        // Reset scores safely
-        for (let cat in userScores) {
-            for (let tr in userScores[cat]) {
-                userScores[cat][tr] = 0;
-                maxScores[cat][tr] = 0;
-            }
-        }
-        
-        activeQuestions.forEach(function(q) {
-            let maxVal = 5; 
-            if (q.type === 'mcq' && q.options) {
-                let vals = q.options.map(function(o) {
-                    return o.val !== undefined ? o.val : 5;
+            // Helper to pick evenly across all available traits
+            const selectBalanced = function(pool, neededCount) {
+                let grouped = {};
+                pool.forEach(function(q) {
+                    let t = q.trait || 'general';
+                    if (!grouped[t]) grouped[t] = [];
+                    grouped[t].push(q);
                 });
-                maxVal = Math.max(...vals) || 5; 
-            }
-            if (q.traitType && q.trait && maxScores[q.traitType] && maxScores[q.traitType][q.trait] !== undefined) {
-                maxScores[q.traitType][q.trait] += maxVal;
-            }
-        });
+                let traits = Object.keys(grouped);
+                traits.forEach(function(t) { grouped[t] = grouped[t].sort(function() { return 0.5 - Math.random(); }); });
+                
+                let selected = [];
+                let i = 0;
+                while (selected.length < neededCount && traits.length > 0) {
+                    let trait = traits[i % traits.length];
+                    if (grouped[trait].length > 0) {
+                        selected.push(grouped[trait].shift());
+                        i++;
+                    } else {
+                        traits.splice(i % traits.length, 1);
+                    }
+                }
+                return selected;
+            };
 
-        currentQuestionIndex = 0;
-        answeredCount = 0;
-        answeredRiasecCount = 0;
-        answeredAcademicCount = 0;
-        isTestActive = true;
-        cheatWarnings = 0;
-        
-        saveTestState();
-        goToStage(3);
-        renderQuestion();
+            // 4. Randomize & Select Exactly 90 Balanced Questions
+            const selectedRiasecRaw = selectBalanced(riasecPool, 45);
+            const selectedRiasec = selectedRiasecRaw.map(function(q) { return { ...q, categoryType: 'riasec' }; });
+            
+            let selectedAcademicRaw = selectBalanced(academicPool, 45);
+            
+            if (selectedAcademicRaw.length < 45) {
+                const needed = 45 - selectedAcademicRaw.length;
+                const fallback = selectBalanced(fallbackAcademicPool, needed);
+                selectedAcademicRaw.push(...fallback);
+            }
+            
+            const selectedAcademic = selectedAcademicRaw.map(function(q) { return { ...q, categoryType: 'academic' }; });
+            
+            // Combine exactly 45 RIASEC and 45 Academic, then completely randomize their order
+            activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(function() { return 0.5 - Math.random(); });
+            
+            // Reset scores safely
+            for (let cat in userScores) {
+                for (let tr in userScores[cat]) {
+                    userScores[cat][tr] = 0;
+                    maxScores[cat][tr] = 0;
+                }
+            }
+            
+            activeQuestions.forEach(function(q) {
+                let maxVal = 5; 
+                if (q.type === 'mcq' && q.options) {
+                    let vals = q.options.map(function(o) {
+                        return o.val !== undefined ? o.val : 5;
+                    });
+                    maxVal = Math.max(...vals) || 5; 
+                }
+                if (q.traitType && q.trait && maxScores[q.traitType] && maxScores[q.traitType][q.trait] !== undefined) {
+                    maxScores[q.traitType][q.trait] += maxVal;
+                }
+            });
+
+            currentQuestionIndex = 0;
+            answeredCount = 0;
+            answeredRiasecCount = 0;
+            answeredAcademicCount = 0;
+            isTestActive = true;
+            cheatWarnings = 0;
+            
+            saveTestState();
+            
+            if (startBtn) {
+                startBtn.innerHTML = `<span>Start Test Now</span><i class="fas fa-play text-lg sm:text-xl" aria-hidden="true"></i>`;
+                startBtn.disabled = false;
+            }
+            
+            goToStage(3);
+            renderQuestion();
+        }, 100);
     };
 
     function renderQuestion() {
@@ -1863,9 +2013,9 @@
                 statusEl.innerText = statuses[sIdx]; 
                 statusEl.classList.add('animate-fade-text');
             }
-        }, 1200);
+        }, 750);
 
-        setTimeout(async function() {
+        setTimeout(function() {
             clearInterval(statusInterval);
             localStorage.setItem('coc_test_completed', 'true');
             
@@ -1893,72 +2043,97 @@
             studentData.archetype = archetypes[dominantTrait];
 
             // 2. Advanced Job Matching Algorithm
-            if(typeof govtJobDatabase !== 'undefined' && Array.isArray(govtJobDatabase)) {
-                govtJobDatabase.forEach(function(job) {
-                    let totalMatch = 0;
-                    let reqCount = 0;
-                    let primaryMatchReason = "";
-                    let highestTraitContrib = 0;
-
-                    for (let reqTrait in job.reqs) {
-                        let uScore = 0;
-                        let mScore = 1;
-                        let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
-                        
-                        if (userScores.aptitude[reqTrait] !== undefined) {
-                            uScore = userScores.aptitude[reqTrait];
-                            mScore = maxScores.aptitude[reqTrait] || 1;
-                        } else if (userScores.riasec[reqTrait] !== undefined) {
-                            uScore = userScores.riasec[reqTrait];
-                            mScore = maxScores.riasec[reqTrait] || 1;
-                        } else if (userScores.big5[reqTrait] !== undefined) {
-                            uScore = userScores.big5[reqTrait];
-                            mScore = maxScores.big5[reqTrait] || 1;
-                        }
-                        
-                        let userPct = mScore > 0 ? (uScore / mScore) * 100 : 0; // Safeguard division by 0
-                        let reqPct = job.reqs[reqTrait];
-                        let traitMatch = 0;
-
-                        // Advanced Matching Logic: Penalty for being below requirement, slight bonus for exceeding
-                        if (userPct >= reqPct) {
-                            traitMatch = 100 - ((userPct - reqPct) * 0.1); 
-                        } else {
-                            traitMatch = 100 - ((reqPct - userPct) * 1.5); 
-                        }
-                        
-                        if (traitMatch > highestTraitContrib) {
-                            highestTraitContrib = traitMatch;
-                            primaryMatchReason = traitNameDisplay;
-                        }
-                        
-                        totalMatch += Math.max(0, traitMatch);
-                        reqCount++;
-                    }
-                    job.matchPercent = reqCount > 0 ? Math.min(99, Math.max(15, Math.round(totalMatch / reqCount))) : 50;
-                    job.reason = primaryMatchReason;
-                });
-
-                finalRankedJobs = govtJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
-            } else {
-                finalRankedJobs = [{ title: "Career Match pending setup", matchPercent: 90, desc: "System jobs database not loaded correctly.", reason: "System Default" }];
+            let safeJobDatabase = getSafeGlobalVar('govtJobDatabase');
+            
+            if(!safeJobDatabase || !Array.isArray(safeJobDatabase)) {
+                // FALLBACK IF EXTERNAL DB IS MISSING OR NOT UPLOADED
+                safeJobDatabase = [
+                    { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
+                    { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
+                    { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
+                    { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
+                    { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } }
+                ];
+                console.log("[System Note] External jobs database missing. Safe built-in fallback jobs will be used.");
             }
+            
+            safeJobDatabase.forEach(function(job) {
+                let totalMatch = 0;
+                let reqCount = 0;
+                let primaryMatchReason = "";
+                let highestTraitContrib = 0;
+
+                for (let reqTrait in job.reqs) {
+                    let uScore = 0;
+                    let mScore = 0; // Default to 0 to detect untested traits
+                    let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+                    
+                    if (userScores.aptitude[reqTrait] !== undefined && maxScores.aptitude[reqTrait] > 0) {
+                        uScore = userScores.aptitude[reqTrait];
+                        mScore = maxScores.aptitude[reqTrait];
+                    } else if (userScores.riasec[reqTrait] !== undefined && maxScores.riasec[reqTrait] > 0) {
+                        uScore = userScores.riasec[reqTrait];
+                        mScore = maxScores.riasec[reqTrait];
+                    } else if (userScores.big5[reqTrait] !== undefined && maxScores.big5[reqTrait] > 0) {
+                        uScore = userScores.big5[reqTrait];
+                        mScore = maxScores.big5[reqTrait];
+                    }
+                    
+                    // CRITICAL ACCURACY FIX: If this trait wasn't in the random question pool, skip it!
+                    // This prevents penalizing the student's job match for questions they were never asked.
+                    if (mScore === 0) continue;
+                    
+                    let userPct = (uScore / mScore) * 100; 
+                    let reqPct = job.reqs[reqTrait];
+                    let traitMatch = 0;
+
+                    // Advanced Matching Logic: Penalty for being below requirement, slight bonus for exceeding
+                    if (userPct >= reqPct) {
+                        traitMatch = 100 - ((userPct - reqPct) * 0.1); 
+                    } else {
+                        traitMatch = 100 - ((reqPct - userPct) * 1.5); 
+                    }
+                    
+                    if (traitMatch > highestTraitContrib) {
+                        highestTraitContrib = traitMatch;
+                        primaryMatchReason = traitNameDisplay;
+                    }
+                    
+                    totalMatch += Math.max(0, traitMatch);
+                    reqCount++;
+                }
+                
+                if (reqCount > 0) {
+                    job.matchPercent = Math.min(99, Math.max(15, Math.round(totalMatch / reqCount)));
+                } else {
+                    job.matchPercent = 50; // Neutral fallback if no traits matched the pool
+                }
+                job.reason = primaryMatchReason || "Balanced Profile";
+            });
+
+            finalRankedJobs = safeJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
             
             generateReportUI();
             
-            // Explicitly show users their results are saving and await the push to Google Sheets
-            statusEl.classList.remove('animate-fade-text');
-            statusEl.innerText = "Saving your results...";
-            await sendDataToGoogleSheets("Assessment Complete");
-            
+            // 1. Transition to the results page instantly
             goToStage(5);
-        }, 5000);
+            
+            // 2. Push the final test score to Google Sheets silently in the background
+            sendDataToGoogleSheets("Assessment Complete");
+            
+        }, 3000);
     }
 
     function generateReportUI() {
         const now = new Date();
         $id('report-timestamp').innerText = `Generated on: ${now.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}`;
         $id('user-archetype').innerText = studentData.archetype;
+        
+        // Populate Student Details Card
+        $id('report-student-name').innerText = studentData.name || 'Candidate';
+        $id('report-student-edu').innerText = studentData.educationCourse || 'N/A';
+        $id('report-student-phone').innerText = studentData.phone || 'N/A';
+        $id('report-student-meta').innerText = `${studentData.age || '--'} Yrs • ${studentData.gender || '--'} • ${studentData.state || '--'}`;
 
         const container = $id('jobs-container');
         container.innerHTML = '';
@@ -1975,16 +2150,21 @@
                 </div>`;
         });
         
-        let totalUser = 0;
-        let totalMax = 0;
+        // --- 1. WEIGHT NORMALIZATION FOR FINAL SCORE ---
+        // Ensures each aptitude category (Numerical, Logical, Verbal, GA) contributes
+        // exactly equal weight to the final score, regardless of random question counts.
+        let normalizedAptitudeTotal = 0;
+        let validAptitudeTraits = 0;
         
-        // strictly take only Academic/Aptitude scores for final mark
         for (let trait in userScores.aptitude) {
-            totalUser += userScores.aptitude[trait];
-            totalMax += maxScores.aptitude[trait];
+            if (maxScores.aptitude[trait] > 0) {
+                normalizedAptitudeTotal += (userScores.aptitude[trait] / maxScores.aptitude[trait]) * 100;
+                validAptitudeTraits++;
+            }
         }
         
-        currentScoreOutOf50 = totalMax > 0 ? Math.round((totalUser / totalMax) * 50) : 0;
+        let finalAptitudePercentage = validAptitudeTraits > 0 ? (normalizedAptitudeTotal / validAptitudeTraits) : 0;
+        currentScoreOutOf50 = Math.round((finalAptitudePercentage / 100) * 50);
         currentDiscountAmount = currentScoreOutOf50 * CONFIG.DISCOUNT_PER_MARK;
         
         // Animate the main score counter
@@ -1997,6 +2177,7 @@
         
         const numPct = (maxScores.aptitude.numerical && maxScores.aptitude.numerical > 0) ? Math.round((userScores.aptitude.numerical / maxScores.aptitude.numerical) * 100) : 0;
         const logPct = (maxScores.aptitude.logical && maxScores.aptitude.logical > 0) ? Math.round((userScores.aptitude.logical / maxScores.aptitude.logical) * 100) : 0;
+        const verbPct = (maxScores.aptitude.verbal && maxScores.aptitude.verbal > 0) ? Math.round((userScores.aptitude.verbal / maxScores.aptitude.verbal) * 100) : 0;
         const genPct = (maxScores.aptitude.general_awareness && maxScores.aptitude.general_awareness > 0) ? Math.round((userScores.aptitude.general_awareness / maxScores.aptitude.general_awareness) * 100) : 0;
         
         // Inject Professional Progress Bars
@@ -2008,6 +2189,10 @@
             <div class="mb-4">
                 <div class="flex justify-between text-[0.9em] font-bold text-slate-600 mb-1"><span>Logical Reasoning</span><span class="text-primary">${logPct}%</span></div>
                 <div class="trait-bar-bg"><div class="trait-bar-fill" style="width: 0%" data-target="${logPct}%"></div></div>
+            </div>
+            <div class="mb-4">
+                <div class="flex justify-between text-[0.9em] font-bold text-slate-600 mb-1"><span>Verbal Ability</span><span class="text-primary">${verbPct}%</span></div>
+                <div class="trait-bar-bg"><div class="trait-bar-fill" style="width: 0%" data-target="${verbPct}%"></div></div>
             </div>
             <div class="mb-4">
                 <div class="flex justify-between text-[0.9em] font-bold text-slate-600 mb-1"><span>General Awareness</span><span class="text-primary">${genPct}%</span></div>
@@ -2022,30 +2207,53 @@
             });
         }, 100);
         
-        const ctx = $id('riasecChart').getContext('2d');
-        if (chartInstance) chartInstance.destroy();
-        
-        const riasecData = [
-            (maxScores.riasec.realistic && maxScores.riasec.realistic > 0) ? (userScores.riasec.realistic / maxScores.riasec.realistic) * 100 : 0,
-            (maxScores.riasec.investigative && maxScores.riasec.investigative > 0) ? (userScores.riasec.investigative / maxScores.riasec.investigative) * 100 : 0,
-            (maxScores.riasec.artistic && maxScores.riasec.artistic > 0) ? (userScores.riasec.artistic / maxScores.riasec.artistic) * 100 : 0,
-            (maxScores.riasec.social && maxScores.riasec.social > 0) ? (userScores.riasec.social / maxScores.riasec.social) * 100 : 0,
-            (maxScores.riasec.enterprising && maxScores.riasec.enterprising > 0) ? (userScores.riasec.enterprising / maxScores.riasec.enterprising) * 100 : 0,
-            (maxScores.riasec.conventional && maxScores.riasec.conventional > 0) ? (userScores.riasec.conventional / maxScores.riasec.conventional) * 100 : 0
-        ];
+        // Ensure Chart.js loaded safely
+        if (typeof Chart === 'undefined') {
+            $id('riasecChart').style.display = 'none';
+            $id('chart-fallback').classList.remove('hidden');
+        } else {
+            $id('chart-fallback').classList.add('hidden');
+            $id('riasecChart').style.display = 'block';
+            
+            const ctx = $id('riasecChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+            
+            // --- 2. IPSATIVE MIN-MAX NORMALIZATION FOR PERSONALITY CHART ---
+            // People often click "Agree" on everything. Min-Max normalization stretches 
+            // the scores so their true dominant traits spike clearly on the radar chart.
+            const rawRiasec = [
+                (maxScores.riasec.realistic && maxScores.riasec.realistic > 0) ? (userScores.riasec.realistic / maxScores.riasec.realistic) * 100 : 0,
+                (maxScores.riasec.investigative && maxScores.riasec.investigative > 0) ? (userScores.riasec.investigative / maxScores.riasec.investigative) * 100 : 0,
+                (maxScores.riasec.artistic && maxScores.riasec.artistic > 0) ? (userScores.riasec.artistic / maxScores.riasec.artistic) * 100 : 0,
+                (maxScores.riasec.social && maxScores.riasec.social > 0) ? (userScores.riasec.social / maxScores.riasec.social) * 100 : 0,
+                (maxScores.riasec.enterprising && maxScores.riasec.enterprising > 0) ? (userScores.riasec.enterprising / maxScores.riasec.enterprising) * 100 : 0,
+                (maxScores.riasec.conventional && maxScores.riasec.conventional > 0) ? (userScores.riasec.conventional / maxScores.riasec.conventional) * 100 : 0
+            ];
 
-        chartInstance = new Chart(ctx, {
-            type: 'radar',
-            data: { 
-                 labels: ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional'], 
-                 datasets: [{ label: 'Trait Score', data: riasecData, backgroundColor: 'rgba(79, 70, 229, 0.15)', borderColor: '#4f46e5', pointBackgroundColor: '#4f46e5', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#4f46e5', borderWidth: 2, fill: true }] 
-             },
-            options: { 
-                 responsive: true, maintainAspectRatio: false,
-                scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20, backdropColor: 'transparent', color: '#94a3b8' }, grid: { color: '#e2e8f0' }, angleLines: { color: '#e2e8f0' }, pointLabels: { font: { family: 'Poppins', size: 12, weight: '600' }, color: '#475569' } } }, 
-                 plugins: { legend: { display: false } } 
-             }
-        });
+            const maxR = Math.max(...rawRiasec);
+            const minR = Math.min(...rawRiasec);
+            
+            const riasecData = rawRiasec.map(function(val) {
+                if (maxR === minR || maxR === 0) return val; 
+                // Scale from 30 to 100 to exaggerate the differences visually
+                return 30 + ((val - minR) / (maxR - minR)) * 70;
+            });
+
+            setTimeout(() => {
+                chartInstance = new Chart(ctx, {
+                    type: 'radar',
+                    data: { 
+                         labels: ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional'], 
+                         datasets: [{ label: 'Trait Score', data: riasecData, backgroundColor: 'rgba(79, 70, 229, 0.15)', borderColor: '#4f46e5', pointBackgroundColor: '#4f46e5', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#4f46e5', borderWidth: 2, fill: true }] 
+                     },
+                    options: { 
+                         responsive: true, maintainAspectRatio: false,
+                        scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20, backdropColor: 'transparent', color: '#94a3b8' }, grid: { color: '#e2e8f0' }, angleLines: { color: '#e2e8f0' }, pointLabels: { font: { family: 'Poppins', size: 12, weight: '600' }, color: '#475569' } } }, 
+                         plugins: { legend: { display: false } } 
+                     }
+                });
+            }, 50); // slight delay ensures DOM element is fully visible before render
+        }
 
         const today = new Date();
         $id('date-1-month').innerText = new Date(today.setMonth(today.getMonth() + 1)).toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'});
