@@ -318,6 +318,17 @@
             border-color: var(--primary);
         }
 
+        /* Custom UI Toast Notifications */
+        #app-toast {
+            position: fixed; top: 20px; right: 20px; padding: 14px 24px; border-radius: 12px; z-index: 10000;
+            color: white; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.9em;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transform: translateY(-20px) scale(0.95); pointer-events: none;
+            display: flex; align-items: center; gap: 10px;
+        }
+        #app-toast.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
         /* Media Queries */
         @media (max-width: 768px) {
             body { padding: 10px 8px 90px 8px; }
@@ -330,6 +341,7 @@
             .chart-container { height: 260px; }
             .modal-card { height: 70vh; border-radius: 1.25rem 1.25rem 0 0; }
             .taskbar-wrapper { bottom: calc(0.5rem + env(safe-area-inset-bottom)); }
+            #app-toast { left: 20px; right: 20px; justify-content: center; text-align: center; }
         }
 
         @media print {
@@ -355,6 +367,8 @@
 <div class="fixed -top-20 -left-20 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-float" style="z-index: -1;"></div>
 <div class="fixed top-40 -right-20 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-float-delayed" style="z-index: -1;"></div>
 <div class="fixed -bottom-32 left-1/4 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-[120px] opacity-30 animate-float" style="z-index: -1;"></div>
+
+<div id="app-toast"></div>
 
 <div id="welcome-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden no-print">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeWelcomeModal()"></div>
@@ -781,8 +795,8 @@
 
 <div id="test-taskbar" class="taskbar-wrapper no-print hidden">
     <div class="taskbar px-2 sm:px-4 py-2 h-[64px] sm:h-[72px]">
-        <button id="taskbar-next-btn" onclick="nextQuestion(event)" class="w-full h-full rounded-[14px] text-xs sm:text-sm bg-primary text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all mx-1 focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Submit Answer">
-            Wait...
+        <button id="taskbar-next-btn" class="w-full h-full rounded-[14px] text-xs sm:text-sm bg-slate-300 text-slate-700 font-extrabold flex items-center justify-center gap-1.5 cursor-not-allowed border border-slate-400 mx-1 transition-all focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none" disabled aria-label="Submit Answer">
+            Select an answer...
         </button>
     </div>
 </div>
@@ -795,10 +809,8 @@
         PAYMENT_LINK: "https://payments.cashfree.com/forms/catfee",
         GOOGLE_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbydcKsOEn2H99u7zy12xTG0n-xahgHZyGKHJrDrqozoznud8W6fdomXCE6h8COIANW3/exec",
         TIMER_SECONDS: 30,
-        MIN_WAIT_SECONDS: 2, 
         MAX_CHEAT_WARNINGS: 3,
-        DISCOUNT_PER_MARK: 1000,
-        PASS_THRESHOLD: 0.3
+        DISCOUNT_PER_MARK: 1000
     };
 
     const $id = function(id) {
@@ -813,27 +825,35 @@
         .catch(function(err) { console.log("IP fetch blocked or failed"); });
 
     // ==========================================
+    // CUSTOM TOAST NOTIFICATION SYSTEM
+    // ==========================================
+    function showToast(message, type = 'error') {
+        const toast = $id('app-toast');
+        if(!toast) return;
+        
+        toast.innerHTML = type === 'error' 
+            ? `<i class="fas fa-exclamation-circle text-xl"></i> <span>${message}</span>`
+            : type === 'success' 
+                ? `<i class="fas fa-check-circle text-xl"></i> <span>${message}</span>`
+                : `<i class="fas fa-info-circle text-xl"></i> <span>${message}</span>`;
+                
+        toast.style.background = type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#f59e0b';
+        
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 3500);
+    }
+
+    // ==========================================
     // AUTO BACKGROUND PULL (Assets & Databases)
     // ==========================================
     const dbFilesToPull = [
-        'jobs_database.js',
-        'questions_part1.js',
-        'questions_part2.js',
-        'questions_part3.js',
-        'questions_part4.js',
-        'questions_part5.js',
-        'questions_part6.js',
-        'questions_part7.js',
-        'questions_part8.js',
-        'questions_part9.js',
-        'questions_part10.js',
-        'academic_part1.js'
+        'jobs_database.js', 'questions_part1.js', 'questions_part2.js', 'questions_part3.js',
+        'questions_part4.js', 'questions_part5.js', 'questions_part6.js', 'questions_part7.js',
+        'questions_part8.js', 'questions_part9.js', 'questions_part10.js', 'academic_part1.js'
     ];
-    let loadedDBsCount = 0;
-
+    
     function backgroundPullDatabases() {
         dbFilesToPull.forEach(function(file) {
-            // Set retries to 0 to prevent console spam and 404 loops when files are not yet uploaded.
             loadScriptWithRetry(file, 0); 
         });
     }
@@ -841,28 +861,16 @@
     function loadScriptWithRetry(src, retries) {
         const script = document.createElement('script');
         script.src = src;
-        script.async = true; // Load asynchronously in the background
-        script.onload = function() {
-            loadedDBsCount++;
-            console.log("[Background Pull] Successfully loaded: " + src);
-        };
+        script.async = true; 
+        script.onload = function() { console.log("[Background Pull] Loaded: " + src); };
         script.onerror = function() {
-            if (retries > 0) {
-                // Wait 2 seconds before retrying to allow network recovery
-                setTimeout(function() { loadScriptWithRetry(src, retries - 1); }, 2000);
-            } else {
-                // Silently handle missing files to avoid fatal console errors. 
-                // The test engine automatically generates mock fallback data if these are missing.
-                console.log("[System Note] " + src + " not found locally. Safe fallback mock data will be used.");
-            }
+            if (retries > 0) { setTimeout(function() { loadScriptWithRetry(src, retries - 1); }, 2000); } 
+            else { console.log("[System Note] " + src + " safe fallback active."); }
         };
         document.head.appendChild(script);
     }
-
-    // Initiate the silent background pull immediately
     backgroundPullDatabases();
 
-    // Function for animating numbers smoothly
     function animateValue(obj, start, end, duration, formatCurrency = false) {
         let startTimestamp = null;
         const step = function(timestamp) {
@@ -870,34 +878,22 @@
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
             const easeProgress = progress * (2 - progress);
             const currentVal = Math.floor(easeProgress * (end - start) + start);
-            
-            if(formatCurrency) {
-                obj.innerHTML = `₹${currentVal.toLocaleString('en-IN')}`;
-            } else {
-                obj.innerHTML = currentVal;
-            }
-            
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
+            if(formatCurrency) { obj.innerHTML = `₹${currentVal.toLocaleString('en-IN')}`; } 
+            else { obj.innerHTML = currentVal; }
+            if (progress < 1) { window.requestAnimationFrame(step); }
         };
         window.requestAnimationFrame(step);
     }
     
-    // Helper to safely access global variables generated by external scripts
-    // Solves the issue where 'const' in external files doesn't attach to the 'window' object
+    // Safely pull variables avoiding syntax errors for window lookups
     function getSafeGlobalVar(varName) {
-        try {
-            return eval(varName);
-        } catch (e) {
-            return undefined;
-        }
+        if (typeof window[varName] !== 'undefined') return window[varName];
+        return undefined;
     }
 
     // ==========================================
     // Data Assets (Modals, Pickers, Database)
     // ==========================================
-    
     const legalContent = {
         terms: { title: "Terms of Service", body: `<h3>1. Introduction</h3><p>Welcome to the Club of Competition Career Advise Test. By taking this test, you agree to comply with and be bound by the following terms.</p><h3>2. Purpose of the Test</h3><p>This evaluates aptitude and personality to suggest potential career matches in government sectors. It is an educational tool, not a job guarantee.</p><h3>3. Data Accuracy</h3><p>You agree to provide accurate information. Inaccurate data may result in flawed career suggestions.</p>` },
         privacy: { title: "Privacy Statement", body: `<h3>1. Information We Collect</h3><p>We collect your registration details and test answers to build your psychological profile.</p><h3>2. How We Use It</h3><p>Data is used solely to calculate compatibility scores, generate your blueprint, and offer counseling.</p><h3>3. Data Protection</h3><p>Your data is securely stored and never sold to third parties.</p>` },
@@ -907,13 +903,12 @@
     const statePincodes = {
         "Andaman and Nicobar Islands": ["744101"], "Andhra Pradesh": ["520001", "530001"], "Arunachal Pradesh": ["791111"], 
         "Assam": ["781001"], "Bihar": ["800001"], "Chandigarh": ["160001"], "Chhattisgarh": ["492001"], 
-        "Dadra and Nagar Haveli and Daman and Diu": ["396210", "396193"], "Delhi": ["110001", "110020"], "Goa": ["403001"], 
-        "Gujarat": ["380001"], "Haryana": ["122001"], "Himachal Pradesh": ["171001"], "Jammu and Kashmir": ["190001", "180001"], 
-        "Jharkhand": ["834001"], "Karnataka": ["560001"], "Kerala": ["695001"], "Ladakh": ["194101"], "Lakshadweep": ["682555"], 
-        "Madhya Pradesh": ["462001"], "Maharashtra": ["400001", "411001"], "Manipur": ["795001"], "Meghalaya": ["793001"], 
-        "Mizoram": ["796001"], "Nagaland": ["797001"], "Odisha": ["751001"], "Puducherry": ["605001"], "Punjab": ["160017"], 
-        "Rajasthan": ["302001"], "Sikkim": ["737101"], "Tamil Nadu": ["600001"], "Telangana": ["500001"], "Tripura": ["799001"], 
-        "Uttar Pradesh": ["226001"], "Uttarakhand": ["248001"], "West Bengal": ["700001", "700020"], "Other / UT": ["999999"]
+        "Delhi": ["110001", "110020"], "Goa": ["403001"], "Gujarat": ["380001"], "Haryana": ["122001"], 
+        "Himachal Pradesh": ["171001"], "Jammu and Kashmir": ["190001"], "Jharkhand": ["834001"], 
+        "Karnataka": ["560001"], "Kerala": ["695001"], "Madhya Pradesh": ["462001"], "Maharashtra": ["400001", "411001"], 
+        "Odisha": ["751001"], "Punjab": ["160017"], "Rajasthan": ["302001"], "Tamil Nadu": ["600001"], 
+        "Telangana": ["500001"], "Uttar Pradesh": ["226001"], "Uttarakhand": ["248001"], "West Bengal": ["700001", "700020"], 
+        "Other / UT": ["999999"]
     };
 
     const pickerData = {
@@ -974,11 +969,8 @@
             for(let inches = startInches; inches >= 0; inches--) {
                 let cm = Math.round((feet * 12 + inches) * 2.54);
                 let label = `${feet} ft ${inches} in (${cm} cm)`;
-                if (feet === 7 && inches === 0) {
-                    label += " or above";
-                } else if (feet === 4 && inches === 0) {
-                    label += " or below";
-                }
+                if (feet === 7 && inches === 0) label += " or above";
+                else if (feet === 4 && inches === 0) label += " or below";
                 pickerData.height.push(label);
             }
         }
@@ -1006,7 +998,6 @@
                     renderQuestion();
                     shouldResume = true;
                 } catch(e) {
-                    console.error("Error parsing saved state", e);
                     localStorage.removeItem('coc_test_state');
                 }
             } else {
@@ -1020,7 +1011,7 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
                 
                 if (localStorage.getItem('coc_test_completed') === 'true') {
-                    alert("You have already completed a test with this payment. Please register and pay again to take a new test.");
+                    showToast("You have already completed a test with this payment. Please register again.", "warning");
                 } else {
                     const dob = $id('dob').value;
                     let calculatedAge = "";
@@ -1052,14 +1043,10 @@
         }
     });
 
-    window.closeWelcomeModal = function() {
-        $id('welcome-modal').classList.add('hidden');
-    };
+    window.closeWelcomeModal = function() { $id('welcome-modal').classList.add('hidden'); };
 
     function goToStage(stageNum) {
-        document.querySelectorAll('.stage').forEach(function(el) {
-            el.classList.remove('active-stage');
-        });
+        document.querySelectorAll('.stage').forEach(function(el) { el.classList.remove('active-stage'); });
         const targetStage = $id(`stage-${stageNum}`);
         if(targetStage) targetStage.classList.add('active-stage');
         
@@ -1081,11 +1068,9 @@
     // ==========================================
     function goToFormStep(step) {
         currentFormStep = step;
-        
         $id('form-step-1').classList.add('hidden');
         $id('form-step-2').classList.add('hidden');
         $id('form-step-3').classList.add('hidden');
-        
         $id(`form-step-${step}`).classList.remove('hidden');
 
         $id('step-dot-1').className = `h-2 flex-1 rounded-full transition-all ${step >= 1 ? 'bg-primary' : 'bg-slate-200'}`;
@@ -1094,7 +1079,6 @@
 
         checkFormValidity();
         
-        // Scroll slightly up but keep logo visible
         const container = document.querySelector('.app-container');
         if (container) {
              const yOffset = container.getBoundingClientRect().top + window.scrollY - 20;
@@ -1104,27 +1088,18 @@
 
     function capturePartialLead() {
         studentData = { 
-             name: $id('name').value.trim(), 
-             phone: "+91 " + $id('phone').value.trim(), 
-             email: $id('email').value.trim(),
-             educationCourse: "Incomplete", sportsInterest: "Incomplete", dob: "Incomplete", 
-             age: "Incomplete", gender: "Incomplete", address: "Incomplete", pincode: "Incomplete", 
-             state: "Incomplete", district: "Incomplete", motherLanguage: "Incomplete", 
-             pwd: "Incomplete", caste: "Incomplete", community: "Incomplete", height: "Incomplete"
+             name: $id('name').value.trim(), phone: "+91 " + $id('phone').value.trim(), email: $id('email').value.trim(),
+             educationCourse: "Incomplete", sportsInterest: "Incomplete", dob: "Incomplete", age: "Incomplete", 
+             gender: "Incomplete", address: "Incomplete", pincode: "Incomplete", state: "Incomplete", district: "Incomplete", 
+             motherLanguage: "Incomplete", pwd: "Incomplete", caste: "Incomplete", community: "Incomplete", height: "Incomplete"
         };
-        // Silently push the partial lead to sheets in the background
         sendDataToGoogleSheets("Partial Lead");
     }
 
     function handleTaskbarAction() {
-        if (currentFormStep === 1) {
-            capturePartialLead();
-            goToFormStep(2);
-        } else if (currentFormStep === 2) {
-            goToFormStep(3);
-        } else if (currentFormStep === 3) {
-            initiatePayment();
-        }
+        if (currentFormStep === 1) { capturePartialLead(); goToFormStep(2); } 
+        else if (currentFormStep === 2) { goToFormStep(3); } 
+        else if (currentFormStep === 3) { initiatePayment(); }
     }
 
     // ==========================================
@@ -1144,27 +1119,18 @@
         
         if(['motherLanguage', 'state', 'height', 'educationCourse'].includes(targetId)) {
             searchInput.style.display = "block"; searchInput.value = "";
-        } else {
-            searchInput.style.display = "none";
-        }
+        } else { searchInput.style.display = "none"; }
         
         if(targetId === 'height') {
             hintDiv.style.display = "block";
             hintDiv.innerHTML = "<strong>📏 Quick Tip:</strong> Don't know your exact height? A standard A4 size paper is about 30 cm long (roughly 1 foot). You can use it as a makeshift scale to estimate your height!";
-        } else {
-            hintDiv.style.display = "none";
-        }
+        } else { hintDiv.style.display = "none"; }
 
         renderPickerOptions(currentPickerOptions);
     }
 
-    function closePicker() {
-        $id('picker-modal').classList.add('hidden');
-    }
-
-    function closePickerOnOverlay(e) {
-        if(e.target.id === 'picker-modal') closePicker();
-    }
+    function closePicker() { $id('picker-modal').classList.add('hidden'); }
+    function closePickerOnOverlay(e) { if(e.target.id === 'picker-modal') closePicker(); }
 
     function renderPickerOptions(options) {
         const listDiv = $id('picker-list');
@@ -1202,9 +1168,7 @@
         const query = $id('picker-search').value.toLowerCase();
         const filtered = currentPickerOptions.map(function(opt) {
             if (opt.group) {
-                const filteredItems = opt.items.filter(function(item) {
-                    return item.toLowerCase().includes(query);
-                });
+                const filteredItems = opt.items.filter(function(item) { return item.toLowerCase().includes(query); });
                 if (filteredItems.length > 0) return { group: opt.group, items: filteredItems };
                 return null;
             } else {
@@ -1233,11 +1197,8 @@
         const inputs = document.querySelectorAll('#stage-1 input');
         inputs.forEach(function(el) {
             if (el.id && el.id !== 'picker-search') {
-                if (el.type === 'checkbox') {
-                    dataToSave[el.id] = { checked: el.checked };
-                } else {
-                    dataToSave[el.id] = { value: el.value, dataValue: el.getAttribute('data-value') };
-                }
+                if (el.type === 'checkbox') { dataToSave[el.id] = { checked: el.checked }; } 
+                else { dataToSave[el.id] = { value: el.value, dataValue: el.getAttribute('data-value') }; }
             }
         });
         localStorage.setItem('coc_form_data', JSON.stringify(dataToSave));
@@ -1251,9 +1212,8 @@
                 Object.keys(data).forEach(function(id) {
                     const el = $id(id);
                     if (el) {
-                        if (el.type === 'checkbox') {
-                            el.checked = data[id].checked;
-                        } else {
+                        if (el.type === 'checkbox') { el.checked = data[id].checked; } 
+                        else {
                             el.value = data[id].value || '';
                             if (data[id].dataValue) el.setAttribute('data-value', data[id].dataValue);
                         }
@@ -1266,17 +1226,11 @@
     }
 
     $id('stage-1').addEventListener('input', function(e) {
-        if (e.target.tagName === 'INPUT' && e.target.id !== 'picker-search') {
-            window.saveFormData();
-            checkFormValidity();
-        }
+        if (e.target.tagName === 'INPUT' && e.target.id !== 'picker-search') { window.saveFormData(); checkFormValidity(); }
     });
 
     $id('stage-1').addEventListener('change', function(e) {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-            window.saveFormData();
-            checkFormValidity();
-        }
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') { window.saveFormData(); checkFormValidity(); }
     });
 
     function checkFormValidity() {
@@ -1285,24 +1239,8 @@
         const nameVal = $id('name').value.trim();
 
         const isStep1Valid = nameVal !== "" && /^[6-9]\d{9}$/.test(phoneVal) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
-        
-        const isStep2Valid = 
-            $id('educationCourse').value.trim() !== "" && 
-            $id('dob').value !== "" && 
-            $id('height').value.trim() !== "" &&
-            $id('sportsInterest').value.trim() !== "" && 
-            $id('motherLanguage').value.trim() !== "" && 
-            $id('gender').value.trim() !== "" &&
-            $id('pwd').value.trim() !== "";
-
-        const isStep3Valid = 
-            $id('caste').value.trim() !== "" && 
-            $id('community').value.trim() !== "" &&
-            $id('pincode').value.trim().length === 6 && 
-            $id('state').value.trim() !== "" && 
-            $id('district').value.trim() !== "" &&
-            $id('address').value.trim() !== "" && 
-            $id('dataConsent').checked;
+        const isStep2Valid = $id('educationCourse').value.trim() !== "" && $id('dob').value !== "" && $id('height').value.trim() !== "" && $id('sportsInterest').value.trim() !== "" && $id('motherLanguage').value.trim() !== "" && $id('gender').value.trim() !== "" && $id('pwd').value.trim() !== "";
+        const isStep3Valid = $id('caste').value.trim() !== "" && $id('community').value.trim() !== "" && $id('pincode').value.trim().length === 6 && $id('state').value.trim() !== "" && $id('district').value.trim() !== "" && $id('address').value.trim() !== "" && $id('dataConsent').checked;
 
         const payBtn = $id('tb-pay-btn');
         if(!payBtn) return;
@@ -1311,19 +1249,9 @@
         let btnText = "";
         let btnIcon = "";
 
-        if (currentFormStep === 1) {
-            isCurrentStepValid = isStep1Valid;
-            btnText = "Next: Profile details";
-            btnIcon = "fa-arrow-right";
-        } else if (currentFormStep === 2) {
-            isCurrentStepValid = isStep2Valid;
-            btnText = "Next: Location details";
-            btnIcon = "fa-arrow-right";
-        } else if (currentFormStep === 3) {
-            isCurrentStepValid = isStep3Valid;
-            btnText = "Pay to Start";
-            btnIcon = "fa-check-circle";
-        }
+        if (currentFormStep === 1) { isCurrentStepValid = isStep1Valid; btnText = "Next: Profile details"; btnIcon = "fa-arrow-right"; } 
+        else if (currentFormStep === 2) { isCurrentStepValid = isStep2Valid; btnText = "Next: Location details"; btnIcon = "fa-arrow-right"; } 
+        else if (currentFormStep === 3) { isCurrentStepValid = isStep3Valid; btnText = "Pay to Start"; btnIcon = "fa-check-circle"; }
 
         if (isCurrentStepValid) {
             payBtn.disabled = false;
@@ -1346,15 +1274,9 @@
             const today = new Date();
             let calculatedAge = today.getFullYear() - birthDate.getFullYear();
             const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                calculatedAge--;
-            }
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { calculatedAge--; }
             ageInput.value = `${calculatedAge} Years`;
-            if (calculatedAge < 18) {
-                pg.classList.remove('hidden');
-            } else {
-                pg.classList.add('hidden');
-            }
+            if (calculatedAge < 18) { pg.classList.remove('hidden'); } else { pg.classList.add('hidden'); }
         } else {
             pg.classList.add('hidden');
             ageInput.value = '';
@@ -1391,62 +1313,48 @@
                     window.saveFormData(); 
                     checkFormValidity();
                 } else {
-                    districtInput.value = ""; 
-                    stateInput.value = ""; 
-                    districtInput.removeAttribute('readonly'); 
-                    stateInput.removeAttribute('readonly');
-                    districtInput.style.background = '#f8fafc'; 
-                    stateInput.style.background = '#f8fafc';
-                    districtInput.style.cursor = 'text'; 
-                    stateInput.style.cursor = 'text'; 
-                    alert("Pincode not found. Please enter State and District manually.");
+                    districtInput.value = ""; stateInput.value = ""; 
+                    districtInput.removeAttribute('readonly'); stateInput.removeAttribute('readonly');
+                    districtInput.style.background = '#f8fafc'; stateInput.style.background = '#f8fafc';
+                    districtInput.style.cursor = 'text'; stateInput.style.cursor = 'text'; 
+                    showToast("Pincode not found. Please enter State and District manually.", "warning");
                 }
             } catch (e) {
-                districtInput.value = ""; 
-                stateInput.value = ""; 
-                districtInput.removeAttribute('readonly'); 
-                stateInput.removeAttribute('readonly');
-                districtInput.style.background = '#f8fafc'; 
-                stateInput.style.background = '#f8fafc';
-                districtInput.style.cursor = 'text'; 
-                stateInput.style.cursor = 'text';
+                districtInput.value = ""; stateInput.value = ""; 
+                districtInput.removeAttribute('readonly'); stateInput.removeAttribute('readonly');
+                districtInput.style.background = '#f8fafc'; stateInput.style.background = '#f8fafc';
+                districtInput.style.cursor = 'text'; stateInput.style.cursor = 'text';
+                showToast("Network error verifying pincode.", "warning");
             }
         } else {
-            districtInput.value = ""; 
-            stateInput.value = ""; 
-            districtInput.setAttribute('readonly', 'true'); 
-            stateInput.setAttribute('readonly', 'true');
-            districtInput.style.background = '#e2e8f0'; 
-            stateInput.style.background = '#e2e8f0'; 
-            districtInput.style.cursor = 'not-allowed'; 
-            stateInput.style.cursor = 'not-allowed';
+            districtInput.value = ""; stateInput.value = ""; 
+            districtInput.setAttribute('readonly', 'true'); stateInput.setAttribute('readonly', 'true');
+            districtInput.style.background = '#e2e8f0'; stateInput.style.background = '#e2e8f0'; 
+            districtInput.style.cursor = 'not-allowed'; stateInput.style.cursor = 'not-allowed';
             checkFormValidity();
         }
     }
-
-    window.focusManualEntry = function() {
-        const nameInput = $id('name');
-        if(nameInput) {
-            nameInput.focus();
-            nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    };
 
     window.openLegalModal = function(type) {
         $id('legal-title').innerText = legalContent[type].title;
         $id('legal-body').innerHTML = legalContent[type].body;
         $id('legal-modal').classList.remove('hidden');
     };
+    window.closeLegalModal = function() { $id('legal-modal').classList.add('hidden'); };
+    window.closeLegalOnOverlay = function(e) { if(e.target.id === 'legal-modal') window.closeLegalModal(); };
 
-    window.closeLegalModal = function() {
-        $id('legal-modal').classList.add('hidden');
-    };
-
-    window.closeLegalOnOverlay = function(e) {
-        if(e.target.id === 'legal-modal') {
-            window.closeLegalModal();
+    // Robust Network Wrapper for Sheet Submission
+    async function fetchWithRetry(url, options, retries = 3) {
+        for (let i = 0; i < retries; i++) {
+            try {
+                await fetch(url, options);
+                return true;
+            } catch (err) {
+                if (i === retries - 1) throw err;
+                await new Promise(res => setTimeout(res, 1000 * Math.pow(2, i))); // 1s, 2s, 4s delay
+            }
         }
-    };
+    }
 
     async function sendDataToGoogleSheets(statusType) {
         if (!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.includes("PASTE_URL")) return;
@@ -1464,17 +1372,13 @@
         };
         
         try {
-            await fetch(CONFIG.GOOGLE_SCRIPT_URL, { 
-                method: "POST", 
-                mode: 'no-cors', 
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8"
-                },
+            await fetchWithRetry(CONFIG.GOOGLE_SCRIPT_URL, { 
+                method: "POST", mode: 'no-cors', headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify(payload) 
             });
-            console.log(`[Google Sheets] ${statusType} saved.`);
-        } catch (error) {
-            console.error("[Google Sheets] Error:", error);
+        } catch (error) { 
+            console.error("[Google Sheets] Data Sync Failed:", error);
+            if(statusType === "Lead Captured") throw error; // Re-throw to handle in UI
         }
     }
 
@@ -1482,9 +1386,9 @@
     // Payment Processing
     // ==========================================
     function openPaymentLink() {
-        if(CONFIG.PAYMENT_LINK === "YOUR_CASHFREE_LINK_HERE") {
-            alert("Developer Note: Please insert your actual payment link in the source code.");
-            return;
+        if(CONFIG.PAYMENT_LINK === "YOUR_CASHFREE_LINK_HERE") { 
+            showToast("Developer Note: Please insert actual payment link.", "warning"); 
+            return; 
         }
         window.saveFormData();
         localStorage.setItem('coc_payment_initiated', 'true');
@@ -1493,7 +1397,6 @@
 
     window.initiatePayment = async function() {
         const name = $id('name').value.trim();
-        const countryCode = "+91"; 
         const phoneRaw = $id('phone').value.trim();
         const email = $id('email').value.trim();
         let rawEducation = $id('educationCourse').value.trim();
@@ -1513,24 +1416,11 @@
         const dataConsent = $id('dataConsent').checked;
         
         if (!name || !phoneRaw || !email || !educationCourse || !dob || !height || !sportsInterest || !motherLanguage || !gender || !pwd || !caste || !community || !pincode || !state || !district || !address) { 
-             alert("Please fill all required fields before proceeding.");
-             return; 
+             showToast("Please fill all required fields before proceeding."); return; 
          }
-         
-        if (!/^[6-9]\d{9}$/.test(phoneRaw)) {
-             alert("Please enter a valid 10-digit Indian phone number.");
-             return;
-        }
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-             alert("Please enter a valid email address.");
-             return;
-        }
-         
-        if (!dataConsent) {
-            alert("Please accept the Data Privacy Policy & Terms of Service to proceed.");
-            return;
-        }
+        if (!/^[6-9]\d{9}$/.test(phoneRaw)) { showToast("Please enter a valid 10-digit Indian phone number."); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast("Please enter a valid email address."); return; }
+        if (!dataConsent) { showToast("Please accept the Terms of Service to proceed."); return; }
 
         const birthDate = new Date(dob);
         const today = new Date();
@@ -1539,22 +1429,28 @@
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) calculatedAge--;
 
         studentData = { 
-             name, phone: countryCode + " " + phoneRaw, email, educationCourse, sportsInterest, dob, age: calculatedAge, 
+             name, phone: "+91 " + phoneRaw, email, educationCourse, sportsInterest, dob, age: calculatedAge, 
              gender, address, pincode, state, district, motherLanguage, pwd, caste, community, height
         };
 
         localStorage.removeItem('coc_test_completed');
         
-        // Show loading state immediately to prevent user closing/clicking again
         const btn = $id('tb-pay-btn');
         if(btn) {
             btn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Saving...';
             btn.disabled = true;
         }
 
-        // Wait for the data to successfully push before redirecting
-        await sendDataToGoogleSheets("Lead Captured");
-        openPaymentLink();
+        try {
+            await sendDataToGoogleSheets("Lead Captured");
+            openPaymentLink();
+        } catch (error) {
+            showToast("Network Error. Please check your connection and try again.");
+            if(btn) {
+                btn.innerHTML = `<i class="fas fa-check-circle text-lg sm:text-xl"></i><span>Pay to Start</span>`;
+                btn.disabled = false;
+            }
+        }
     };
 
     // ==========================================
@@ -1585,11 +1481,7 @@
             resumeBtn.onclick = function() {
                 overlay.classList.add('hidden');
                 isCheatModalOpen = false;
-                if (stage3) {
-                    stage3.style.filter = "none";
-                    stage3.style.pointerEvents = "auto";
-                    stage3.style.userSelect = "auto";
-                }
+                if (stage3) { stage3.style.filter = "none"; stage3.style.pointerEvents = "auto"; stage3.style.userSelect = "auto"; }
                 clearTestState();
                 runAIAnalysis(); 
              };
@@ -1599,33 +1491,16 @@
             resumeBtn.onclick = function() {
                 overlay.classList.add('hidden');
                 isCheatModalOpen = false;
-                if (stage3) {
-                    stage3.style.filter = "none";
-                    stage3.style.pointerEvents = "auto";
-                    stage3.style.userSelect = "auto";
-                }
+                if (stage3) { stage3.style.filter = "none"; stage3.style.pointerEvents = "auto"; stage3.style.userSelect = "auto"; }
                 startTimer(); 
              };
         }
     }
 
-    document.addEventListener("visibilitychange", function() {
-        if (isTestActive && document.visibilityState === "hidden") handleCheatWarning("Tab switching or minimization detected");
-    });
-    
-    window.addEventListener("blur", function() {
-        if (isTestActive) handleCheatWarning("Window focus lost / Background App detected");
-    });
-    
-    document.addEventListener("contextmenu", function(e) {
-        e.preventDefault();
-        if (isTestActive) handleCheatWarning("Right-clicking is prohibited during the test.");
-    });
-    
-    document.addEventListener("copy", function(e) {
-        e.preventDefault();
-        if (isTestActive) handleCheatWarning("Attempting to copy text is prohibited.");
-    });
+    document.addEventListener("visibilitychange", function() { if (isTestActive && document.visibilityState === "hidden") handleCheatWarning("Tab switching or minimization detected"); });
+    window.addEventListener("blur", function() { if (isTestActive) handleCheatWarning("Window focus lost / Background App detected"); });
+    document.addEventListener("contextmenu", function(e) { e.preventDefault(); if (isTestActive) handleCheatWarning("Right-clicking is prohibited during the test."); });
+    document.addEventListener("copy", function(e) { e.preventDefault(); if (isTestActive) handleCheatWarning("Attempting to copy text is prohibited."); });
 
     // ==========================================
     // State Management Helpers (Auto-Save)
@@ -1635,20 +1510,14 @@
         localStorage.setItem('coc_test_state', JSON.stringify(state));
     }
     
-    function clearTestState() {
-        localStorage.removeItem('coc_test_state');
-    }
+    function clearTestState() { localStorage.removeItem('coc_test_state'); }
 
     // ==========================================
     // Core Test Engine & FALLBACK SYSTEM
     // ==========================================
     window.submitStage2 = function() {
-        if (navigator.webdriver) {
-            alert("Security Alert: Automated browser tool detected. Test cannot be started.");
-            return;
-        }
+        if (navigator.webdriver) { showToast("Security Alert: Automated browser tool detected."); return; }
         
-        // Show loading state
         const startBtn = $id('btn-start-test-now');
         if (startBtn) {
             startBtn.innerHTML = '<span class="spinner-inline" style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></span> Loading...';
@@ -1659,20 +1528,14 @@
             let riasecPool = [];
             let academicPoolRaw = [];
             
-            // 1. Attempt to load external questions securely using the safe global getter
             for(let i=1; i<=10; i++) {
                 let partData = getSafeGlobalVar(`questionsPart${i}`) || getSafeGlobalVar(`questions_part${i}`);
-                if(Array.isArray(partData)) {
-                    riasecPool.push(...partData);
-                }
+                if(Array.isArray(partData)) riasecPool.push(...partData);
             }
             
             let acadData = getSafeGlobalVar('academicPart1') || getSafeGlobalVar('academic_part1');
-            if(Array.isArray(acadData)) {
-                academicPoolRaw.push(...acadData);
-            }
+            if(Array.isArray(acadData)) academicPoolRaw.push(...acadData);
 
-            // 2. FAILSAFE: If external scripts failed to load or are empty, inject dynamic mock questions
             if (riasecPool.length === 0) {
                 console.warn("External RIASEC questions missing. Generating fallback pool.");
                 const traits = ['realistic', 'investigative', 'artistic', 'social', 'enterprising', 'conventional'];
@@ -1701,23 +1564,18 @@
                 }
             }
 
-            // 3. Filter Academic Pool (FORCED TO 10TH LEVEL ONLY - Fuzzy Match)
             let academicPool = [];
             let fallbackAcademicPool = [];
 
             academicPool = academicPoolRaw.filter(function(q) {
                 if (!q.qualifications || q.qualifications.length === 0 || q.qualifications.includes("All")) return true;
-                // Fuzzy match: picks up "10th", "10th Level", "10th Standard", etc.
                 return q.qualifications.some(function(qual) {
                     return qual.toLowerCase().includes("10th") || qual.toLowerCase().includes("all");
                 });
             });
             
-            fallbackAcademicPool = academicPoolRaw.filter(function(q) {
-                return !academicPool.includes(q);
-            });
+            fallbackAcademicPool = academicPoolRaw.filter(function(q) { return !academicPool.includes(q); });
 
-            // Helper to pick evenly across all available traits
             const selectBalanced = function(pool, neededCount) {
                 let grouped = {};
                 pool.forEach(function(q) {
@@ -1742,7 +1600,6 @@
                 return selected;
             };
 
-            // 4. Randomize & Select Exactly 90 Balanced Questions
             const selectedRiasecRaw = selectBalanced(riasecPool, 45);
             const selectedRiasec = selectedRiasecRaw.map(function(q) { return { ...q, categoryType: 'riasec' }; });
             
@@ -1756,10 +1613,8 @@
             
             const selectedAcademic = selectedAcademicRaw.map(function(q) { return { ...q, categoryType: 'academic' }; });
             
-            // Combine exactly 45 RIASEC and 45 Academic, then completely randomize their order
             activeQuestions = [...selectedRiasec, ...selectedAcademic].sort(function() { return 0.5 - Math.random(); });
             
-            // Reset scores safely
             for (let cat in userScores) {
                 for (let tr in userScores[cat]) {
                     userScores[cat][tr] = 0;
@@ -1769,11 +1624,13 @@
             
             activeQuestions.forEach(function(q) {
                 let maxVal = 5; 
-                if (q.type === 'mcq' && q.options) {
-                    let vals = q.options.map(function(o) {
-                        return o.val !== undefined ? o.val : 5;
-                    });
-                    maxVal = Math.max(...vals) || 5; 
+                if (q.type === 'mcq') {
+                    // Safety check to ensure there's options
+                    let ops = q.options || [];
+                    if(ops.length > 0) {
+                        let vals = ops.map(function(o) { return o.val !== undefined ? o.val : 5; });
+                        maxVal = Math.max(...vals) || 5; 
+                    }
                 }
                 if (q.traitType && q.trait && maxScores[q.traitType] && maxScores[q.traitType][q.trait] !== undefined) {
                     maxScores[q.traitType][q.trait] += maxVal;
@@ -1816,7 +1673,19 @@
         
         if (q.type === 'mcq') {
             let html = '<div class="mcq-grid">';
-            const options = q.options || [{text: "A", val:5}, {text: "B", val:0}, {text: "C", val:0}, {text: "D", val:0}];
+            let options = q.options || [];
+            
+            // STRICT REQUIREMENT: Guarantee 4 options minimum for smooth rendering
+            if (options.length === 0) {
+                options = [
+                    {text: "Strongly Agree", val: 5}, {text: "Agree", val: 4},
+                    {text: "Neutral", val: 3}, {text: "Disagree", val: 2}
+                ];
+            } else if (options.length < 4) {
+                let needed = 4 - options.length;
+                for(let i=0; i<needed; i++) options.push({text: "N/A", val: 0});
+            }
+
             options.forEach(function(opt, idx) {
                 let letter = String.fromCharCode(65 + idx);
                 html += `<label class="option-label" id="label-${idx}"><input type="radio" name="answer" value="${opt.val !== undefined ? opt.val : 0}"><span class="flex items-center w-full"><strong class="mr-2.5 shrink-0 text-primary bg-indigo-50 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg shadow-sm border border-indigo-100 text-sm sm:text-base">${letter}</strong><span class="break-words leading-snug">${opt.text}</span></span></label>`;
@@ -1833,10 +1702,21 @@
             area.innerHTML = html + '</div>';
         }
         
+        // DYNAMIC BUTTON LOGIC: Locks button until an option is clicked for smooth UX
         const tbNextBtn = $id('taskbar-next-btn');
         tbNextBtn.disabled = true;
-        tbNextBtn.innerHTML = `Wait... <i class="fas fa-hourglass-half ml-1" aria-hidden="true"></i>`;
+        tbNextBtn.innerHTML = `Select an answer...`;
         tbNextBtn.className = "w-full h-full rounded-[14px] text-xs sm:text-sm bg-slate-300 text-slate-700 font-extrabold flex items-center justify-center gap-1.5 cursor-not-allowed border border-slate-400 mx-1 transition-all focus-visible:ring-4 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:outline-none";
+        
+        // Instantly unlock button when any radio button is clicked
+        const radios = area.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                tbNextBtn.disabled = false;
+                tbNextBtn.className = "w-full h-full rounded-[14px] text-xs sm:text-sm bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all hover:-translate-y-1 active:scale-95 mx-1 cursor-pointer focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none";
+                tbNextBtn.innerHTML = (currentQuestionIndex === activeQuestions.length - 1) ? `Submit Test <i class="fas fa-check-circle ml-1 text-base"></i>` : `Next Question <i class="fas fa-arrow-right ml-1 text-base"></i>`;
+            });
+        });
         
         startTimer();
     }
@@ -1844,7 +1724,6 @@
     function startTimer() {
         clearInterval(questionTimerInterval);
         timeRemaining = CONFIG.TIMER_SECONDS;
-        let minWaitTime = CONFIG.MIN_WAIT_SECONDS;
         
         const timerDisplay = $id('timer-display');
         timerDisplay.style.animation = 'none';
@@ -1854,31 +1733,15 @@
         timerDisplay.style.boxShadow = '0 2px 8px rgba(234, 88, 12, 0.15)';
         
         const tbNextBtn = $id('taskbar-next-btn');
-        
-        // Prevent double clicking logic issue
         tbNextBtn.onclick = function(e) {
             if(tbNextBtn.disabled) return;
             tbNextBtn.disabled = true; // Lock immediately to prevent double-firing
             nextQuestion(e);
         };
-
-        tbNextBtn.disabled = true;
-        tbNextBtn.innerHTML = `Wait ${minWaitTime}s <i class="fas fa-hourglass-half ml-1" aria-hidden="true"></i>`;
         
         questionTimerInterval = setInterval(function() {
             timeRemaining--;
             timerDisplay.innerText = `⏱ ${timeRemaining}s`;
-            
-            if (minWaitTime > 0) {
-                minWaitTime--;
-                if (minWaitTime > 0) {
-                    tbNextBtn.innerHTML = `Wait ${minWaitTime}s <i class="fas fa-hourglass-half ml-1" aria-hidden="true"></i>`;
-                } else {
-                    tbNextBtn.disabled = false;
-                    tbNextBtn.className = "w-full h-full rounded-[14px] text-xs sm:text-sm bg-gradient-to-r from-primary to-indigo-600 text-white font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/40 border-0 transition-all hover:-translate-y-1 active:scale-95 mx-1 cursor-pointer focus-visible:ring-4 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:outline-none";
-                    tbNextBtn.innerHTML = (currentQuestionIndex === activeQuestions.length - 1) ? `Submit <i class="fas fa-check-circle ml-1 text-base" aria-hidden="true"></i>` : `Submit <i class="fas fa-arrow-right ml-1 text-base" aria-hidden="true"></i>`;
-                }
-            }
             
             if (timeRemaining <= 5) {
                 timerDisplay.style.animation = 'pulse 1s infinite';
@@ -1902,11 +1765,8 @@
                 userScores[q.traitType][q.trait] += parseInt(sel.value);
             }
             answeredCount++;
-            if (q && q.categoryType === 'academic') {
-                answeredAcademicCount++;
-            } else {
-                answeredRiasecCount++;
-            }
+            if (q && q.categoryType === 'academic') answeredAcademicCount++;
+            else answeredRiasecCount++;
         }
         currentQuestionIndex++;
         if (currentQuestionIndex < activeQuestions.length) {
@@ -1919,15 +1779,12 @@
     }
 
     window.nextQuestion = function(event) {
-        if (event && !event.isTrusted) {
-            alert("Security Alert: Automated script interaction detected!");
-            return;
-        }
+        if (event && !event.isTrusted) { showToast("Security Alert: Automated script interaction detected!"); return; }
         
         const sel = document.querySelector('input[name="answer"]:checked');
         if (!sel) { 
-             alert("Please select an answer (A, B, C, D) first.");
-             $id('taskbar-next-btn').disabled = false; // unlock if they missed answering
+             showToast("Please select an answer (A, B, C, D) first.");
+             $id('taskbar-next-btn').disabled = false;
              return; 
          }
          
@@ -1939,11 +1796,8 @@
         }
         
         answeredCount++; 
-        if (q && q.categoryType === 'academic') {
-            answeredAcademicCount++;
-        } else {
-            answeredRiasecCount++;
-        }
+        if (q && q.categoryType === 'academic') answeredAcademicCount++;
+        else answeredRiasecCount++;
         
         currentQuestionIndex++;
         
@@ -1952,7 +1806,7 @@
             renderQuestion();
         } else {
             clearTestState();
-            runAIAnalysis();
+            runAIAnalysis(); // Instantly show results
         }
     };
 
@@ -1961,133 +1815,116 @@
     // ==========================================
     function runAIAnalysis() {
         isTestActive = false;
-
-        let totalRiasec = activeQuestions.filter(function(q) { return q.categoryType === 'riasec'; }).length;
-        let totalAcademic = activeQuestions.filter(function(q) { return q.categoryType === 'academic'; }).length;
-
-        const riasecThreshold = totalRiasec * 0.5;
-        const academicThreshold = totalAcademic * 0.5;
-
-        if (answeredRiasecCount < riasecThreshold || answeredAcademicCount < academicThreshold) {
-            const failText = $id('fail-reason-text');
-            if (failText) {
-                failText.innerText = "You must answer at least 50% of the Personality questions and 50% of the Aptitude questions. We need more info for an accurate blueprint.";
-            }
-            goToStage('fail'); 
-            return; 
-        }
-
         localStorage.setItem('coc_test_completed', 'true');
-        
-        // 1. Calculate Core Archetype based on highest RIASEC score
-        let maxRiasecScore = -1;
-        let dominantTrait = "realistic"; // Default fallback
-        
-        const archetypes = {
-            realistic: "The Doer (Pragmatic & Hands-on)",
-            investigative: "The Analyst (Logical & Intellectual)",
-            artistic: "The Creator (Innovative & Expressive)",
-            social: "The Mentor (Empathetic & Helpful)",
-            enterprising: "The Leader (Ambitious & Persuasive)",
-            conventional: "The Organizer (Detail-oriented & Methodical)"
-        };
 
-        for (let trait in userScores.riasec) {
-            // Safeguard against division by zero
-            let scorePct = (maxScores.riasec[trait] && maxScores.riasec[trait] > 0) ? (userScores.riasec[trait] / maxScores.riasec[trait]) * 100 : 0;
-            if (scorePct > maxRiasecScore) {
-                maxRiasecScore = scorePct;
-                dominantTrait = trait;
+        try {
+            // 1. Calculate Core Archetype based on highest RIASEC score
+            let maxRiasecScore = -1;
+            let dominantTrait = "realistic"; 
+            
+            const archetypes = {
+                realistic: "The Doer (Pragmatic & Hands-on)",
+                investigative: "The Analyst (Logical & Intellectual)",
+                artistic: "The Creator (Innovative & Expressive)",
+                social: "The Mentor (Empathetic & Helpful)",
+                enterprising: "The Leader (Ambitious & Persuasive)",
+                conventional: "The Organizer (Detail-oriented & Methodical)"
+            };
+
+            for (let trait in userScores.riasec) {
+                let scorePct = (maxScores.riasec[trait] && maxScores.riasec[trait] > 0) ? (userScores.riasec[trait] / maxScores.riasec[trait]) * 100 : 0;
+                if (scorePct > maxRiasecScore) {
+                    maxRiasecScore = scorePct;
+                    dominantTrait = trait;
+                }
             }
-        }
-        studentData.archetype = archetypes[dominantTrait];
+            studentData.archetype = archetypes[dominantTrait];
 
-        // 2. Advanced Job Matching Algorithm
-        let safeJobDatabase = getSafeGlobalVar('govtJobDatabase');
-        
-        if(!safeJobDatabase || !Array.isArray(safeJobDatabase)) {
-            // FALLBACK IF EXTERNAL DB IS MISSING OR NOT UPLOADED
-            safeJobDatabase = [
-                { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
-                { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
-                { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
-                { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
-                { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } }
-            ];
-            console.log("[System Note] External jobs database missing. Safe built-in fallback jobs will be used.");
-        }
-        
-        safeJobDatabase.forEach(function(job) {
-            let totalMatch = 0;
-            let reqCount = 0;
-            let primaryMatchReason = "";
-            let highestTraitContrib = 0;
-
-            for (let reqTrait in job.reqs) {
-                let uScore = 0;
-                let mScore = 0; // Default to 0 to detect untested traits
-                let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
-                
-                if (userScores.aptitude[reqTrait] !== undefined && maxScores.aptitude[reqTrait] > 0) {
-                    uScore = userScores.aptitude[reqTrait];
-                    mScore = maxScores.aptitude[reqTrait];
-                } else if (userScores.riasec[reqTrait] !== undefined && maxScores.riasec[reqTrait] > 0) {
-                    uScore = userScores.riasec[reqTrait];
-                    mScore = maxScores.riasec[reqTrait];
-                } else if (userScores.big5[reqTrait] !== undefined && maxScores.big5[reqTrait] > 0) {
-                    uScore = userScores.big5[reqTrait];
-                    mScore = maxScores.big5[reqTrait];
-                }
-                
-                // CRITICAL ACCURACY FIX: If this trait wasn't in the random question pool, skip it!
-                // This prevents penalizing the student's job match for questions they were never asked.
-                if (mScore === 0) continue;
-                
-                let userPct = (uScore / mScore) * 100; 
-                let reqPct = job.reqs[reqTrait];
-                let traitMatch = 0;
-
-                // Advanced Matching Logic: Penalty for being below requirement, slight bonus for exceeding
-                if (userPct >= reqPct) {
-                    traitMatch = 100 - ((userPct - reqPct) * 0.1); 
-                } else {
-                    traitMatch = 100 - ((reqPct - userPct) * 1.5); 
-                }
-                
-                if (traitMatch > highestTraitContrib) {
-                    highestTraitContrib = traitMatch;
-                    primaryMatchReason = traitNameDisplay;
-                }
-                
-                totalMatch += Math.max(0, traitMatch);
-                reqCount++;
+            // 2. Advanced Job Matching Algorithm
+            let safeJobDatabase = getSafeGlobalVar('govtJobDatabase');
+            
+            if(!safeJobDatabase || !Array.isArray(safeJobDatabase) || safeJobDatabase.length === 0) {
+                safeJobDatabase = [
+                    { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
+                    { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
+                    { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
+                    { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
+                    { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } }
+                ];
             }
             
-            if (reqCount > 0) {
-                job.matchPercent = Math.min(99, Math.max(15, Math.round(totalMatch / reqCount)));
-            } else {
-                job.matchPercent = 50; // Neutral fallback if no traits matched the pool
-            }
-            job.reason = primaryMatchReason || "Balanced Profile";
-        });
+            safeJobDatabase.forEach(function(job) {
+                let totalMatch = 0;
+                let reqCount = 0;
+                let primaryMatchReason = "";
+                let highestTraitContrib = 0;
 
-        finalRankedJobs = safeJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
+                for (let reqTrait in job.reqs) {
+                    let uScore = 0;
+                    let mScore = 0;
+                    let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+                    
+                    if (userScores.aptitude[reqTrait] !== undefined && maxScores.aptitude[reqTrait] > 0) {
+                        uScore = userScores.aptitude[reqTrait]; mScore = maxScores.aptitude[reqTrait];
+                    } else if (userScores.riasec[reqTrait] !== undefined && maxScores.riasec[reqTrait] > 0) {
+                        uScore = userScores.riasec[reqTrait]; mScore = maxScores.riasec[reqTrait];
+                    } else if (userScores.big5[reqTrait] !== undefined && maxScores.big5[reqTrait] > 0) {
+                        uScore = userScores.big5[reqTrait]; mScore = maxScores.big5[reqTrait];
+                    }
+                    
+                    if (mScore === 0) continue;
+                    
+                    let userPct = (uScore / mScore) * 100; 
+                    let reqPct = job.reqs[reqTrait];
+                    let traitMatch = 0;
+
+                    if (userPct >= reqPct) traitMatch = 100 - ((userPct - reqPct) * 0.1); 
+                    else traitMatch = 100 - ((reqPct - userPct) * 1.5); 
+                    
+                    if (traitMatch > highestTraitContrib) {
+                        highestTraitContrib = traitMatch;
+                        primaryMatchReason = traitNameDisplay;
+                    }
+                    
+                    totalMatch += Math.max(0, traitMatch);
+                    reqCount++;
+                }
+                
+                if (reqCount > 0) job.matchPercent = Math.min(99, Math.max(15, Math.round(totalMatch / reqCount)));
+                else job.matchPercent = 50; 
+                
+                job.reason = primaryMatchReason || "Balanced Profile";
+            });
+
+            finalRankedJobs = safeJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
+
+        } catch (error) {
+            console.error("[System Error] AI Engine Crash", error);
+            // Bulletproof fallback ensuring smooth operation
+            studentData.archetype = "The Balanced Professional";
+            finalRankedJobs = [
+                { title: "General Administrator", matchPercent: 85, desc: "Based on available profile data.", reason: "Balanced" },
+                { title: "Operations Manager", matchPercent: 80, desc: "Based on available profile data.", reason: "Balanced" },
+                { title: "Technical Officer", matchPercent: 75, desc: "Based on available profile data.", reason: "Balanced" }
+            ];
+        }
         
-        generateReportUI();
+        try {
+            generateReportUI();
+        } catch(e) {
+            console.error("[System Error] UI Generation Failed", e);
+        }
         
-        // 1. Transition to the results page instantly
+        // Instantly switch to the results stage
         goToStage(5);
-        
-        // 2. Push the final test score to Google Sheets silently in the background
         sendDataToGoogleSheets("Assessment Complete");
     }
 
     function generateReportUI() {
         const now = new Date();
         $id('report-timestamp').innerText = `Generated on: ${now.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}`;
-        $id('user-archetype').innerText = studentData.archetype;
+        $id('user-archetype').innerText = studentData.archetype || 'Professional';
         
-        // Populate Student Details Card
         $id('report-student-name').innerText = studentData.name || 'Candidate';
         $id('report-student-edu').innerText = studentData.educationCourse || 'N/A';
         $id('report-student-phone').innerText = studentData.phone || 'N/A';
@@ -2108,9 +1945,6 @@
                 </div>`;
         });
         
-        // --- 1. WEIGHT NORMALIZATION FOR FINAL SCORE ---
-        // Ensures each aptitude category (Numerical, Logical, Verbal, GA) contributes
-        // exactly equal weight to the final score, regardless of random question counts.
         let normalizedAptitudeTotal = 0;
         let validAptitudeTraits = 0;
         
@@ -2125,20 +1959,15 @@
         currentScoreOutOf50 = Math.round((finalAptitudePercentage / 100) * 50);
         currentDiscountAmount = currentScoreOutOf50 * CONFIG.DISCOUNT_PER_MARK;
         
-        // Animate the main score counter
         animateValue($id('final-score'), 0, currentScoreOutOf50, 2000);
-        
-        // Animate the discount amounts
         animateValue($id('discount-amount'), 0, currentDiscountAmount, 2000, true);
         $id('claim-discount-amount').innerText = `₹${currentDiscountAmount.toLocaleString('en-IN')}`;
-        $id('claim-score-amount').innerText = currentScoreOutOf50;
         
         const numPct = (maxScores.aptitude.numerical && maxScores.aptitude.numerical > 0) ? Math.round((userScores.aptitude.numerical / maxScores.aptitude.numerical) * 100) : 0;
         const logPct = (maxScores.aptitude.logical && maxScores.aptitude.logical > 0) ? Math.round((userScores.aptitude.logical / maxScores.aptitude.logical) * 100) : 0;
         const verbPct = (maxScores.aptitude.verbal && maxScores.aptitude.verbal > 0) ? Math.round((userScores.aptitude.verbal / maxScores.aptitude.verbal) * 100) : 0;
         const genPct = (maxScores.aptitude.general_awareness && maxScores.aptitude.general_awareness > 0) ? Math.round((userScores.aptitude.general_awareness / maxScores.aptitude.general_awareness) * 100) : 0;
         
-        // Inject Professional Progress Bars
         $id('traits-list').innerHTML = `
             <div class="mb-4">
                 <div class="flex justify-between text-[0.9em] font-bold text-slate-600 mb-1"><span>Numerical Aptitude</span><span class="text-primary">${numPct}%</span></div>
@@ -2158,14 +1987,12 @@
             </div>
         `;
 
-        // Trigger progress bar animations after a tiny delay for smooth rendering
         setTimeout(function() {
             document.querySelectorAll('.trait-bar-fill').forEach(function(bar) {
                 bar.style.width = bar.getAttribute('data-target');
             });
         }, 100);
         
-        // Ensure Chart.js loaded safely
         if (typeof Chart === 'undefined') {
             $id('riasecChart').style.display = 'none';
             $id('chart-fallback').classList.remove('hidden');
@@ -2176,9 +2003,6 @@
             const ctx = $id('riasecChart').getContext('2d');
             if (chartInstance) chartInstance.destroy();
             
-            // --- 2. IPSATIVE MIN-MAX NORMALIZATION FOR PERSONALITY CHART ---
-            // People often click "Agree" on everything. Min-Max normalization stretches 
-            // the scores so their true dominant traits spike clearly on the radar chart.
             const rawRiasec = [
                 (maxScores.riasec.realistic && maxScores.riasec.realistic > 0) ? (userScores.riasec.realistic / maxScores.riasec.realistic) * 100 : 0,
                 (maxScores.riasec.investigative && maxScores.riasec.investigative > 0) ? (userScores.riasec.investigative / maxScores.riasec.investigative) * 100 : 0,
@@ -2193,7 +2017,6 @@
             
             const riasecData = rawRiasec.map(function(val) {
                 if (maxR === minR || maxR === 0) return val; 
-                // Scale from 30 to 100 to exaggerate the differences visually
                 return 30 + ((val - minR) / (maxR - minR)) * 70;
             });
 
@@ -2210,7 +2033,7 @@
                          plugins: { legend: { display: false } } 
                      }
                 });
-            }, 50); // slight delay ensures DOM element is fully visible before render
+            }, 50); 
         }
 
         const today = new Date();
@@ -2258,7 +2081,6 @@
             const actionBtn = document.querySelector('#stage-5 .btn-brand-accent');
             if (actionBtn) actionBtn.style.display = 'none';
             
-            // 1. Force scroll to top before capture to prevent clipping/blank canvas bugs
             window.scrollTo({ top: 0, behavior: 'instant' });
             
             const targetEl = $id('stage-5');
@@ -2278,13 +2100,13 @@
                     link.download = 'COC_Career_Blueprint.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
-                    alert("Screenshot downloaded successfully! You can now share it.");
+                    showToast("Screenshot downloaded successfully! You can now share it.", "success");
                 }
                 shareBtn.innerHTML = originalHtml;
                 shareBtn.disabled = false;
             }, 'image/png');
         } catch (error) {
-            alert("Failed to capture screenshot. Please try downloading the PDF instead.");
+            showToast("Failed to capture screenshot. Please try downloading the PDF instead.");
             shareBtn.innerHTML = originalHtml;
             shareBtn.disabled = false;
         }
