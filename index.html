@@ -78,16 +78,6 @@
     <!-- Firebase Libraries (Deferred) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" defer></script>
-    <script src="questions_part2.js" defer></script>
-    <script src="questions_part3.js" defer></script>
-    <script src="questions_part4.js" defer></script>
-    <script src="questions_part5.js" defer></script>
-    <script src="questions_part6.js" defer></script>
-    <script src="questions_part7.js" defer></script>
-    <script src="questions_part8.js" defer></script>
-    <script src="questions_part9.js" defer></script>
-    <script src="questions_part10.js" defer></script>
-    <script src="academic_part1.js" defer></script>
     
     <style>
         /* --- PREMIUM DESIGN SYSTEM --- */
@@ -109,6 +99,11 @@
         }
 
         /* Base Resets & Typography */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden; /* Strictly prevent horizontal scroll */
+        }
+        
         * { box-sizing: border-box; -ms-overflow-style: none; scrollbar-width: none; outline: none; -webkit-tap-highlight-color: transparent; overflow-wrap: break-word; word-break: break-word; }
         *::-webkit-scrollbar { display: none; }
 
@@ -121,7 +116,6 @@
              min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
             background-image: 
                 radial-gradient(at 0% 0%, hsla(253,16%,7%,0.03) 0, transparent 50%), 
                 radial-gradient(at 50% 0%, hsla(225,39%,30%,0.03) 0, transparent 50%), 
@@ -249,10 +243,11 @@
         .option-label:has(input:checked) { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: 0 8px 15px -5px rgba(79, 70, 229, 0.15); transform: translateY(-1px); }
         .option-label input[type="radio"] { position: absolute; opacity: 0; cursor: pointer; }
 
-        .likert-container { display: flex; justify-content: space-between; margin-bottom: 24px; gap: 8px; background: transparent; padding: 0; }
-        .likert-option { flex: 1; position: relative; cursor: pointer; }
+        .likert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        .likert-option { position: relative; cursor: pointer; height: 100%; }
+        .likert-option.neutral-option { grid-column: 1 / -1; justify-self: center; width: 65%; }
         .likert-option input[type="radio"] { position: absolute; opacity: 0; cursor: pointer; }
-        .likert-option span { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px 8px; border-radius: 1rem; background: #fff; border: 2px solid #e2e8f0; color: #64748b; font-weight: 700; font-size: 0.75em; line-height: 1.3; transition: var(--transition-bounce); height: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); }
+        .likert-option span { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px 8px; border-radius: 1rem; background: #fff; border: 2px solid #e2e8f0; color: #64748b; font-weight: 800; font-size: clamp(0.75em, 2vw, 0.85em); line-height: 1.3; transition: var(--transition-bounce); height: 100%; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03); }
         .likert-option:hover span { transform: translateY(-2px); box-shadow: 0 8px 15px -5px rgba(0,0,0,0.06); border-color: #cbd5e1; color: var(--text-main); }
         .likert-option:has(input:checked) span { color: white; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15); transform: scale(1.03); border-color: transparent;}
         
@@ -331,13 +326,18 @@
 
         /* Media Queries */
         @media (max-width: 768px) {
-            body { padding: 10px 8px 90px 8px; }
-            .app-container { padding: 20px 15px; border-radius: 1.25rem; }
+            body { padding: 10px 0 90px 0; }
+            .app-container { padding: 20px 15px; border-radius: 1.25rem; width: 95%; }
             .profile-grid { grid-template-columns: 1fr; gap: 16px;}
             .grid-row-3, .grid-row-2 { grid-template-columns: 1fr; gap: 12px; margin-top: 12px;}
-            .likert-container { flex-direction: column; gap: 8px;}
-            .likert-option span { padding: 14px; font-size: 0.85em; flex-direction: row; justify-content: flex-start; gap: 12px; }
-            .likert-option span strong { margin-bottom: 0; }
+            
+            /* Smart Stacking for Mobile to Prevent Overflow */
+            .mcq-grid { grid-template-columns: 1fr; gap: 8px; }
+            .likert-grid { gap: 8px; }
+            .likert-option.neutral-option { width: 100%; } 
+            .likert-option span { padding: 10px 4px; font-size: 0.75em; flex-direction: column; justify-content: center; gap: 4px; }
+            .likert-option span strong { margin-bottom: 4px; font-size: 1.2em;}
+            
             .chart-container { height: 260px; }
             .modal-card { height: 70vh; border-radius: 1.25rem 1.25rem 0 0; }
             .taskbar-wrapper { bottom: calc(0.5rem + env(safe-area-inset-bottom)); }
@@ -451,7 +451,6 @@
             </div>
         </div>
 
-        <!-- Step Progress Indicator -->
         <div class="flex justify-between items-center mb-6">
             <div class="flex gap-2 w-full">
                 <div id="step-dot-1" class="h-2 flex-1 rounded-full bg-primary transition-all"></div>
@@ -460,7 +459,6 @@
             </div>
         </div>
 
-        <!-- FORM STEP 1: Basic Lead Capture -->
         <div id="form-step-1" class="form-step">
             <h3 class="text-lg font-bold mb-4 text-primary m-0"><i class="fas fa-user-circle mr-2"></i>1. Basic Details</h3>
             <p class="text-xs text-slate-500 font-semibold mb-4">Let's start with your contact information.</p>
@@ -485,7 +483,6 @@
             </div>
         </div>
 
-        <!-- FORM STEP 2: Profile & Academic -->
         <div id="form-step-2" class="form-step hidden">
             <div class="flex items-center gap-3 mb-4">
                 <button onclick="goToFormStep(1)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border-0 cursor-pointer shrink-0"><i class="fas fa-arrow-left"></i></button>
@@ -533,7 +530,6 @@
             </div>
         </div>
 
-        <!-- FORM STEP 3: Location & Finalize -->
         <div id="form-step-3" class="form-step hidden">
             <div class="flex items-center gap-3 mb-4">
                 <button onclick="goToFormStep(2)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border-0 cursor-pointer shrink-0"><i class="fas fa-arrow-left"></i></button>
@@ -650,7 +646,6 @@
 
     <div id="stage-5" class="stage relative bg-white sm:rounded-[1.5rem] sm:p-2">
         
-        <!-- Official Brand Watermark -->
         <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden rounded-[1.5rem]">
             <div class="transform -rotate-45 opacity-[0.03] text-primary font-black font-poppins leading-tight text-center select-none" style="font-size: clamp(60px, 12vw, 150px); width: 250%; margin-left: -75%;">
                 CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION<br>CLUB OF COMPETITION
@@ -669,7 +664,6 @@
                 </div>
             </div>
             
-            <!-- STUDENT DETAILS CARD -->
             <div class="bg-slate-50/90 border border-slate-200 rounded-xl p-4 sm:p-5 mb-8 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 backdrop-blur-sm">
                 <div>
                     <p class="text-[10px] sm:text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Candidate Profile</p>
@@ -869,7 +863,8 @@
         };
         document.head.appendChild(script);
     }
-    backgroundPullDatabases();
+    
+    // Removed direct execution here. Will be called securely in DOMContentLoaded.
 
     function animateValue(obj, start, end, duration, formatCurrency = false) {
         let startTimestamp = null;
@@ -885,7 +880,6 @@
         window.requestAnimationFrame(step);
     }
     
-    // Safely pull variables avoiding syntax errors for window lookups
     function getSafeGlobalVar(varName) {
         if (typeof window[varName] !== 'undefined') return window[varName];
         return undefined;
@@ -977,6 +971,9 @@
         
         loadFormData(); 
         goToFormStep(1);
+
+        // DELAYED SILENT BACKGROUND PULL (Waits 500ms after UI renders)
+        setTimeout(backgroundPullDatabases, 500);
 
         let shouldResume = false;
         const savedState = localStorage.getItem('coc_test_state');
@@ -1307,7 +1304,7 @@
                     districtInput.setAttribute('readonly', 'true'); 
                     stateInput.setAttribute('readonly', 'true');
                     districtInput.style.background = '#e2e8f0'; 
-                    stateInput.style.background = '#e2e8f0';
+                    districtInput.style.background = '#e2e8f0';
                     districtInput.style.cursor = 'not-allowed'; 
                     stateInput.style.cursor = 'not-allowed';
                     window.saveFormData(); 
@@ -1694,10 +1691,11 @@
             area.innerHTML = html;
         } else {
             let labels = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
-            let html = '<div class="likert-container">';
+            let html = '<div class="likert-grid">';
             for (let i = 1; i <= 5; i++) {
                 let letter = String.fromCharCode(64 + i);
-                html += `<label class="likert-option likert-${i}" id="label-${i-1}"><input type="radio" name="answer" value="${i}"><span><strong class="block mb-2 text-primary text-xl bg-slate-50 px-3 py-1 rounded-lg border border-slate-200 shadow-sm transition-all">${letter}</strong>${labels[i-1]}</span></label>`;
+                let extraClass = (i === 3) ? ' neutral-option' : '';
+                html += `<label class="likert-option likert-${i}${extraClass}" id="label-${i-1}"><input type="radio" name="answer" value="${i}"><span><strong class="block mb-2 text-primary text-xl bg-slate-50 px-3 py-1 rounded-lg border border-slate-200 shadow-sm transition-all">${letter}</strong>${labels[i-1]}</span></label>`;
             }
             area.innerHTML = html + '</div>';
         }
@@ -1840,10 +1838,31 @@
             }
             studentData.archetype = archetypes[dominantTrait];
 
-            // 2. Advanced Job Matching Algorithm
+            // 2. Compute the Cognitive Level Multiplier First
+            let normalizedAptitudeTotal = 0;
+            let validAptitudeTraits = 0;
+            
+            for (let trait in userScores.aptitude) {
+                if (maxScores.aptitude[trait] > 0) {
+                    normalizedAptitudeTotal += (userScores.aptitude[trait] / maxScores.aptitude[trait]) * 100;
+                    validAptitudeTraits++;
+                }
+            }
+            
+            let finalAptitudePercentage = validAptitudeTraits > 0 ? (normalizedAptitudeTotal / validAptitudeTraits) : 0;
+            currentScoreOutOf50 = Math.round((finalAptitudePercentage / 100) * 50);
+            currentDiscountAmount = currentScoreOutOf50 * CONFIG.DISCOUNT_PER_MARK;
+
+            // This variable dynamically translates the user's score to the job requirement scale.
+            // 0% score maps to 60 (entry level job reqs)
+            // 100% score maps to 100 (top tier job reqs)
+            let mappedUserAptLevel = 60 + (finalAptitudePercentage / 100) * 40;
+
+            // 3. Advanced Job Matching Algorithm
             let safeJobDatabase = getSafeGlobalVar('govtJobDatabase');
             
             if(!safeJobDatabase || !Array.isArray(safeJobDatabase) || safeJobDatabase.length === 0) {
+                // FALLBACK IF EXTERNAL DB IS MISSING OR NOT UPLOADED
                 safeJobDatabase = [
                     { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
                     { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
@@ -1858,6 +1877,9 @@
                 let reqCount = 0;
                 let primaryMatchReason = "";
                 let highestTraitContrib = 0;
+                
+                let aptReqSum = 0;
+                let aptReqCount = 0;
 
                 for (let reqTrait in job.reqs) {
                     let uScore = 0;
@@ -1865,7 +1887,10 @@
                     let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
                     
                     if (userScores.aptitude[reqTrait] !== undefined && maxScores.aptitude[reqTrait] > 0) {
-                        uScore = userScores.aptitude[reqTrait]; mScore = maxScores.aptitude[reqTrait];
+                        uScore = userScores.aptitude[reqTrait]; 
+                        mScore = maxScores.aptitude[reqTrait];
+                        aptReqSum += job.reqs[reqTrait];
+                        aptReqCount++;
                     } else if (userScores.riasec[reqTrait] !== undefined && maxScores.riasec[reqTrait] > 0) {
                         uScore = userScores.riasec[reqTrait]; mScore = maxScores.riasec[reqTrait];
                     } else if (userScores.big5[reqTrait] !== undefined && maxScores.big5[reqTrait] > 0) {
@@ -1878,6 +1903,7 @@
                     let reqPct = job.reqs[reqTrait];
                     let traitMatch = 0;
 
+                    // Standard Match Logic
                     if (userPct >= reqPct) traitMatch = 100 - ((userPct - reqPct) * 0.1); 
                     else traitMatch = 100 - ((reqPct - userPct) * 1.5); 
                     
@@ -1890,9 +1916,30 @@
                     reqCount++;
                 }
                 
-                if (reqCount > 0) job.matchPercent = Math.min(99, Math.max(15, Math.round(totalMatch / reqCount)));
-                else job.matchPercent = 50; 
+                let baseMatch = reqCount > 0 ? (totalMatch / reqCount) : 50;
                 
+                // === COGNITIVE TIERING PENALTY LOGIC ===
+                // This ensures low scores map to lower tier jobs and high scores map to higher tier jobs
+                let jobAptitudeLevel = 75; 
+                if (aptReqCount > 0) {
+                    jobAptitudeLevel = aptReqSum / aptReqCount;
+                } else {
+                    let t = job.title.toLowerCase();
+                    if (t.includes('constable') || t.includes('group d') || t.includes('driver') || t.includes('mts') || t.includes('warder') || t.includes('navik') || t.includes('sailor') || t.includes('assistant') || t.includes('clerk') || t.includes('operator')) {
+                        jobAptitudeLevel = 65;
+                    } else if (t.includes('officer') || t.includes('scientist') || t.includes('engineer') || t.includes('professor') || t.includes('inspector') || t.includes('commandant') || t.includes('judge') || t.includes('manager')) {
+                        jobAptitudeLevel = 88;
+                    }
+                }
+
+                // If user score level does not align with job requirement level, penalize the match.
+                let levelPenalty = Math.abs(mappedUserAptLevel - jobAptitudeLevel) * 1.5; 
+                baseMatch -= levelPenalty;
+                
+                // Give a small bonus if the job perfectly matches the user's intelligence tier
+                if (levelPenalty < 10) baseMatch += 10; 
+
+                job.matchPercent = Math.min(99, Math.max(15, Math.round(baseMatch)));
                 job.reason = primaryMatchReason || "Balanced Profile";
             });
 
@@ -1945,20 +1992,7 @@
                 </div>`;
         });
         
-        let normalizedAptitudeTotal = 0;
-        let validAptitudeTraits = 0;
-        
-        for (let trait in userScores.aptitude) {
-            if (maxScores.aptitude[trait] > 0) {
-                normalizedAptitudeTotal += (userScores.aptitude[trait] / maxScores.aptitude[trait]) * 100;
-                validAptitudeTraits++;
-            }
-        }
-        
-        let finalAptitudePercentage = validAptitudeTraits > 0 ? (normalizedAptitudeTotal / validAptitudeTraits) : 0;
-        currentScoreOutOf50 = Math.round((finalAptitudePercentage / 100) * 50);
-        currentDiscountAmount = currentScoreOutOf50 * CONFIG.DISCOUNT_PER_MARK;
-        
+        // Variables currentScoreOutOf50 and currentDiscountAmount are already calculated in runAIAnalysis()
         animateValue($id('final-score'), 0, currentScoreOutOf50, 2000);
         animateValue($id('discount-amount'), 0, currentDiscountAmount, 2000, true);
         $id('claim-discount-amount').innerText = `₹${currentDiscountAmount.toLocaleString('en-IN')}`;
