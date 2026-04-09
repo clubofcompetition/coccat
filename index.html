@@ -262,13 +262,6 @@
         .likert-4:has(input:checked) span { background: linear-gradient(135deg, #10b981, #059669); }
         .likert-5:has(input:checked) span { background: linear-gradient(135deg, #059669, #047857); }
 
-        /* Loader */
-        .spinner-container { position: relative; width: 70px; height: 70px; margin: 40px auto; }
-        .spinner { border: 4px solid var(--border-focus); border-top: 4px solid var(--primary); border-radius: 50%; width: 100%; height: 100%; animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; box-sizing: border-box; }
-        .spinner-pulse { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 18px; height: 18px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite ease-in-out; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; } }
-
         /* Professional Results UI Enhancements */
         .job-card { border: 2px solid #e2e8f0; border-radius: 1.25rem; padding: 24px; margin-bottom: 20px; background: #fff; box-shadow: 0 8px 20px -5px rgba(0,0,0,0.04); transition: var(--transition-bounce); position: relative; overflow: hidden; opacity: 0; animation: popInRole 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .job-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 15px 30px -10px rgba(79, 70, 229, 0.12); border-color: var(--primary-light); background: linear-gradient(to bottom right, #ffffff, #f8fafc); }
@@ -630,16 +623,6 @@
             <div class="question-text" id="question-text">Loading question...</div>
             <div id="options-area"></div>
         </div>
-    </div>
-
-    <div id="stage-4" class="stage" style="text-align: center; padding: 60px 10px;">
-        <h2 style="border: none; font-size: clamp(2em, 8vw, 2.5em); background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;" class="font-poppins">AI Engine Processing</h2>
-        <div class="spinner-container">
-            <div class="spinner"></div>
-            <div class="spinner-pulse"></div>
-        </div>
-        <h3 id="ai-status" style="color: var(--primary); font-size: clamp(1.2em, 5vw, 1.4em); margin-top: 16px;">Analyzing best suitable job roles...</h3>
-        <p style="color: var(--text-muted); margin-top: 10px; font-size: clamp(0.95em, 4vw, 1.05em); font-weight: 600;">Calculating your precise career blueprint.</p>
     </div>
 
     <div id="stage-fail" class="stage" style="text-align: center; padding: 60px 10px;">
@@ -1931,7 +1914,6 @@
             renderQuestion();
         } else {
             clearTestState();
-            goToStage(4);
             runAIAnalysis();
         }
     }
@@ -1970,7 +1952,6 @@
             renderQuestion();
         } else {
             clearTestState();
-            goToStage(4);
             runAIAnalysis();
         }
     };
@@ -1996,132 +1977,109 @@
             return; 
         }
 
-        const statusEl = $id('ai-status');
-        const statuses = ["Analyzing best suitable job roles...", "Cross-referencing aptitude scores...", "Mapping psychological profiles...", "Finalizing career blueprint..."];
-        let sIdx = 0;
-        statusEl.innerText = statuses[0];
+        localStorage.setItem('coc_test_completed', 'true');
         
-        // Add text fade animation class
-        statusEl.classList.add('animate-fade-text');
+        // 1. Calculate Core Archetype based on highest RIASEC score
+        let maxRiasecScore = -1;
+        let dominantTrait = "realistic"; // Default fallback
         
-        const statusInterval = setInterval(function() { 
-             sIdx++; 
-             if (sIdx < statuses.length) {
-                // retrigger animation
-                statusEl.classList.remove('animate-fade-text');
-                void statusEl.offsetWidth; // trigger reflow
-                statusEl.innerText = statuses[sIdx]; 
-                statusEl.classList.add('animate-fade-text');
+        const archetypes = {
+            realistic: "The Doer (Pragmatic & Hands-on)",
+            investigative: "The Analyst (Logical & Intellectual)",
+            artistic: "The Creator (Innovative & Expressive)",
+            social: "The Mentor (Empathetic & Helpful)",
+            enterprising: "The Leader (Ambitious & Persuasive)",
+            conventional: "The Organizer (Detail-oriented & Methodical)"
+        };
+
+        for (let trait in userScores.riasec) {
+            // Safeguard against division by zero
+            let scorePct = (maxScores.riasec[trait] && maxScores.riasec[trait] > 0) ? (userScores.riasec[trait] / maxScores.riasec[trait]) * 100 : 0;
+            if (scorePct > maxRiasecScore) {
+                maxRiasecScore = scorePct;
+                dominantTrait = trait;
             }
-        }, 750);
+        }
+        studentData.archetype = archetypes[dominantTrait];
 
-        setTimeout(function() {
-            clearInterval(statusInterval);
-            localStorage.setItem('coc_test_completed', 'true');
-            
-            // 1. Calculate Core Archetype based on highest RIASEC score
-            let maxRiasecScore = -1;
-            let dominantTrait = "realistic"; // Default fallback
-            
-            const archetypes = {
-                realistic: "The Doer (Pragmatic & Hands-on)",
-                investigative: "The Analyst (Logical & Intellectual)",
-                artistic: "The Creator (Innovative & Expressive)",
-                social: "The Mentor (Empathetic & Helpful)",
-                enterprising: "The Leader (Ambitious & Persuasive)",
-                conventional: "The Organizer (Detail-oriented & Methodical)"
-            };
+        // 2. Advanced Job Matching Algorithm
+        let safeJobDatabase = getSafeGlobalVar('govtJobDatabase');
+        
+        if(!safeJobDatabase || !Array.isArray(safeJobDatabase)) {
+            // FALLBACK IF EXTERNAL DB IS MISSING OR NOT UPLOADED
+            safeJobDatabase = [
+                { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
+                { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
+                { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
+                { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
+                { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } }
+            ];
+            console.log("[System Note] External jobs database missing. Safe built-in fallback jobs will be used.");
+        }
+        
+        safeJobDatabase.forEach(function(job) {
+            let totalMatch = 0;
+            let reqCount = 0;
+            let primaryMatchReason = "";
+            let highestTraitContrib = 0;
 
-            for (let trait in userScores.riasec) {
-                // Safeguard against division by zero
-                let scorePct = (maxScores.riasec[trait] && maxScores.riasec[trait] > 0) ? (userScores.riasec[trait] / maxScores.riasec[trait]) * 100 : 0;
-                if (scorePct > maxRiasecScore) {
-                    maxRiasecScore = scorePct;
-                    dominantTrait = trait;
-                }
-            }
-            studentData.archetype = archetypes[dominantTrait];
-
-            // 2. Advanced Job Matching Algorithm
-            let safeJobDatabase = getSafeGlobalVar('govtJobDatabase');
-            
-            if(!safeJobDatabase || !Array.isArray(safeJobDatabase)) {
-                // FALLBACK IF EXTERNAL DB IS MISSING OR NOT UPLOADED
-                safeJobDatabase = [
-                    { title: "IAS Officer (UPSC)", desc: "Top-tier administration, policy-making, and district management.", reqs: { general_awareness: 90, logical: 85, enterprising: 90, social: 80, conscientiousness: 90 } },
-                    { title: "IPS Officer (UPSC)", desc: "Senior law enforcement, commanding police forces and public safety.", reqs: { logical: 80, realistic: 85, enterprising: 90, emotional_stability: 95 } },
-                    { title: "SBI Probationary Officer (PO)", desc: "Branch management, credit appraisal, and high-pressure banking.", reqs: { numerical: 90, logical: 90, enterprising: 85, conscientiousness: 85 } },
-                    { title: "SSC CGL Income Tax Inspector", desc: "Assessing tax returns, conducting raids, and anti-evasion work.", reqs: { numerical: 90, logical: 85, investigative: 85, conventional: 85 } },
-                    { title: "ISRO / DRDO Scientist", desc: "Advanced space and defense technology research and engineering.", reqs: { numerical: 90, logical: 95, investigative: 95, realistic: 85 } }
-                ];
-                console.log("[System Note] External jobs database missing. Safe built-in fallback jobs will be used.");
-            }
-            
-            safeJobDatabase.forEach(function(job) {
-                let totalMatch = 0;
-                let reqCount = 0;
-                let primaryMatchReason = "";
-                let highestTraitContrib = 0;
-
-                for (let reqTrait in job.reqs) {
-                    let uScore = 0;
-                    let mScore = 0; // Default to 0 to detect untested traits
-                    let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
-                    
-                    if (userScores.aptitude[reqTrait] !== undefined && maxScores.aptitude[reqTrait] > 0) {
-                        uScore = userScores.aptitude[reqTrait];
-                        mScore = maxScores.aptitude[reqTrait];
-                    } else if (userScores.riasec[reqTrait] !== undefined && maxScores.riasec[reqTrait] > 0) {
-                        uScore = userScores.riasec[reqTrait];
-                        mScore = maxScores.riasec[reqTrait];
-                    } else if (userScores.big5[reqTrait] !== undefined && maxScores.big5[reqTrait] > 0) {
-                        uScore = userScores.big5[reqTrait];
-                        mScore = maxScores.big5[reqTrait];
-                    }
-                    
-                    // CRITICAL ACCURACY FIX: If this trait wasn't in the random question pool, skip it!
-                    // This prevents penalizing the student's job match for questions they were never asked.
-                    if (mScore === 0) continue;
-                    
-                    let userPct = (uScore / mScore) * 100; 
-                    let reqPct = job.reqs[reqTrait];
-                    let traitMatch = 0;
-
-                    // Advanced Matching Logic: Penalty for being below requirement, slight bonus for exceeding
-                    if (userPct >= reqPct) {
-                        traitMatch = 100 - ((userPct - reqPct) * 0.1); 
-                    } else {
-                        traitMatch = 100 - ((reqPct - userPct) * 1.5); 
-                    }
-                    
-                    if (traitMatch > highestTraitContrib) {
-                        highestTraitContrib = traitMatch;
-                        primaryMatchReason = traitNameDisplay;
-                    }
-                    
-                    totalMatch += Math.max(0, traitMatch);
-                    reqCount++;
+            for (let reqTrait in job.reqs) {
+                let uScore = 0;
+                let mScore = 0; // Default to 0 to detect untested traits
+                let traitNameDisplay = reqTrait.replace('_', ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+                
+                if (userScores.aptitude[reqTrait] !== undefined && maxScores.aptitude[reqTrait] > 0) {
+                    uScore = userScores.aptitude[reqTrait];
+                    mScore = maxScores.aptitude[reqTrait];
+                } else if (userScores.riasec[reqTrait] !== undefined && maxScores.riasec[reqTrait] > 0) {
+                    uScore = userScores.riasec[reqTrait];
+                    mScore = maxScores.riasec[reqTrait];
+                } else if (userScores.big5[reqTrait] !== undefined && maxScores.big5[reqTrait] > 0) {
+                    uScore = userScores.big5[reqTrait];
+                    mScore = maxScores.big5[reqTrait];
                 }
                 
-                if (reqCount > 0) {
-                    job.matchPercent = Math.min(99, Math.max(15, Math.round(totalMatch / reqCount)));
-                } else {
-                    job.matchPercent = 50; // Neutral fallback if no traits matched the pool
-                }
-                job.reason = primaryMatchReason || "Balanced Profile";
-            });
+                // CRITICAL ACCURACY FIX: If this trait wasn't in the random question pool, skip it!
+                // This prevents penalizing the student's job match for questions they were never asked.
+                if (mScore === 0) continue;
+                
+                let userPct = (uScore / mScore) * 100; 
+                let reqPct = job.reqs[reqTrait];
+                let traitMatch = 0;
 
-            finalRankedJobs = safeJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
+                // Advanced Matching Logic: Penalty for being below requirement, slight bonus for exceeding
+                if (userPct >= reqPct) {
+                    traitMatch = 100 - ((userPct - reqPct) * 0.1); 
+                } else {
+                    traitMatch = 100 - ((reqPct - userPct) * 1.5); 
+                }
+                
+                if (traitMatch > highestTraitContrib) {
+                    highestTraitContrib = traitMatch;
+                    primaryMatchReason = traitNameDisplay;
+                }
+                
+                totalMatch += Math.max(0, traitMatch);
+                reqCount++;
+            }
             
-            generateReportUI();
-            
-            // 1. Transition to the results page instantly
-            goToStage(5);
-            
-            // 2. Push the final test score to Google Sheets silently in the background
-            sendDataToGoogleSheets("Assessment Complete");
-            
-        }, 3000);
+            if (reqCount > 0) {
+                job.matchPercent = Math.min(99, Math.max(15, Math.round(totalMatch / reqCount)));
+            } else {
+                job.matchPercent = 50; // Neutral fallback if no traits matched the pool
+            }
+            job.reason = primaryMatchReason || "Balanced Profile";
+        });
+
+        finalRankedJobs = safeJobDatabase.sort(function(a,b) { return b.matchPercent - a.matchPercent; });
+        
+        generateReportUI();
+        
+        // 1. Transition to the results page instantly
+        goToStage(5);
+        
+        // 2. Push the final test score to Google Sheets silently in the background
+        sendDataToGoogleSheets("Assessment Complete");
     }
 
     function generateReportUI() {
